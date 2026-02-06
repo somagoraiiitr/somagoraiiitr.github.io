@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router";
 import Logonew from "../imports/Logonew3-4007-91";
 import LinkedIn from "../imports/Linkedin1121";
 import Medium from "../imports/MediumIconWhite1";
@@ -45,7 +45,9 @@ export default function Navigation() {
                 />
               </a>
               <a 
-                href="#resume" 
+                href="https://drive.google.com/file/d/17K_vHoNTk2jKVqIqK2bgc_87ihSgRLmv/view?usp=sharing" 
+                target="_blank"
+                rel="noopener noreferrer"
                 className="uppercase tracking-wide relative group"
                 style={{ 
                   fontSize: '13px', 
@@ -89,8 +91,10 @@ export default function Navigation() {
                   }}
                 />
               </Link>
-              <Link 
-                to="/#resume" 
+              <a 
+                href="https://drive.google.com/file/d/17K_vHoNTk2jKVqIqK2bgc_87ihSgRLmv/view?usp=sharing" 
+                target="_blank"
+                rel="noopener noreferrer"
                 className="uppercase tracking-wide relative group"
                 style={{ 
                   fontSize: '13px', 
@@ -109,7 +113,7 @@ export default function Navigation() {
                     bottom: '-4px'
                   }}
                 />
-              </Link>
+              </a>
             </>
           )}
           
@@ -127,7 +131,7 @@ export default function Navigation() {
             <div className="flex items-center gap-4">
               {/* LinkedIn */}
               <a 
-                href="https://linkedin.com" 
+                href="https://www.linkedin.com/in/soma-gorai/" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="transition-opacity duration-200"
@@ -146,7 +150,7 @@ export default function Navigation() {
 
               {/* Medium */}
               <a 
-                href="https://medium.com" 
+                href="https://somagorai.medium.com/" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="transition-opacity duration-200"
@@ -165,7 +169,7 @@ export default function Navigation() {
 
               {/* Behance */}
               <a 
-                href="https://behance.net" 
+                href="https://www.behance.net/somagorai" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="transition-opacity duration-200"

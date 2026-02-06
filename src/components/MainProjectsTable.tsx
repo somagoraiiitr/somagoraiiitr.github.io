@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { motion, AnimatePresence } from "motion/react";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
-import { ArrowUpRight, TrendingUp } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import controlTowerImage from "figma:asset/235012a9efdd1b8a0d8d6e2e8f019cf4f55d6082.png";
 import roboticArmImage from "figma:asset/8f71ad3af89068a4848d360e1e3517ffd16f2df4.png";
 import designSystemImage from "figma:asset/73ea07ba5ba50811bfb0f5457a8d2a2eb8baf486.png";
-import tableInteractionImage from "figma:asset/94592fa0d6f326eabbf6f841b4a64649ef3b47aa.png";
+import teamsNotificationImage from "figma:asset/e96c9cc922798632243bfacf2f601225830c14d9.png";
 
 interface Project {
   id: number;
@@ -25,48 +25,48 @@ interface Project {
 const projects: Project[] = [
   {
     id: 1,
-    title: "Control Tower for Warehouse",
-    shortDesc: "Real-time data monitoring for warehouse operations",
-    fullDescription: "Built a scalable Control Tower that gives managers live visibility into bottlenecks, SLA risks, and overall warehouse performance. Introduced a modular process map that adapts across clients and reduces engineering dependency for updates.",
+    title: "Designing the Warehouse Control Tower Ecosystem",
+    shortDesc: "Centralized control tower enabling real-time warehouse planning, validation, and operational visibility.",
+    fullDescription: "Replaced fragmented, Excel-driven warehouse setup with a centralized system unifying sales configuration, process mapping, and operations. Enabled real-time validation, traceability, and client-managed updates, removing data silos and engineering dependency.",
     image: controlTowerImage,
-    tags: ["Dashboard", "Data Viz"],
+    tags: ["B2B Enterprise", "Service Design"],
     date: "Jan 2025 -\nSep 2025",
     role: "Product Designer",
-    outcome: "Unified a scattered process of drafting detailed sales quotations, process maps, implementation and monitoring",
-    accentColor: "#9BD0FF",
+    outcome: "Reduced configuration errors and turnaround time while giving clients direct control over warehouse process changes.",
+    accentColor: "#FFE24A",
     link: "/case-study/control-tower"
   },
   {
     id: 2,
-    title: "Design System",
-    shortDesc: "From fragmented UI to a unified, scalable component library",
-    fullDescription: "Consolidated scattered patterns into a single design system with standardized components, tokens, and guidelines. Improved collaboration and eliminated inconsistencies across engineering and product teams.",
+    title: "From Fragmented UI to a Single Source of Truth",
+    shortDesc: "Design system that reduced rework, aligned teams, and accelerated delivery across Axon's warehouse products.",
+    fullDescription: "We built a custom design system to address inconsistent UI patterns across Axon's warehouse software. By standardizing components, colors, typography, and states, the system reduced repeated design and development effort and made UI decisions clearer and easier to apply.",
     image: designSystemImage,
-    tags: ["Design System", "Components"],
-    date: "Jul 2024 -\nOct 2024",
-    role: "Product Designer",
+    tags: ["Design System", "Component Library"],
+    date: "Mar 2024 -\nAug 2024",
+    role: "Interaction Designer",
     outcome: "Reduced rework and accelerated feature delivery across modules",
-    accentColor: "#FFE24A",
+    accentColor: "#A8F0C4",
     link: "/case-study/design-system"
   },
   {
     id: 3,
-    title: "WES Redesign Through Heuristic Analysis",
-    shortDesc: "Reliable interactions for dense enterprise data tables",
-    fullDescription: "Researched bulk vs. individual record interactions, evaluated alternatives (split affordances, in-row actions, expansion patterns), and defined clear conventions for focus, quick actions, and side-panel details. Optimized for touch, keyboard, and mouse-heavy warehouse environments.",
-    image: tableInteractionImage,
-    tags: ["Interaction Design", "Enterprise UX"],
-    date: "Sep 2025 -\nPresent",
-    role: "Product Designer",
-    outcome: "Lowered mis-click errors and clarified high-risk workflows",
-    accentColor: "#FFB5B5",
-    link: "/case-study/wes-redesign"
+    title: "Optimizing Teams Notifications",
+    shortDesc: "Redesigning Microsoft Teams' notification system to reduce cognitive load and help users distinguish signal from noise.",
+    fullDescription: "Redesigned Microsoft Teams' notification system to reduce cognitive load and help users distinguish signal from noise through intelligent notification management. Explored multiple solutions including anchored notifications, pull notification systems, and visual hierarchy using color cues.",
+    image: teamsNotificationImage,
+    tags: ["Product Management", "Data Analysis"],
+    date: "May 2023 -\nJuly 2023",
+    role: "Product Intern",
+    outcome: "Reduced notification overload and improved focus on critical updates",
+    accentColor: "#9BD0FF",
+    link: "/case-study/teams-redesign"
   },
   {
     id: 4,
-    title: "Digital-Twin Monitoring in a Warehouse",
+    title: "Physical-to-Digital Monitoring for Robotic Systems",
     shortDesc: "Real-time monitoring for robotic picking operations",
-    fullDescription: "Designed a dashboard for Axon Raptor to visualize robotic arm task execution, device health, and failure states. Mapped the entire robotic lifecycle and applied progressive disclosure to minimize cognitive load. Built a tablet-friendly interface for PTL workers to execute tasks quickly.",
+    fullDescription: "Designed a real-time monitoring system that translates live robotic operations into a clear, spatially grounded digital view. The interface mirrors the physical layout of RAPTOR systems, enabling faster understanding and confident action across roles.",
     image: roboticArmImage,
     tags: ["Automation", "Data Viz"],
     date: "Oct 2024 -\nJan 2025",
@@ -125,7 +125,7 @@ export default function MainProjectsTable() {
                 <div className="flex gap-6">
                   <div className="flex-1" style={headerStyle}>Project</div>
                   <div style={{ width: '144px', flexShrink: 0, ...headerStyle }}>Tags</div>
-                  <div style={{ width: '96px', flexShrink: 0, ...headerStyle }}>Date</div>
+                  <div style={{ width: '96px', flexShrink: 0, ...headerStyle }}>Timeline</div>
                 </div>
               </div>
             </div>
@@ -154,12 +154,12 @@ export default function MainProjectsTable() {
                   <div className="flex gap-8 items-start">
                     <motion.div
                       className="flex-shrink-0"
-                      animate={{ width: hoveredRow === project.id ? 200 : 72 }}
+                      animate={{ width: hoveredRow === project.id ? 200 : 83 }}
                       transition={transition}
                     >
                       <motion.div
                         style={{ border: '1px solid #1A1A1A', overflow: 'hidden', width: '100%' }}
-                        animate={{ height: hoveredRow === project.id ? 120 : 72 }}
+                        animate={{ height: hoveredRow === project.id ? 138 : 83 }}
                         transition={transition}
                       >
                         <ImageWithFallback src={project.image} alt={project.title} className="w-full h-full object-cover" />
@@ -206,34 +206,6 @@ export default function MainProjectsTable() {
                               {hoveredRow === project.id ? project.fullDescription : project.shortDesc}
                             </motion.p>
                           </div>
-
-                          <AnimatePresence>
-                            {hoveredRow === project.id && (
-                              <motion.div
-                                initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                                animate={{ opacity: 1, height: "auto", marginTop: 16 }}
-                                exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                                transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1], delay: 0.15 }}
-                                className="overflow-hidden"
-                              >
-                                <div style={{
-                                  paddingTop: '16px',
-                                  borderTop: '1px solid #1A1A1A',
-                                  display: 'flex',
-                                  alignItems: 'center',
-                                  gap: '24px',
-                                  fontSize: '13px',
-                                  color: '#3A3A3A'
-                                }}>
-                                  <div>{project.role}</div>
-                                  <div className="flex items-center gap-1.5">
-                                    <TrendingUp size={14} strokeWidth={2} />
-                                    {project.outcome}
-                                  </div>
-                                </div>
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
                         </div>
 
                         <div className="w-36 flex-shrink-0">

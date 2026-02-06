@@ -1,18 +1,35 @@
-import { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router";
 import Navigation from "./components/Navigation";
 import Home from "./pages/Home";
 import ControlTower from "./pages/ControlTower";
 import DesignSystem from "./pages/DesignSystem";
 import WESRedesign from "./pages/WESRedesign";
 import DigitalTwin from "./pages/DigitalTwin";
+import MicrosoftTeams from "./pages/MicrosoftTeams";
+import PredictiveAnalytics from "./pages/PredictiveAnalytics";
 import LinkedIn from "./imports/Linkedin1121";
 import Medium from "./imports/MediumIconWhite1";
 import Behance from "./imports/IconmonstrBehance11";
 import MailIcon from "./components/MailIcon";
+import faviconImage from "figma:asset/b1379fff4776134ec186100abcb547d24fc8dc15.png";
 
 function AppContent() {
   const [hoveredFooterIcon, setHoveredFooterIcon] = useState<string | null>(null);
+  
+  useEffect(() => {
+    // Set page title
+    document.title = "Soma Gorai";
+    
+    // Set favicon
+    const link = document.querySelector("link[rel~='icon']") as HTMLLinkElement || document.createElement('link');
+    link.type = 'image/png';
+    link.rel = 'icon';
+    link.href = faviconImage;
+    if (!document.querySelector("link[rel~='icon']")) {
+      document.head.appendChild(link);
+    }
+  }, []);
   
   return (
     <div style={{ 
@@ -28,6 +45,8 @@ function AppContent() {
         <Route path="/case-study/design-system" element={<DesignSystem />} />
         <Route path="/case-study/wes-redesign" element={<WESRedesign />} />
         <Route path="/case-study/digital-twin" element={<DigitalTwin />} />
+        <Route path="/case-study/teams-redesign" element={<MicrosoftTeams />} />
+        <Route path="/case-study/predictive-analytics" element={<PredictiveAnalytics />} />
       </Routes>
       
       {/* Footer */}
@@ -53,7 +72,7 @@ function AppContent() {
             {/* Right side - Social Icons */}
             <div className="flex items-center gap-6">
               <a 
-                href="https://linkedin.com" 
+                href="https://www.linkedin.com/in/soma-gorai/" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="transition-opacity duration-200"
@@ -70,7 +89,7 @@ function AppContent() {
                 <LinkedIn />
               </a>
               <a 
-                href="https://medium.com" 
+                href="https://somagorai.medium.com/" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="transition-opacity duration-200"
@@ -87,7 +106,7 @@ function AppContent() {
                 <Medium />
               </a>
               <a 
-                href="https://behance.net" 
+                href="https://www.behance.net/somagorai" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="transition-opacity duration-200"

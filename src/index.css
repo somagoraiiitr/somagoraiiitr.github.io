@@ -2,6 +2,11 @@
 @layer properties {
   @supports (((-webkit-hyphens: none)) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color: rgb(from red r g b)))) {
     *, :before, :after, ::backdrop {
+      --tw-rotate-x: rotateX(0);
+      --tw-rotate-y: rotateY(0);
+      --tw-rotate-z: rotateZ(0);
+      --tw-skew-x: skewX(0);
+      --tw-skew-y: skewY(0);
       --tw-space-y-reverse: 0;
       --tw-border-style: solid;
       --tw-tracking: initial;
@@ -162,6 +167,9 @@
     letter-spacing: inherit;
     color: inherit;
     opacity: 1;
+    --lightningcss-light: initial;
+    --lightningcss-dark: ;
+    color-scheme: light;
     background-color: #0000;
     border-radius: 0;
   }
@@ -173,6 +181,9 @@
     letter-spacing: inherit;
     color: inherit;
     opacity: 1;
+    --lightningcss-light: initial;
+    --lightningcss-dark: ;
+    color-scheme: light;
     background-color: #0000;
     border-radius: 0;
   }
@@ -369,6 +380,10 @@
 }
 
 @layer utilities {
+  .visible {
+    visibility: visible;
+  }
+
   .absolute {
     position: absolute;
   }
@@ -381,6 +396,14 @@
     position: relative;
   }
 
+  .static {
+    position: static;
+  }
+
+  .sticky {
+    position: sticky;
+  }
+
   .inset-\[15\.57\%_15\.62\%_15\.69\%_15\.51\%\] {
     inset: 15.57% 15.62% 15.69% 15.51%;
   }
@@ -391,18 +414,6 @@
 
   .left-0 {
     left: calc(var(--spacing) * 0);
-  }
-
-  .col-span-2 {
-    grid-column: span 2 / span 2;
-  }
-
-  .col-span-4 {
-    grid-column: span 4 / span 4;
-  }
-
-  .col-span-6 {
-    grid-column: span 6 / span 6;
   }
 
   .container {
@@ -475,8 +486,8 @@
     display: inline-block;
   }
 
-  .inline-flex {
-    display: inline-flex;
+  .list-item {
+    display: list-item;
   }
 
   .table {
@@ -508,10 +519,6 @@
     width: 100%;
   }
 
-  .max-w-\[1000px\] {
-    max-width: 1000px;
-  }
-
   .max-w-\[1400px\] {
     max-width: 1400px;
   }
@@ -528,6 +535,10 @@
     flex-shrink: 0;
   }
 
+  .transform {
+    transform: var(--tw-rotate-x) var(--tw-rotate-y) var(--tw-rotate-z) var(--tw-skew-x) var(--tw-skew-y);
+  }
+
   .grid-cols-1 {
     grid-template-columns: repeat(1, minmax(0, 1fr));
   }
@@ -536,8 +547,8 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .grid-cols-12 {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
+  .grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   .flex-wrap {
@@ -562,10 +573,6 @@
 
   .justify-center {
     justify-content: center;
-  }
-
-  .gap-1\.5 {
-    gap: calc(var(--spacing) * 1.5);
   }
 
   .gap-2 {
@@ -598,10 +605,6 @@
     margin-block-end: calc(calc(var(--spacing) * 12) * calc(1 - var(--tw-space-y-reverse)));
   }
 
-  .overflow-hidden {
-    overflow: hidden;
-  }
-
   .border {
     border-style: var(--tw-border-style);
     border-width: 1px;
@@ -617,6 +620,10 @@
 
   .px-12 {
     padding-inline: calc(var(--spacing) * 12);
+  }
+
+  .py-4 {
+    padding-block: calc(var(--spacing) * 4);
   }
 
   .py-6 {
@@ -642,6 +649,10 @@
 
   .italic {
     font-style: italic;
+  }
+
+  .underline {
+    text-decoration-line: underline;
   }
 
   .blur {
@@ -731,6 +742,36 @@
 
 html {
   font-size: var(--font-size);
+}
+
+@property --tw-rotate-x {
+  syntax: "*";
+  inherits: false;
+  initial-value: rotateX(0);
+}
+
+@property --tw-rotate-y {
+  syntax: "*";
+  inherits: false;
+  initial-value: rotateY(0);
+}
+
+@property --tw-rotate-z {
+  syntax: "*";
+  inherits: false;
+  initial-value: rotateZ(0);
+}
+
+@property --tw-skew-x {
+  syntax: "*";
+  inherits: false;
+  initial-value: skewX(0);
+}
+
+@property --tw-skew-y {
+  syntax: "*";
+  inherits: false;
+  initial-value: skewY(0);
 }
 
 @property --tw-space-y-reverse {

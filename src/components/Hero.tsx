@@ -55,10 +55,10 @@ export default function Hero() {
     },
     {
       icon: Grid3x3,
-      value: "Table",
+      value: "Overlay",
       label: "Favorite component",
       color: "#A8F0C4",
-      hoverText: "CRUD · Filters · Dense rows · Love them all!"
+      hoverText: "Details while preserving context"
     },
     {
       icon: IterationCw,

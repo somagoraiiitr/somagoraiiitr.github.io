@@ -1,5 +1,12 @@
 import { useState } from "react";
+import { Link } from "react-router";
 import { Lightbulb, Briefcase, BookOpen, Compass, ArrowUpRight } from "lucide-react";
+import { ImageWithFallback } from "./figma/ImageWithFallback";
+import andwemetImage from "figma:asset/344ef4562767210cbe7b43463de89fd759564002.png";
+import optoMizeImage from "figma:asset/3bb82bf383a52e322b1f9c7ed1243553ccaabf11.png";
+import axonWESImage from "figma:asset/9e5c9ce58f92fcf33dff7ca8800befd4fcca8371.png";
+import andwemetBrandImage from "figma:asset/87d249f923ad0eae4c34c69a356affb48c2e12f3.png";
+import rStoreImage from "figma:asset/0f28c8fda4629ddf29a5cc50b5a56361b13ec511.png";
 
 interface SecondaryItem {
   id: number;
@@ -9,44 +16,39 @@ interface SecondaryItem {
   tags: string[];
   link: string;
   accentColor: string;
+  image: string;
 }
 
 const items: SecondaryItem[] = [
   {
     id: 1,
     type: "concept",
-    title: "Predictive Analytics Control Tower",
+    title: "Contextual AI Insights for Warehouse Operations",
     description: "Explored AI-assisted predictive layers for an operational control tower, focusing on interpretability, confidence, and decision support rather than automation.",
     tags: ["AI", "Systems", "Dashboard"],
-    link: "https://example.com",
-    accentColor: "#D1B3FF"
+    link: "/case-study/predictive-analytics",
+    accentColor: "#D1B3FF",
+    image: optoMizeImage
   },
   {
     id: 2,
     type: "project",
-    title: "Microsoft Teams Workflow Redesign",
-    description: "Redesigned collaboration workflows within Microsoft Teams to reduce coordination friction and clarify task ownership across cross-functional teams.",
-    tags: ["Workflow Design", "Collaboration"],
-    link: "https://example.com",
-    accentColor: "#9BD0FF"
-  },
-  {
-    id: 3,
-    type: "study",
-    title: "AI Interaction Patterns Library",
-    description: "Studied recurring interaction patterns in AI-assisted features and compiled a reusable library addressing feedback, control, and failure states.",
-    tags: ["AI", "Interaction Design"],
-    link: "https://example.com",
-    accentColor: "#A8F0C4"
+    title: "WES Redesign Through Heuristic Analysis",
+    description: "Researched bulk vs. individual record interactions, evaluated alternatives (split affordances, in-row actions, expansion patterns), and defined clear conventions for focus, quick actions, and side-panel details.",
+    tags: ["Interaction Design", "Enterprise UX"],
+    link: "/case-study/wes-redesign",
+    accentColor: "#FFB5B5",
+    image: axonWESImage
   },
   {
     id: 4,
     type: "project",
     title: "andwemet — Dating App Redesign",
-    description: "Designed a social matching application with emphasis on transparency, pacing, and user control over algorithmic recommendations.",
+    description: "Redesigned the dashboard and enhanced the UX/UI for andwemet dating app. Focused on creating an intuitive dashboard that provides users with a global overview and easy access to key features and information.",
     tags: ["Product Design", "Consumer UX"],
-    link: "https://example.com",
-    accentColor: "#FFB5B5"
+    link: "https://www.behance.net/gallery/137446671/Redesigning-the-User-dashboard-for-andwemet",
+    accentColor: "#FFB5B5",
+    image: andwemetBrandImage
   },
   {
     id: 5,
@@ -54,44 +56,9 @@ const items: SecondaryItem[] = [
     title: "R Store — App Store for University Developers",
     description: "Designed a centralized platform for student developers to publish, discover, and manage small scale apps.",
     tags: ["Platform Design", "Systems", "Developer Tools"],
-    link: "https://example.com",
-    accentColor: "#FFE24A"
-  },
-  {
-    id: 6,
-    type: "exploration",
-    title: "WhatsApp Interaction Redesign",
-    description: "Explored alternative interaction models to improve message visibility, state clarity, and conversation management.",
-    tags: ["Interaction Design", "Exploratory"],
-    link: "https://example.com",
-    accentColor: "#D1B3FF"
-  },
-  {
-    id: 7,
-    type: "exploration",
-    title: "Living City — Urban Systems Exploration",
-    description: "Explored how urban infrastructure, mobility, and public spaces behave as interconnected systems through speculative architectural design.",
-    tags: ["Systems Thinking", "Architecture"],
-    link: "https://example.com",
-    accentColor: "#9BD0FF"
-  },
-  {
-    id: 8,
-    type: "project",
-    title: "Patronus — Women's Safety App",
-    description: "Designed a safety-focused mobile application addressing emergency workflows, trust, and rapid access to support resources.",
-    tags: ["Social Impact", "Product Design"],
-    link: "https://example.com",
-    accentColor: "#A8F0C4"
-  },
-  {
-    id: 9,
-    type: "exploration",
-    title: "Adaptive Workspaces — Reconfigurable Architecture Study",
-    description: "Explored architectural strategies for flexible work environments that adapt to changing functional and social needs.",
-    tags: ["Architecture", "Exploratory"],
-    link: "https://example.com",
-    accentColor: "#FFB5B5"
+    link: "https://somagorai.medium.com/designing-rstore-for-channeli-d4b52f7e462a",
+    accentColor: "#FFE24A",
+    image: rStoreImage
   },
 ];
 
@@ -123,6 +90,7 @@ const getTypeLabel = (type: string) => {
 
 export default function SecondaryProjectsTable() {
   const [hoveredTitle, setHoveredTitle] = useState<number | null>(null);
+  const [hoveredItem, setHoveredItem] = useState<SecondaryItem | null>(null);
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
 
   return (
@@ -147,7 +115,7 @@ export default function SecondaryProjectsTable() {
         </h2>
 
         <div style={{ border: '1.5px solid #1A1A1A', background: '#FFFFFF', position: 'relative' }}>
-          {hoveredTitle && (
+          {hoveredTitle && hoveredItem && (
             <div style={{
               position: 'fixed',
               left: tooltipPosition.x + 12,
@@ -161,7 +129,11 @@ export default function SecondaryProjectsTable() {
               zIndex: 9999,
               backdropFilter: 'blur(4px)'
             }}>
-              Go to Project
+              {hoveredItem.link.startsWith('/') 
+                ? 'Go to Project' 
+                : hoveredItem.link.includes('medium.com') 
+                  ? 'Go to Medium' 
+                  : 'Go to Behance'}
             </div>
           )}
 
@@ -172,10 +144,11 @@ export default function SecondaryProjectsTable() {
               padding: '20px 32px'
             }}
           >
-            <div className="grid grid-cols-12 gap-6 items-center">
+            <div className="flex gap-6 items-center">
               <div 
-                className="col-span-2"
                 style={{
+                  width: '72px',
+                  flexShrink: 0,
                   fontSize: '12px',
                   fontWeight: '500',
                   color: '#3A3A3A',
@@ -183,11 +156,12 @@ export default function SecondaryProjectsTable() {
                   letterSpacing: '0.05em'
                 }}
               >
-                Type
+                Image
               </div>
               <div 
-                className="col-span-4"
                 style={{
+                  width: '30%',
+                  flexShrink: 0,
                   fontSize: '12px',
                   fontWeight: '500',
                   color: '#3A3A3A',
@@ -198,8 +172,9 @@ export default function SecondaryProjectsTable() {
                 Title
               </div>
               <div 
-                className="col-span-6"
                 style={{
+                  width: '60%',
+                  flexShrink: 0,
                   fontSize: '12px',
                   fontWeight: '500',
                   color: '#3A3A3A',
@@ -229,72 +204,108 @@ export default function SecondaryProjectsTable() {
                 }}
               >
                 <div style={{ padding: '24px 32px' }}>
-                  <div className="grid grid-cols-12 gap-6 items-start">
-                    <div className="col-span-2">
-                      <div 
-                        style={{
-                          background: item.accentColor,
-                          border: '1px solid #1A1A1A',
-                          padding: '8px 12px',
-                          display: 'inline-flex',
-                          alignItems: 'center',
-                          gap: '8px'
-                        }}
-                      >
-                        {getTypeIcon(item.type)}
-                        <span 
-                          style={{
-                            fontSize: '12px',
-                            fontWeight: '500',
-                            color: '#111111',
-                            textTransform: 'uppercase',
-                            letterSpacing: '0.05em'
+                  <div className="flex gap-6 items-start">
+                    {/* Image */}
+                    <div 
+                      style={{
+                        width: '72px',
+                        height: '72px',
+                        flexShrink: 0,
+                        border: '1px solid #1A1A1A',
+                        overflow: 'hidden',
+                        position: 'relative'
+                      }}
+                    >
+                      <ImageWithFallback 
+                        src={item.image} 
+                        alt={item.title}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+
+                    {/* Title */}
+                    <div style={{ width: '30%', flexShrink: 0 }}>
+                      {item.link.startsWith('/') ? (
+                        <Link 
+                          to={item.link}
+                          className="relative inline-block"
+                          onMouseEnter={(e) => {
+                            setHoveredTitle(item.id);
+                            setHoveredItem(item);
+                            setTooltipPosition({ x: e.clientX, y: e.clientY });
                           }}
+                          onMouseLeave={() => setHoveredTitle(null)}
+                          onMouseMove={(e) => setTooltipPosition({ x: e.clientX, y: e.clientY })}
+                          style={{ textDecoration: 'none', cursor: 'pointer' }}
                         >
-                          {getTypeLabel(item.type)}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="col-span-4">
-                      <a 
-                        href={item.link}
-                        className="relative inline-block"
-                        onMouseEnter={(e) => {
-                          setHoveredTitle(item.id);
-                          setTooltipPosition({ x: e.clientX, y: e.clientY });
-                        }}
-                        onMouseLeave={() => setHoveredTitle(null)}
-                        onMouseMove={(e) => setTooltipPosition({ x: e.clientX, y: e.clientY })}
-                        style={{ textDecoration: 'none', cursor: 'pointer' }}
-                      >
-                        <div className="flex items-start gap-2">
-                          <h3 
+                          <div className="flex items-start gap-2">
+                            <h3 
+                              style={{
+                                fontSize: '18px',
+                                fontWeight: '600',
+                                color: '#111111',
+                                lineHeight: '1.4'
+                              }}
+                            >
+                              {item.title}
+                            </h3>
+                            <ArrowUpRight size={16} strokeWidth={2} color="#111111" className="mt-0.5 flex-shrink-0" />
+                          </div>
+                          <span 
+                            className="absolute transition-all duration-300"
                             style={{
-                              fontSize: '18px',
-                              fontWeight: '600',
-                              color: '#111111',
-                              lineHeight: '1.4'
+                              width: hoveredTitle === item.id ? '100%' : '0',
+                              height: '1.5px',
+                              background: '#111111',
+                              bottom: '-2px',
+                              left: 0
                             }}
-                          >
-                            {item.title}
-                          </h3>
-                          <ArrowUpRight size={16} strokeWidth={2} color="#111111" className="mt-0.5 flex-shrink-0" />
-                        </div>
-                        <span 
-                          className="absolute transition-all duration-300"
-                          style={{
-                            width: hoveredTitle === item.id ? '100%' : '0',
-                            height: '1.5px',
-                            background: '#111111',
-                            bottom: '-2px',
-                            left: 0
+                          />
+                        </Link>
+                      ) : (
+                        <a 
+                          href={item.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="relative inline-block"
+                          onMouseEnter={(e) => {
+                            setHoveredTitle(item.id);
+                            setHoveredItem(item);
+                            setTooltipPosition({ x: e.clientX, y: e.clientY });
                           }}
-                        />
-                      </a>
+                          onMouseLeave={() => setHoveredTitle(null)}
+                          onMouseMove={(e) => setTooltipPosition({ x: e.clientX, y: e.clientY })}
+                          style={{ textDecoration: 'none', cursor: 'pointer' }}
+                        >
+                          <div className="flex items-start gap-2">
+                            <h3 
+                              style={{
+                                fontSize: '18px',
+                                fontWeight: '600',
+                                color: '#111111',
+                                lineHeight: '1.4'
+                              }}
+                            >
+                              {item.title}
+                            </h3>
+                            <ArrowUpRight size={16} strokeWidth={2} color="#111111" className="mt-0.5 flex-shrink-0" />
+                          </div>
+                          <span 
+                            className="absolute transition-all duration-300"
+                            style={{
+                              width: hoveredTitle === item.id ? '100%' : '0',
+                              height: '1.5px',
+                              background: '#111111',
+                              bottom: '-2px',
+                              left: 0
+                            }}
+                          />
+                        </a>
+                      )}
                     </div>
 
-                    <div className="col-span-6">
+                    {/* Description */}
+                    <div style={{ width: '60%', flexShrink: 0 }}>
                       <p 
                         style={{
                           fontSize: '15px',
