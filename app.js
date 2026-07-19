@@ -292,6 +292,17 @@ document.addEventListener('DOMContentLoaded', () => {
         Curtain active: ${transitionCurtain ? transitionCurtain.classList.contains('active') : 'null'}<br>
         Sec2 opacity: ${section2 ? section2.style.opacity : 'null'}<br>
       `;
+
+      // Dynamic History API path syncer
+      if (progress >= 0.80) {
+        if (window.location.pathname !== '/work') {
+          window.history.pushState({ section: 'work' }, '', '/work');
+        }
+      } else {
+        if (window.location.pathname !== '/') {
+          window.history.pushState({ section: 'home' }, '', '/');
+        }
+      }
     };
 
     let lastScrollY = window.scrollY;
@@ -351,90 +362,42 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ----------------------------------------------------
-  // CURSOR-FOLLOWING TOOLTIPS
+  // MORPHING TABLE CLICK & INTERACTION HANDLERS
   // ----------------------------------------------------
-  const tooltip = document.getElementById('custom-tooltip');
-  if (tooltip) {
-    document.querySelectorAll('.project-title-link').forEach(link => {
-      link.addEventListener('mouseenter', (e) => {
-        let text = 'Go to Case Study';
-        if (link.classList.contains('secondary-link')) {
-          const href = link.getAttribute('href');
-          if (href.includes('behance.net')) {
-            text = 'Go to Behance';
-          } else if (href.includes('medium.com')) {
-            text = 'Go to Medium';
-          } else {
-            text = 'Go to Project';
-          }
-        }
-        tooltip.innerText = text;
-        tooltip.style.display = 'block';
+  document.querySelectorAll('.morph-row').forEach(row => {
+    row.addEventListener('click', (e) => {
+      // 1. If clicking the close button, collapse the row
+      if (e.target.classList.contains('morph-close-btn')) {
+        e.stopPropagation();
+        row.classList.remove('expanded');
+        return;
+      }
+      
+      // 2. If clicking on the CTA button or nested links, let native redirection run
+      if (e.target.tagName.toLowerCase() === 'a' || e.target.closest('a')) {
+        return;
+      }
+      
+      // 3. If already expanded, do not re-trigger
+      if (row.classList.contains('expanded')) {
+        return;
+      }
+      
+      // 4. Collapse any other open rows to maintain clean screen focus
+      document.querySelectorAll('.morph-row.expanded').forEach(other => {
+        other.classList.remove('expanded');
       });
       
-      link.addEventListener('mousemove', (e) => {
-        // Follow cursor location offset by (12, -32)
-        tooltip.style.left = (e.clientX + 12) + 'px';
-        tooltip.style.top = (e.clientY - 32) + 'px';
-      });
+      // 5. Add expanded morph state
+      row.classList.add('expanded');
       
-      link.addEventListener('mouseleave', () => {
-        tooltip.style.display = 'none';
-      });
+      // 6. Smoothly center the expanded card in the viewport
+      setTimeout(() => {
+        const yOffset = -40;
+        const y = row.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }, 350);
     });
-  }
-
-  // ----------------------------------------------------
-  // MAIN PROJECTS ROW HOVER & INTERACTION (TEXT SWAP)
-  // ----------------------------------------------------
-  document.querySelectorAll('.main-project-row').forEach(row => {
-    const descPara = row.querySelector('.project-description');
-    
-    row.addEventListener('mouseenter', () => {
-      row.classList.add('hovered');
-      if (descPara) {
-        const fullText = descPara.getAttribute('data-full');
-        if (fullText) {
-          descPara.style.opacity = '0';
-          setTimeout(() => {
-            descPara.innerText = fullText;
-            descPara.style.opacity = '1';
-          }, 150);
-        }
-      }
-    });
-
-    row.addEventListener('mouseleave', () => {
-      row.classList.remove('hovered');
-      if (descPara) {
-        const shortText = descPara.getAttribute('data-short');
-        if (shortText) {
-          descPara.style.opacity = '0';
-          setTimeout(() => {
-            descPara.innerText = shortText;
-            descPara.style.opacity = '1';
-          }, 150);
-        }
-      }
-    });
-  });
-
-  // ----------------------------------------------------
-  // CLICKABLE ROWS AND CARDS
-  // ----------------------------------------------------
-  document.querySelectorAll('[data-link]').forEach(element => {
-    if (element.classList.contains('table-row') || element.classList.contains('exploration-card')) {
-      element.addEventListener('click', (e) => {
-        // Don't trigger if clicked directly on an anchor or nested links
-        if (e.target.tagName.toLowerCase() === 'a' || e.target.closest('a')) {
-          return;
-        }
-        const link = element.getAttribute('data-link');
-        if (link) {
-          window.location.href = link;
-        }
-      });
-    }
   });
 
   // ----------------------------------------------------

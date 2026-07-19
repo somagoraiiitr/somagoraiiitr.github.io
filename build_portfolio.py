@@ -370,7 +370,8 @@ def main():
             "tags": ["B2B Enterprise", "Service Design"],
             "date": "Jan 2025 -<br>Sep 2025",
             "accentColor": "#FFE24A",
-            "link": "case-study-control-tower.html"
+            "link": "case-study-control-tower.html",
+            "role": "Lead Interaction Designer"
         },
         {
             "id": 2,
@@ -381,7 +382,8 @@ def main():
             "tags": ["Design System", "Component Library"],
             "date": "Mar 2024 -<br>Aug 2024",
             "accentColor": "#A8F0C4",
-            "link": "case-study-design-system.html"
+            "link": "case-study-design-system.html",
+            "role": "Systems UX Designer"
         },
         {
             "id": 3,
@@ -392,7 +394,8 @@ def main():
             "tags": ["Product Management", "Data Analysis"],
             "date": "May 2023 -<br>July 2023",
             "accentColor": "#9BD0FF",
-            "link": "case-study-teams-redesign.html"
+            "link": "case-study-teams-redesign.html",
+            "role": "Lead UX Researcher & Designer"
         },
         {
             "id": 4,
@@ -403,43 +406,62 @@ def main():
             "tags": ["Automation", "Data Viz"],
             "date": "Oct 2024 -<br>Jan 2025",
             "accentColor": "#A8F0C4",
-            "link": "case-study-digital-twin.html"
+            "link": "case-study-digital-twin.html",
+            "role": "Lead Product Designer"
         }
     ]
     
     for project in projects_data:
         tags_html = "".join([f'<span class="tag">{tag}</span>' for tag in project["tags"]])
         main_projects_rows += f"""
-        <div class="table-row main-project-row" data-id="{project["id"]}" data-link="{project["link"]}">
-          <!-- Left slide-out accent indicator -->
-          <div class="row-accent-bar" style="background: {project["accentColor"]};"></div>
-          
-          <div class="row-content">
-            <!-- Dynamically scaling thumbnail -->
-            <div class="thumbnail-container">
-              <img src="{project["image"]}" alt="{project["title"]}" class="row-image">
+        <div class="morph-row" data-link="{project["link"]}" data-id="{project["id"]}">
+          <!-- DEFAULT STATE ELEMENTS (4 COLUMNS) -->
+          <div class="morph-col morph-img-col">
+            <div class="morph-thumbnail">
+              <img src="{project["image"]}" alt="{project["title"]}">
+              <div class="morph-expand-cue">
+                <span class="cue-plus">+</span>
+                <span class="cue-text">Expand</span>
+              </div>
             </div>
-            
-            <div class="text-container">
-              <div class="title-wrapper">
-                <a href="{project["link"]}" class="project-title-link" data-id="{project["id"]}">
-                  <h3>{project["title"]}</h3>
-                  <span class="title-underline"></span>
-                </a>
-                <span class="arrow-icon">&#8599;</span>
+          </div>
+          
+          <div class="morph-col morph-title-col">
+            <h3>{project["title"]}</h3>
+            <p class="morph-tagline">{project["shortDesc"]}</p>
+          </div>
+          
+          <div class="morph-col morph-tags-col">
+            <div class="tags-flex">{tags_html}</div>
+          </div>
+          
+          <div class="morph-col morph-timeline-col">
+            <div class="morph-timeline-text">{project["date"]}</div>
+          </div>
+          
+          <!-- EXPANDED STATE PANEL (2 COLUMNS INTERACTION) -->
+          <div class="morph-details-panel">
+            <button class="morph-close-btn" aria-label="Close">&times;</button>
+            <div class="morph-details-content">
+              <span class="morph-kicker">{project["role"]}</span>
+              <h2>{project["title"]}</h2>
+              <p class="morph-full-desc">{project["fullDescription"]}</p>
+              
+              <div class="morph-meta-row">
+                <div class="meta-item">
+                  <span class="meta-label">Timeline</span>
+                  <span class="meta-val">{project["date"]}</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">Tags</span>
+                  <div class="tags-flex">{tags_html}</div>
+                </div>
               </div>
               
-              <!-- Swap paragraph containing data params -->
-              <p class="project-description" 
-                 data-short="{project["shortDesc"]}" 
-                 data-full="{project["fullDescription"]}">{project["shortDesc"]}</p>
+              <a href="{project["link"]}" class="cta-button morph-cta">
+                View Case Study
+              </a>
             </div>
-            
-            <!-- Tags & Date Columns -->
-            <div class="tags-column">
-              <div class="tags-flex">{tags_html}</div>
-            </div>
-            <div class="date-column">{project["date"]}</div>
           </div>
         </div>\n"""
 
@@ -580,15 +602,15 @@ def main():
       
       <!-- Second Section (Revealed via circular wipe collapse, z-index: 20) -->
       <section id="section-2" class="next-section">
-        <div class="container-editorial">
-          <div class="next-section-text-block">
-            <span class="kicker">Chapter Two</span>
-            <h2 class="next-title">A New Dimension</h2>
-            <p class="next-description">
-              Welcome to the other side. By letting curiosity swallow the canvas, you have unlocked our creative playground. Here we combine visual art, programming, and interactive engineering to create premium web experiences.
-            </p>
-            <a href="#" class="cta-button">Explore Projects</a>
-          </div>
+        <div class="portfolio-container">
+          <section id="work-section" class="portfolio-section">
+            <div class="container-editorial">
+              <h2 class="section-title">Case Studies</h2>
+              <div class="morph-table">
+                {main_projects_rows}
+              </div>
+            </div>
+          </section>
         </div>
       </section>
 
@@ -622,7 +644,8 @@ def main():
 """
     
     final_html = html_template.format(
-        svg1=svg1
+        svg1=svg1,
+        main_projects_rows=main_projects_rows
     )
     
     with open("index.html", "w", encoding="utf-8") as f:
