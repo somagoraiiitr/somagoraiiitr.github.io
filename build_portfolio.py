@@ -363,104 +363,99 @@ def main():
     projects_data = [
         {
             "id": 1,
-            "title": "Designing the Warehouse Control Tower Ecosystem",
-            "shortDesc": "Centralized control tower enabling real-time warehouse planning, validation, and operational visibility.",
-            "fullDescription": "Replaced fragmented, Excel-driven warehouse setup with a centralized system unifying sales configuration, process mapping, and operations. Enabled real-time validation, traceability, and client-managed updates, removing data silos and engineering dependency.",
-            "image": "assets/235012a9efdd1b8a0d8d6e2e8f019cf4f55d6082.png",
-            "tags": ["B2B Enterprise", "Service Design"],
-            "date": "Jan 2025 -<br>Sep 2025",
-            "accentColor": "#FFE24A",
-            "link": "case-study-control-tower.html",
-            "role": "Lead Interaction Designer"
+            "title": "Project Alpha",
+            "role": "Lead UI/UX Designer",
+            "year": "2025",
+            "synopsis": "A next-generation SaaS dashboard designed to simplify multi-tenant operations and monitoring.",
+            "problem": "Users struggled to correlate metrics from disparate database instances, leading to slow incident response times.",
+            "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=600&auto=format&fit=crop"
         },
         {
             "id": 2,
-            "title": "From Fragmented UI to a Single Source of Truth",
-            "shortDesc": "Design system that reduced rework, aligned teams, and accelerated delivery across Axon's warehouse products.",
-            "fullDescription": "We built a custom design system to address inconsistent UI patterns across Axon's warehouse software. By standardizing components, colors, typography, and states, the system reduced repeated design and development effort and made UI decisions clearer and easier to apply.",
-            "image": "assets/73ea07ba5ba50811bfb0f5457a8d2a2eb8baf486.png",
-            "tags": ["Design System", "Component Library"],
-            "date": "Mar 2024 -<br>Aug 2024",
-            "accentColor": "#A8F0C4",
-            "link": "case-study-design-system.html",
-            "role": "Systems UX Designer"
+            "title": "Project Beta",
+            "role": "Interaction Engineer",
+            "year": "2024",
+            "synopsis": "An interactive, web-based tool for visualizing real-time financial market swings and order books.",
+            "problem": "Traditional graphs lagged when handling high-frequency tick data, causing visualization delay for day traders.",
+            "image": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=600&auto=format&fit=crop"
         },
         {
             "id": 3,
-            "title": "Optimizing Teams Notifications",
-            "shortDesc": "Redesigning Microsoft Teams' notification system to reduce cognitive load and help users distinguish signal from noise.",
-            "fullDescription": "Redesigned Microsoft Teams' notification system to reduce cognitive load and help users distinguish signal from noise through intelligent notification management. Explored multiple solutions including anchored notifications, pull notification systems, and visual hierarchy using color cues.",
-            "image": "assets/e96c9cc922798632243bfacf2f601225830c14d9.png",
-            "tags": ["Product Management", "Data Analysis"],
-            "date": "May 2023 -<br>July 2023",
-            "accentColor": "#9BD0FF",
-            "link": "case-study-teams-redesign.html",
-            "role": "Lead UX Researcher & Designer"
+            "title": "Project Gamma",
+            "role": "Design Systems Lead",
+            "year": "2024",
+            "synopsis": "Building a multi-theme component library to align consumer-facing platforms across web and mobile web.",
+            "problem": "Fragmented component definitions led to excessive design debt and high build payload sizes.",
+            "image": "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=600&auto=format&fit=crop"
         },
         {
             "id": 4,
-            "title": "Physical-to-Digital Monitoring for Robotic Systems",
-            "shortDesc": "Real-time monitoring for robotic picking operations",
-            "fullDescription": "Designed a real-time monitoring system that translates live robotic operations into a clear, spatially grounded digital view. The interface mirrors the physical layout of RAPTOR systems, enabling faster understanding and confident action across roles.",
-            "image": "assets/8f71ad3af89068a4848d360e1e3517ffd16f2df4.png",
-            "tags": ["Automation", "Data Viz"],
-            "date": "Oct 2024 -<br>Jan 2025",
-            "accentColor": "#A8F0C4",
-            "link": "case-study-digital-twin.html",
-            "role": "Lead Product Designer"
+            "title": "Project Delta",
+            "role": "UX Researcher",
+            "year": "2023",
+            "synopsis": "An in-depth study of friction points in digital checkout flows for regional e-commerce products.",
+            "problem": "High drop-off rates at payment gateways due to misleading layout indicators and lack of localization options.",
+            "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=600&auto=format&fit=crop"
         }
     ]
     
     for project in projects_data:
-        tags_html = "".join([f'<span class="tag">{tag}</span>' for tag in project["tags"]])
         main_projects_rows += f"""
-        <div class="morph-row" data-link="{project["link"]}" data-id="{project["id"]}">
-          <!-- DEFAULT STATE ELEMENTS (4 COLUMNS) -->
+        <div class="morph-row" data-id="{project["id"]}">
+          <!-- DEFAULT STATE ELEMENTS (5 COLUMNS) -->
           <div class="morph-col morph-img-col">
             <div class="morph-thumbnail">
               <img src="{project["image"]}" alt="{project["title"]}">
               <div class="morph-expand-cue">
                 <span class="cue-plus">+</span>
-                <span class="cue-text">Expand</span>
+                <span class="cue-text">View Project</span>
               </div>
             </div>
           </div>
           
           <div class="morph-col morph-title-col">
             <h3>{project["title"]}</h3>
-            <p class="morph-tagline">{project["shortDesc"]}</p>
           </div>
           
-          <div class="morph-col morph-tags-col">
-            <div class="tags-flex">{tags_html}</div>
+          <div class="morph-col morph-role-col">
+            <span class="morph-role-text">{project["role"]}</span>
           </div>
           
-          <div class="morph-col morph-timeline-col">
-            <div class="morph-timeline-text">{project["date"]}</div>
+          <div class="morph-col morph-year-col">
+            <span class="morph-year-text">{project["year"]}</span>
+          </div>
+
+          <div class="morph-col morph-button-col">
+            <button class="cta-button morph-row-btn" data-id="{project["id"]}">Expand</button>
           </div>
           
           <!-- EXPANDED STATE PANEL (2 COLUMNS INTERACTION) -->
           <div class="morph-details-panel">
             <button class="morph-close-btn" aria-label="Close">&times;</button>
             <div class="morph-details-content">
-              <span class="morph-kicker">{project["role"]}</span>
-              <h2>{project["title"]}</h2>
-              <p class="morph-full-desc">{project["fullDescription"]}</p>
-              
-              <div class="morph-meta-row">
-                <div class="meta-item">
-                  <span class="meta-label">Timeline</span>
-                  <span class="meta-val">{project["date"]}</span>
-                </div>
-                <div class="meta-item">
-                  <span class="meta-label">Tags</span>
-                  <div class="tags-flex">{tags_html}</div>
-                </div>
+              <div class="morph-meta-header">
+                <span class="morph-role-label">{project["role"]}</span>
+                <span class="meta-separator">•</span>
+                <span class="morph-year-label">{project["year"]}</span>
               </div>
               
-              <a href="{project["link"]}" class="cta-button morph-cta">
-                View Case Study
-              </a>
+              <h2>{project["title"]}</h2>
+              
+              <div class="morph-detail-section">
+                <span class="section-label">Synopsis</span>
+                <p class="section-desc">{project["synopsis"]}</p>
+              </div>
+
+              <div class="morph-detail-section">
+                <span class="section-label">Problem Statement</span>
+                <p class="section-desc">{project["problem"]}</p>
+              </div>
+              
+              <div class="morph-link-wrapper">
+                <span class="placeholder-link-btn">
+                  Case Study Link (Placeholder)
+                </span>
+              </div>
             </div>
           </div>
         </div>\n"""

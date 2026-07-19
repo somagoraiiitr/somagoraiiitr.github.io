@@ -380,8 +380,8 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
       
-      // 2. If clicking on the CTA button or nested links, let native redirection run
-      if (e.target.tagName.toLowerCase() === 'a' || e.target.closest('a')) {
+      // 2. If clicking on the CTA placeholder button or links, prevent generic actions
+      if (e.target.classList.contains('placeholder-link-btn')) {
         return;
       }
       
@@ -405,6 +405,34 @@ document.addEventListener('DOMContentLoaded', () => {
         window.scrollTo({ top: y, behavior: 'smooth' });
       }, 350);
     });
+  });
+
+  // ----------------------------------------------------
+  // MATERIAL DESIGN RIPPLE EFFECT
+  // ----------------------------------------------------
+  const createRipple = (e) => {
+    const button = e.currentTarget;
+    const circle = document.createElement("span");
+    const diameter = Math.max(button.clientWidth, button.clientHeight);
+    const radius = diameter / 2;
+
+    const rect = button.getBoundingClientRect();
+    
+    circle.style.width = circle.style.height = `${diameter}px`;
+    circle.style.left = `${e.clientX - rect.left - radius}px`;
+    circle.style.top = `${e.clientY - rect.top - radius}px`;
+    circle.classList.add("ripple-span");
+
+    const oldRipple = button.querySelector(".ripple-span");
+    if (oldRipple) {
+      oldRipple.remove();
+    }
+
+    button.appendChild(circle);
+  };
+
+  document.querySelectorAll('.cta-button').forEach(button => {
+    button.addEventListener('mousedown', createRipple);
   });
 
   // ----------------------------------------------------

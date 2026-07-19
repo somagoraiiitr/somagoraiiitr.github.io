@@ -343,7 +343,7 @@ h1.hero-title span.text-rust {
 }
 
 /* Projects & Case Studies Table Layout */
-/* Morphing Table Layout */
+/* Morphing Table Layout (Brutalist, Flat Design) */
 .morph-table {
   border: 1.5px solid var(--color-neutral-black);
   background-color: #FFFFFF;
@@ -354,16 +354,17 @@ h1.hero-title span.text-rust {
 .morph-row {
   position: relative;
   display: grid;
-  grid-template-columns: 100px 3fr 1.5fr 120px;
-  gap: 32px;
+  grid-template-columns: 80px 2.5fr 1.5fr 100px 120px;
+  gap: 24px;
   align-items: center;
-  padding: 20px 32px;
-  height: 120px;
+  padding: 24px 32px;
+  height: 128px;
   border-bottom: 1.5px solid var(--color-neutral-black);
   background-color: #FFFFFF;
   overflow: hidden;
   transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
+  font-family: 'Poppins', sans-serif;
 }
 
 .morph-row:last-child {
@@ -371,15 +372,72 @@ h1.hero-title span.text-rust {
 }
 
 .morph-row:not(.expanded):hover {
-  background-color: #FAFAFA;
+  background-color: rgba(243, 240, 231, 0.4); /* F3F0E7 background hint */
 }
 
-/* Thumbnail and hover expand cue */
+/* Columns */
+.morph-col {
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  opacity: 1;
+}
+
+.morph-title-col h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-neutral-black);
+}
+
+.morph-role-text {
+  font-size: 14px;
+  color: var(--color-gray);
+  font-weight: 500;
+}
+
+.morph-year-text {
+  font-size: 14px;
+  color: var(--color-gray);
+  font-weight: 500;
+}
+
+/* Custom Ripple Button styling */
+.morph-row-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 10px 16px;
+  border: 1.5px solid var(--color-neutral-black);
+  background-color: var(--color-primary); /* Rust / Terracotta */
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 0;
+  box-shadow: 2px 2px 0px var(--color-neutral-black);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+}
+
+.morph-row-btn:hover {
+  background-color: var(--color-primary-dark, #a34220);
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px var(--color-neutral-black);
+}
+
+.morph-row-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0px var(--color-neutral-black);
+}
+
+/* Image Thumbnail */
 .morph-thumbnail {
   position: relative;
   width: 80px;
   height: 80px;
-  border: 1px solid var(--color-neutral-black);
+  border: 1.5px solid var(--color-neutral-black);
   overflow: hidden;
   transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -389,15 +447,21 @@ h1.hero-title span.text-rust {
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: transform 0.4s ease;
 }
 
+.morph-row:not(.expanded):hover .morph-thumbnail img {
+  transform: scale(1.1);
+}
+
+/* Expand cue */
 .morph-expand-cue {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(28, 33, 35, 0.85); /* var(--color-neutral-black) transparent */
+  background-color: rgba(28, 33, 35, 0.85); /* Black overlay */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -408,13 +472,12 @@ h1.hero-title span.text-rust {
 }
 
 .cue-plus {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 300;
-  line-height: 1;
 }
 
 .cue-text {
-  font-size: 10px;
+  font-size: 9px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   margin-top: 4px;
@@ -424,42 +487,15 @@ h1.hero-title span.text-rust {
   opacity: 1;
 }
 
-/* Row Columns content defaults */
-.morph-col {
-  transition: opacity 0.4s ease, transform 0.4s ease;
-  opacity: 1;
-}
-
-.morph-title-col h3 {
-  font-family: var(--font-heading);
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--color-neutral-black);
-  margin-bottom: 6px;
-}
-
-.morph-tagline {
-  font-size: 14px;
-  color: var(--color-gray);
-  line-height: 1.4;
-}
-
-.morph-timeline-col {
-  font-size: 13px;
-  color: var(--color-gray);
-  font-family: var(--font-body);
-}
-
-/* Expanded Card State Layout styling */
+/* Expanded layout states */
 .morph-row.expanded {
-  grid-template-columns: 1.2fr 1.8fr;
-  height: 480px;
+  grid-template-columns: 1fr 1.2fr;
+  height: 520px;
   padding: 48px;
-  background-color: #FAFAFA;
+  background-color: var(--color-bg);
   cursor: default;
 }
 
-/* Morph elements in expanded state */
 .morph-row.expanded .morph-img-col {
   height: 100%;
 }
@@ -467,35 +503,38 @@ h1.hero-title span.text-rust {
 .morph-row.expanded .morph-thumbnail {
   width: 100%;
   height: 100%;
-  border-radius: 4px;
+  border-radius: 0;
 }
 
-/* Hide default columns when expanded */
+/* Hide other cols when expanded */
 .morph-row.expanded .morph-title-col,
-.morph-row.expanded .morph-tags-col,
-.morph-row.expanded .morph-timeline-col {
+.morph-row.expanded .morph-role-col,
+.morph-row.expanded .morph-year-col,
+.morph-row.expanded .morph-button-col {
   opacity: 0;
   pointer-events: none;
-  transform: translateY(10px);
-  position: absolute;
   width: 0;
   height: 0;
   overflow: hidden;
+  margin: 0;
+  padding: 0;
+  position: absolute;
 }
 
-/* Details Panel (revealed on expansion) */
+/* Details Panel overlay card details */
 .morph-details-panel {
   position: absolute;
   top: 48px;
-  right: 48px;
-  left: calc(40% + 48px); /* Anchored next to the image column */
   bottom: 48px;
+  right: 48px;
+  left: calc(45% + 48px);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.5s ease 0.2s; /* Delayed fade-in */
+  transition: opacity 0.5s ease 0.2s;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
+  font-family: 'Poppins', sans-serif;
 }
 
 .morph-row.expanded .morph-details-panel {
@@ -522,85 +561,77 @@ h1.hero-title span.text-rust {
 }
 
 .morph-close-btn:hover {
-  background-color: var(--color-secondary-1);
+  background-color: var(--color-primary);
+  color: #FFFFFF;
   transform: scale(1.05);
 }
 
 .morph-details-content {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  height: 100%;
+  justify-content: space-between;
 }
 
-.morph-kicker {
-  font-size: 11px;
+.morph-meta-header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--color-primary);
-  font-weight: 600;
-  margin-bottom: 8px;
+  color: var(--color-gray);
+  margin-bottom: 12px;
 }
 
 .morph-details-content h2 {
-  font-family: var(--font-heading);
-  font-size: 28px;
-  font-weight: 700;
+  font-size: 32px;
+  font-weight: 800;
   line-height: 1.2;
   color: var(--color-neutral-black);
-  margin-bottom: 16px;
-}
-
-.morph-full-desc {
-  font-size: 15px;
-  color: var(--color-dark-gray);
-  line-height: 1.6;
   margin-bottom: 24px;
 }
 
-.morph-meta-row {
-  display: flex;
-  gap: 32px;
-  margin-bottom: 32px;
+.morph-detail-section {
+  margin-bottom: 20px;
 }
 
-.meta-item {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.meta-label {
+.section-label {
+  display: block;
   font-size: 11px;
-  color: var(--color-gray);
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  font-weight: 500;
+  color: var(--color-primary);
+  margin-bottom: 4px;
 }
 
-.meta-val {
+.section-desc {
   font-size: 14px;
-  color: var(--color-neutral-black);
+  color: var(--color-dark-gray);
+  line-height: 1.5;
 }
 
-.morph-cta {
-  display: inline-block;
-  padding: 12px 28px;
-  background-color: var(--color-neutral-black);
-  color: var(--color-bg);
-  text-decoration: none;
-  font-family: var(--font-heading);
-  font-weight: 600;
-  font-size: 13px;
-  border-radius: 4px;
-  transition: transform 0.2s, background-color 0.2s;
-  cursor: pointer;
-  overflow: hidden;
-  position: relative;
+.morph-link-wrapper {
+  margin-top: 12px;
 }
 
-.morph-cta:hover {
-  transform: translateY(-2px);
-  background-color: var(--color-accent);
+.placeholder-link-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 12px 24px;
+  border: 1.5px dashed var(--color-primary);
+  background-color: rgba(182, 79, 42, 0.05); /* Burnt orange tint */
+  color: var(--color-primary);
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: not-allowed;
+  user-select: none;
 }
 
 
@@ -882,5 +913,22 @@ h1.hero-title span.text-rust {
   background-color: #FFFFFF;
   border-bottom: 1px solid var(--color-neutral-black);
   display: none;
+}
+
+/* Ripple span animation */
+.ripple-span {
+  position: absolute;
+  border-radius: 50%;
+  transform: scale(0);
+  animation: ripple-anim 600ms linear;
+  background-color: rgba(255, 255, 255, 0.4);
+  pointer-events: none;
+}
+
+@keyframes ripple-anim {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
 }
 
