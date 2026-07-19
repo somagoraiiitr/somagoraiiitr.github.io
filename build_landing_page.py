@@ -118,6 +118,7 @@ def prepare_svg(filename):
         '#CD846B': 'var(--color-secondary-2)',
         '#523C2E': 'var(--color-brown)',
         '#F3F0E7': 'var(--color-bg)',
+        '#D9D9D9': 'var(--color-white)',
     }
     for hex_val, var_val in replacements.items():
         pattern = re.compile(re.escape(hex_val), re.IGNORECASE)
@@ -176,7 +177,6 @@ def main():
             <p class="hero-description">
               I am a UX designer with a cat
             </p>
-            <a href="#" class="cta-button">Scroll to Begin</a>
           </div>
         </div>
       </div>

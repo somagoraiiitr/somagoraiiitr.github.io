@@ -14,6 +14,8 @@
   --color-brown: #523C2E;
   --color-bg: #F3F0E7;           /* Off White */
   --color-surface: #F3F0E7;
+  --color-white: #D9D9D9;
+
 
   /* Backward Compatibility Mapping */
   --color-text: var(--color-neutral-black);
@@ -43,7 +45,7 @@ body {
 /* Scroll Container & Sticky Viewport (z-index: 10) */
 .scroll-track {
   position: relative;
-  height: 450vh; /* Scroll length for the entire sequence */
+  height: 180vh; /* Scroll length for the entire sequence (completes in one scroll) */
 }
 
 .sticky-viewport {
