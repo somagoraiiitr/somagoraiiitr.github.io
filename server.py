@@ -12,6 +12,36 @@ class MyHandler(http.server.SimpleHTTPRequestHandler):
         self.send_header('Cache-Control', 'no-store, no-cache, must-revalidate')
         super().end_headers()
 
+    def do_GET(self):
+        if self.path == '/api/status':
+            self.send_response(200)
+            self.send_header('Content-type', 'application/json')
+            self.end_headers()
+            
+            import subprocess
+            import json
+            
+            # Fetch git status details
+            try:
+                git_branch = subprocess.check_output(['git', 'rev-parse', '--abbrev-ref', 'HEAD']).decode('utf-8').strip()
+                git_commit = subprocess.check_output(['git', 'log', '-1', '--format=%h - %s (%an, %cr)']).decode('utf-8').strip()
+                git_status = subprocess.check_output(['git', 'status', '--short']).decode('utf-8').strip()
+            except Exception as e:
+                git_branch = "unknown"
+                git_commit = "unknown"
+                git_status = str(e)
+                
+            status_data = {
+                "project": "CatMouthOpeningAnimation",
+                "branch": git_branch,
+                "latest_commit": git_commit,
+                "git_status": git_status,
+                "port": PORT
+            }
+            self.wfile.write(json.dumps(status_data).encode('utf-8'))
+        else:
+            super().do_GET()
+
 def start_server():
     Handler = MyHandler
     with socketserver.TCPServer(("", PORT), Handler) as httpd:

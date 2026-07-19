@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Status Tracker</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background-color: var(--color-bg);
+      color: var(--color-neutral-black);
+      font-family: var(--font-body);
+      padding: 4rem 2rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .status-card {
+      background: #FFFFFF;
+      border: 1px solid var(--color-light-gray);
+      border-radius: 8px;
+      padding: 3rem;
+      max-width: 800px;
+      width: 100%;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    h1.status-title {
+      font-family: var(--font-heading);
+      color: var(--color-primary);
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      font-weight: 800;
+    }
+
+    .subtitle {
+      color: var(--color-gray);
+      margin-bottom: 2rem;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .section-title {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--color-neutral-black);
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid var(--color-light-gray);
+      padding-bottom: 0.5rem;
+    }
+
+    .grid-info {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .label {
+      font-weight: 600;
+      color: var(--color-gray);
+    }
+
+    .value {
+      font-family: monospace;
+      background: #F4F2EB;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      color: var(--color-accent);
+      font-size: 0.9rem;
+      word-break: break-all;
+    }
+
+    .task-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .task-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px dashed #E2DFD6;
+    }
+
+    .task-item:last-child {
+      border-bottom: none;
+    }
+
+    .checkbox {
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 0.8rem;
+    }
+
+    .checkbox.completed {
+      background-color: var(--color-accent);
+      color: #FFFFFF;
+      border: 1px solid var(--color-accent);
+    }
+
+    .checkbox.pending {
+      border: 1px solid var(--color-light-gray);
+    }
+
+    .task-text {
+      font-size: 0.95rem;
+    }
+
+    .task-text.completed {
+      text-decoration: line-through;
+      color: var(--color-light-gray);
+    }
+
+    .git-status-pre {
+      background: #1C2123;
+      color: #A9B1D6;
+      padding: 1rem;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.85rem;
+      overflow-x: auto;
+      max-height: 200px;
+    }
+
+    .action-links {
+      margin-top: 2rem;
+      display: flex;
+      gap: 1rem;
+    }
+
+    .cta-button {
+      font-family: var(--font-heading);
+      background-color: var(--color-neutral-black);
+      color: #FFFFFF;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: inline-block;
+      transition: background-color 0.2s ease;
+    }
+
+    .cta-button:hover {
+      background-color: var(--color-primary);
+    }
+
+    .cta-button.secondary {
+      background-color: transparent;
+      border: 1px solid var(--color-neutral-black);
+      color: var(--color-neutral-black);
+    }
+
+    .cta-button.secondary:hover {
+      background-color: var(--color-neutral-black);
+      color: #FFFFFF;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="status-card">
+    <h1 class="status-title">Status Dashboard</h1>
+    <div class="subtitle">Cat Mouth Opening Animation Project Status</div>
+
+    <div class="section-title">Environment Information</div>
+    <div class="grid-info">
+      <div class="label">Project Folder</div>
+      <div class="value">/CatMouthOpeningAnimation</div>
+      <div class="label">Server Status</div>
+      <div class="value" id="server-status">Connecting...</div>
+      <div class="label">Live Port</div>
+      <div class="value" id="live-port">Connecting...</div>
+    </div>
+
+    <div class="section-title">Git Repository Status</div>
+    <div class="grid-info">
+      <div class="label">Active Branch</div>
+      <div class="value" id="git-branch">Loading...</div>
+      <div class="label">Latest Commit</div>
+      <div class="value" id="git-commit">Loading...</div>
+    </div>
+
+    <div class="label" style="margin-bottom: 0.5rem;">Short Git Status:</div>
+    <pre class="git-status-pre" id="git-status">Loading...</pre>
+
+    <div class="section-title">Milestone Progress</div>
+    <ul class="task-list">
+      <li class="task-item">
+        <div class="checkbox completed">✓</div>
+        <div class="task-text completed">Tokenize color palette into style.css variables</div>
+      </li>
+      <li class="task-item">
+        <div class="checkbox completed">✓</div>
+        <div class="task-text completed">Import and apply Google Poppins font</div>
+      </li>
+      <li class="task-item">
+        <div class="checkbox completed">✓</div>
+        <div class="task-text completed">Remove the Figma header bar rectangle from 1_5.svg</div>
+      </li>
+      <li class="task-item">
+        <div class="checkbox completed">✓</div>
+        <div class="task-text completed">Smooth scroll loop using requestAnimationFrame</div>
+      </li>
+      <li class="task-item">
+        <div class="checkbox completed">✓</div>
+        <div class="task-text completed">Focus initial camera zoom on the cat's nose</div>
+      </li>
+      <li class="task-item">
+        <div class="checkbox completed">✓</div>
+        <div class="task-text completed">Trigger simultaneous yawning/mouth expand animation</div>
+      </li>
+      <li class="task-item">
+        <div class="checkbox completed">✓</div>
+        <div class="task-text completed">Transition zoom target to the mouth center and plunge inside</div>
+      </li>
+      <li class="task-item">
+        <div class="checkbox completed">✓</div>
+        <div class="task-text completed">Material Design Ripple effect click indicators on CTA buttons</div>
+      </li>
+      <li class="task-item">
+        <div class="checkbox completed">✓</div>
+        <div class="task-text completed">Initialize Git repository and save modifications</div>
+      </li>
+    </ul>
+
+    <div class="action-links">
+      <a href="index.html" class="cta-button">View Portfolio Website</a>
+      <a href="/api/status" target="_blank" class="cta-button secondary">Raw Status API</a>
+    </div>
+  </div>
+
+  <script>
+    // Fetch live status from local server API
+    async function fetchStatus() {
+      try {
+        const response = await fetch('/api/status');
+        if (response.ok) {
+          const data = await response.json();
+          document.getElementById('server-status').innerText = 'Active (Online)';
+          document.getElementById('live-port').innerText = 'localhost:' + data.port;
+          document.getElementById('git-branch').innerText = data.branch;
+          document.getElementById('git-commit').innerText = data.latest_commit;
+          document.getElementById('git-status').innerText = data.git_status || 'Clean (No modifications)';
+        } else {
+          showOffline();
+        }
+      } catch (err) {
+        showOffline();
+      }
+    }
+
+    function showOffline() {
+      document.getElementById('server-status').innerText = 'Offline / Standalone';
+      document.getElementById('live-port').innerText = 'N/A';
+      document.getElementById('git-branch').innerText = 'N/A (Initialize server for git metrics)';
+      document.getElementById('git-commit').innerText = 'N/A';
+      document.getElementById('git-status').innerText = 'Run server.py to view live git status trackers.';
+    }
+
+    // Load status
+    fetchStatus();
+
+    // Material Ripple for status page links
+    const createRipple = (e, button) => {
+      const rect = button.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      const x = e.clientX - rect.left - size / 2;
+      const y = e.clientY - rect.top - size / 2;
+
+      const ripple = document.createElement('span');
+      ripple.className = 'ripple-span';
+      ripple.style.width = ripple.style.height = `${size}px`;
+      ripple.style.left = `${x}px`;
+      ripple.style.top = `${y}px`;
+
+      button.querySelectorAll('.ripple-span').forEach(r => r.remove());
+      button.appendChild(ripple);
+
+      ripple.addEventListener('animationend', () => {
+        ripple.remove();
+      });
+    };
+
+    document.querySelectorAll('.cta-button').forEach(button => {
+      button.addEventListener('mousedown', (e) => createRipple(e, button));
+    });
+  </script>
+</body>
+</html>
