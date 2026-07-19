@@ -599,7 +599,7 @@ def main():
       <section id="section-2" class="next-section">
         <div class="portfolio-container">
           <section id="work-section" class="portfolio-section">
-            <div class="container-editorial">
+            <div class="container-portfolio">
               <h2 class="section-title">Case Studies</h2>
               <div class="morph-table">
                 {main_projects_rows}

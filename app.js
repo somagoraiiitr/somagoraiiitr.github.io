@@ -365,6 +365,19 @@ document.addEventListener('DOMContentLoaded', () => {
       window.scrollTo(0, scrollTrackTop + totalScrollable);
     }
 
+    // Intercept scroll-up gesture at the top of Section 2 and snap back to Home
+    const section2 = document.getElementById('section-2');
+    if (section2) {
+      section2.addEventListener('wheel', (e) => {
+        if (section2.scrollTop === 0 && e.deltaY < 0) {
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        }
+      }, { passive: true });
+    }
+
     onScroll();
   }
 

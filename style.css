@@ -81,6 +81,16 @@ body {
   position: relative;
 }
 
+.container-portfolio {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
 .hero-text-block {
   width: 45%;
   pointer-events: auto; /* Enable link clicking */
@@ -346,7 +356,7 @@ h1.hero-title span.text-rust {
 /* Morphing Table Layout (Brutalist, Flat Design) */
 .morph-table {
   border: 1.5px solid var(--color-neutral-black);
-  background-color: #FFFFFF;
+  background-color: var(--color-bg);
   display: flex;
   flex-direction: column;
 }
@@ -357,10 +367,10 @@ h1.hero-title span.text-rust {
   grid-template-columns: 80px 2.5fr 1.5fr 100px 120px;
   gap: 24px;
   align-items: center;
-  padding: 24px 32px;
-  height: 128px;
+  padding: 32px;
+  height: 144px; /* 32px top/bottom padding + 80px image = 144px */
   border-bottom: 1.5px solid var(--color-neutral-black);
-  background-color: #FFFFFF;
+  background-color: var(--color-bg);
   overflow: hidden;
   transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
@@ -372,7 +382,7 @@ h1.hero-title span.text-rust {
 }
 
 .morph-row:not(.expanded):hover {
-  background-color: rgba(243, 240, 231, 0.4); /* F3F0E7 background hint */
+  background-color: var(--color-secondary-1); /* Warm Peach highlight */
 }
 
 /* Columns */
@@ -399,7 +409,7 @@ h1.hero-title span.text-rust {
   font-weight: 500;
 }
 
-/* Custom Ripple Button styling */
+/* Custom Ripple Button styling (Motion UI Inspired, Flat design, No shadows) */
 .morph-row-btn {
   display: inline-flex;
   align-items: center;
@@ -407,29 +417,21 @@ h1.hero-title span.text-rust {
   width: 100%;
   padding: 10px 16px;
   border: 1.5px solid var(--color-neutral-black);
-  background-color: var(--color-primary); /* Rust / Terracotta */
-  color: #FFFFFF;
-  font-weight: 700;
-  font-size: 12px;
+  background-color: var(--color-primary); /* Rust */
+  color: var(--color-bg); /* Off White */
+  font-weight: 600;
+  font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  border-radius: 0;
-  box-shadow: 2px 2px 0px var(--color-neutral-black);
-  transition: all 0.2s ease;
+  border-radius: 4px; /* Slightly rounded, flat design */
+  transition: background-color 0.2s ease;
   cursor: pointer;
   overflow: hidden;
   position: relative;
 }
 
 .morph-row-btn:hover {
-  background-color: var(--color-primary-dark, #a34220);
-  transform: translate(-1px, -1px);
-  box-shadow: 3px 3px 0px var(--color-neutral-black);
-}
-
-.morph-row-btn:active {
-  transform: translate(1px, 1px);
-  box-shadow: 1px 1px 0px var(--color-neutral-black);
+  background-color: var(--color-secondary-2); /* Dark Peach */
 }
 
 /* Image Thumbnail */
@@ -491,7 +493,7 @@ h1.hero-title span.text-rust {
 .morph-row.expanded {
   grid-template-columns: 1fr 1.2fr;
   height: 520px;
-  padding: 48px;
+  padding: 32px; /* Standardized uniform padding */
   background-color: var(--color-bg);
   cursor: default;
 }
@@ -524,10 +526,10 @@ h1.hero-title span.text-rust {
 /* Details Panel overlay card details */
 .morph-details-panel {
   position: absolute;
-  top: 48px;
-  bottom: 48px;
-  right: 48px;
-  left: calc(45% + 48px);
+  top: 32px;
+  bottom: 32px;
+  right: 32px;
+  left: calc(45% + 32px); /* Padded boundaries align cleanly */
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.5s ease 0.2s;
@@ -544,13 +546,13 @@ h1.hero-title span.text-rust {
 
 .morph-close-btn {
   position: absolute;
-  top: -24px;
-  right: -24px;
+  top: -16px; /* Floating close toggle */
+  right: -16px;
   width: 36px;
   height: 36px;
   border-radius: 50%;
   border: 1.5px solid var(--color-neutral-black);
-  background-color: #FFFFFF;
+  background-color: var(--color-bg); /* Off White */
   color: var(--color-neutral-black);
   font-size: 20px;
   line-height: 32px;
@@ -562,7 +564,7 @@ h1.hero-title span.text-rust {
 
 .morph-close-btn:hover {
   background-color: var(--color-primary);
-  color: #FFFFFF;
+  color: var(--color-bg);
   transform: scale(1.05);
 }
 
