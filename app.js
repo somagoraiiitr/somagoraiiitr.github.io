@@ -411,11 +411,14 @@ document.addEventListener('DOMContentLoaded', () => {
       // 5. Add expanded morph state
       row.classList.add('expanded');
       
-      // 6. Smoothly center the expanded card in the viewport
+      // 6. Smoothly center the expanded card inside the scrollable Section 2 container
       setTimeout(() => {
-        const yOffset = -40;
-        const y = row.getBoundingClientRect().top + window.pageYOffset + yOffset;
-        window.scrollTo({ top: y, behavior: 'smooth' });
+        const section2 = document.getElementById('section-2');
+        if (section2) {
+          const yOffset = 40;
+          const targetY = row.offsetTop - yOffset;
+          section2.scrollTo({ top: targetY, behavior: 'smooth' });
+        }
       }, 350);
     });
   });
