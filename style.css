@@ -347,11 +347,11 @@ h1.hero-title span.text-rust {
 /* Reusable Section Header Component */
 .section-header {
   font-family: var(--font-heading);
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--color-neutral-black);
-  padding: 0 24px 32px 24px;
+  padding: 40px 24px 48px 24px;
 }
 
 .section-title {
@@ -376,10 +376,10 @@ h1.hero-title span.text-rust {
 .morph-row {
   position: relative;
   display: grid;
-  grid-template-columns: 56px 1fr 1fr 80px 32px;
+  grid-template-columns: 56px 1.5fr 1fr 1.5fr 80px 32px;
   gap: 16px;
   align-items: center;
-  padding: 16px 24px;
+  padding: 24px;
   border-radius: 12px;
   background-color: transparent;
   overflow: hidden;
@@ -399,14 +399,14 @@ h1.hero-title span.text-rust {
 }
 
 .morph-title-col h3 {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   letter-spacing: -0.01em;
   color: var(--color-neutral-black);
 }
 
 .morph-role-text {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--color-gray);
   font-weight: 400;
 }
@@ -416,6 +416,24 @@ h1.hero-title span.text-rust {
   color: var(--color-light-gray);
   font-weight: 500;
   font-variant-numeric: tabular-nums;
+}
+
+/* Tags styling */
+.morph-tags-col {
+  display: flex;
+  gap: 8px;
+  flex-wrap: nowrap;
+  overflow: hidden;
+}
+
+.morph-tag {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-gray);
+  background-color: rgba(28, 33, 35, 0.05);
+  padding: 4px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
 }
 
 /* Shared action button — expand (→) and close (×) occupy the same spot */
@@ -428,22 +446,22 @@ h1.hero-title span.text-rust {
   height: 32px;
   padding: 0;
   border: none;
-  background-color: transparent;
-  color: var(--color-light-gray);
+  background-color: rgba(28, 33, 35, 0.04);
+  color: var(--color-gray);
   font-size: 18px;
   border-radius: 8px;
   transition: color 0.2s ease, background-color 0.2s ease;
   cursor: pointer;
   overflow: hidden;
   position: absolute;
-  top: 16px;
+  top: 24px;
   right: 24px;
   z-index: 100;
 }
 
 .morph-row:not(.expanded):hover .morph-row-btn {
-  color: var(--color-primary);
-  background-color: rgba(182, 79, 42, 0.08);
+  background-color: rgba(28, 33, 35, 0.08);
+  color: var(--color-neutral-black);
 }
 
 /* Hide expand arrow when expanded, show close */
@@ -451,13 +469,11 @@ h1.hero-title span.text-rust {
 .morph-close-btn { display: none; }
 .morph-row.expanded .morph-close-btn {
   display: inline-flex;
-  top: 24px;
-  right: 24px;
 }
 
 .morph-close-btn:hover {
-  background-color: var(--color-primary);
-  color: var(--color-bg);
+  background-color: rgba(28, 33, 35, 0.08);
+  color: var(--color-neutral-black);
 }
 
 /* Compact Thumbnail */
@@ -518,7 +534,7 @@ h1.hero-title span.text-rust {
   height: 400px;
   background-color: var(--color-bg);
   border-radius: 16px;
-  box-shadow: 0 0 0 1px rgba(28, 33, 35, 0.06), 0 8px 32px rgba(28, 33, 35, 0.1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
   cursor: default;
   margin: 4px 0;
 }
@@ -543,6 +559,7 @@ h1.hero-title span.text-rust {
 /* Hide other columns during expansion */
 .morph-row.expanded .morph-title-col,
 .morph-row.expanded .morph-role-col,
+.morph-row.expanded .morph-tags-col,
 .morph-row.expanded .morph-year-col,
 .morph-row.expanded .morph-button-col {
   opacity: 0;
@@ -954,7 +971,6 @@ h1.hero-title span.text-rust {
   background-color: rgba(243, 240, 231, 0.85); /* 85% opacity of surface Off White */
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--color-light-gray);
   font-family: 'Poppins', sans-serif;
 }
 

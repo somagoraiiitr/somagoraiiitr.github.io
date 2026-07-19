@@ -366,6 +366,7 @@ def main():
             "title": "Project Alpha",
             "role": "Lead UI/UX Designer",
             "year": "2025",
+            "tags": ["SaaS", "Dashboard", "B2B"],
             "synopsis": "A next-generation SaaS dashboard designed to simplify multi-tenant operations and monitoring.",
             "problem": "Users struggled to correlate metrics from disparate database instances, leading to slow incident response times.",
             "image": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=600&auto=format&fit=crop"
@@ -375,6 +376,7 @@ def main():
             "title": "Project Beta",
             "role": "Interaction Engineer",
             "year": "2024",
+            "tags": ["Fintech", "Real-time", "Data Viz"],
             "synopsis": "An interactive, web-based tool for visualizing real-time financial market swings and order books.",
             "problem": "Traditional graphs lagged when handling high-frequency tick data, causing visualization delay for day traders.",
             "image": "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=600&auto=format&fit=crop"
@@ -384,6 +386,7 @@ def main():
             "title": "Project Gamma",
             "role": "Design Systems Lead",
             "year": "2024",
+            "tags": ["Systems", "Mobile", "Web"],
             "synopsis": "Building a multi-theme component library to align consumer-facing platforms across web and mobile web.",
             "problem": "Fragmented component definitions led to excessive design debt and high build payload sizes.",
             "image": "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=600&auto=format&fit=crop"
@@ -393,6 +396,7 @@ def main():
             "title": "Project Delta",
             "role": "UX Researcher",
             "year": "2023",
+            "tags": ["E-commerce", "Research", "Checkout"],
             "synopsis": "An in-depth study of friction points in digital checkout flows for regional e-commerce products.",
             "problem": "High drop-off rates at payment gateways due to misleading layout indicators and lack of localization options.",
             "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=600&auto=format&fit=crop"
@@ -421,6 +425,10 @@ def main():
             <span class="morph-role-text">{project["role"]}</span>
           </div>
           
+          <div class="morph-col morph-tags-col">
+            {"".join([f'<span class="morph-tag">{tag}</span>' for tag in project["tags"]])}
+          </div>
+
           <div class="morph-col morph-year-col">
             <span class="morph-year-text">{project["year"]}</span>
           </div>
