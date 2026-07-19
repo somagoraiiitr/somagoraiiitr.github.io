@@ -580,74 +580,15 @@ def main():
       
       <!-- Second Section (Revealed via circular wipe collapse, z-index: 20) -->
       <section id="section-2" class="next-section">
-        <div class="portfolio-container">
-          
-          <!-- Case Studies Section (Main Projects Table) -->
-          <section id="work" class="portfolio-section">
-            <div class="container-editorial">
-              <h2 class="section-title">Case Studies</h2>
-              <div class="projects-table">
-                <!-- Header row -->
-                <div class="table-header">
-                  <div class="row-content">
-                    <div style="width: 72px; flex-shrink: 0;" class="header-cell">Image</div>
-                    <div class="header-cell flex-1">Project</div>
-                    <div style="width: 144px; flex-shrink: 0;" class="header-cell">Tags</div>
-                    <div style="width: 96px; flex-shrink: 0;" class="header-cell">Timeline</div>
-                  </div>
-                </div>
-                <!-- Rows -->
-                {main_projects_rows}
-              </div>
-            </div>
-          </section>
-
-          <!-- Secondary Projects Section -->
-          <section id="projects" class="portfolio-section bg-white">
-            <div class="container-editorial">
-              <h2 class="section-title">Projects</h2>
-              <div class="projects-table secondary-table">
-                <!-- Header row -->
-                <div class="table-header">
-                  <div class="row-content">
-                    <div style="width: 72px; flex-shrink: 0;" class="header-cell">Image</div>
-                    <div style="width: 30%; flex-shrink: 0;" class="header-cell">Title</div>
-                    <div style="width: 60%; flex-shrink: 0;" class="header-cell">Description</div>
-                  </div>
-                </div>
-                <!-- Rows -->
-                {secondary_projects_rows}
-              </div>
-            </div>
-          </section>
-
-          <!-- Explorations Card Grid -->
-          <section id="explorations" class="portfolio-section">
-            <div class="container-editorial">
-              <h2 class="section-title">Explorations</h2>
-              <div class="explorations-grid">
-                {explorations_cards}
-              </div>
-            </div>
-          </section>
-
-          <!-- Editorial Footer -->
-          <footer class="editorial-footer">
-            <div class="container-editorial">
-              <div class="footer-layout">
-                <div class="footer-copy">
-                  © 2026 Soma Gorai • Made with loads of love and vanilla JS &hearts;
-                </div>
-                <div class="footer-socials">
-                  <a href="https://www.linkedin.com/in/somagorai/" target="_blank">LinkedIn</a>
-                  <a href="https://www.behance.net/somagorai" target="_blank">Behance</a>
-                  <a href="https://somagorai.medium.com/" target="_blank">Medium</a>
-                  <a href="mailto:soma.gorai@outlook.com">Email</a>
-                </div>
-              </div>
-            </div>
-          </footer>
-
+        <div class="container-editorial">
+          <div class="next-section-text-block">
+            <span class="kicker">Chapter Two</span>
+            <h2 class="next-title">A New Dimension</h2>
+            <p class="next-description">
+              Welcome to the other side. By letting curiosity swallow the canvas, you have unlocked our creative playground. Here we combine visual art, programming, and interactive engineering to create premium web experiences.
+            </p>
+            <a href="#" class="cta-button">Explore Projects</a>
+          </div>
         </div>
       </section>
 
@@ -681,10 +622,7 @@ def main():
 """
     
     final_html = html_template.format(
-        svg1=svg1,
-        main_projects_rows=main_projects_rows,
-        secondary_projects_rows=secondary_projects_rows,
-        explorations_cards=explorations_cards
+        svg1=svg1
     )
     
     with open("index.html", "w", encoding="utf-8") as f:
