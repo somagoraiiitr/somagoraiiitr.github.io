@@ -996,10 +996,10 @@ h1.hero-title span.text-rust {
   text-decoration: none;
 }
 
-.nav-logo-img {
+.nav-logo-svg {
   height: 32px; /* Elegant height fitting in 72px navbar */
   width: auto;
-  object-fit: contain;
+  display: block;
 }
 
 .nav-right {
