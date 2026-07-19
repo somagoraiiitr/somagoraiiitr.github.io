@@ -44,6 +44,7 @@ class MyHandler(http.server.SimpleHTTPRequestHandler):
 
 def start_server():
     Handler = MyHandler
+    socketserver.TCPServer.allow_reuse_address = True
     with socketserver.TCPServer(("", PORT), Handler) as httpd:
         print(f"Serving at http://localhost:{PORT}")
         httpd.serve_forever()
