@@ -201,11 +201,11 @@ h1.hero-title span.text-rust {
   height: 100%;
   background-color: var(--color-bg);
   color: var(--color-text);
-  display: flex;
-  align-items: center;
   z-index: 20; /* Between cat-svg-container and transition-curtain */
   opacity: 0;
   pointer-events: none;
+  overflow-y: auto; /* Enable vertical scrolling */
+  scroll-behavior: smooth;
 }
 
 .next-section-text-block {
@@ -952,5 +952,6 @@ h1.hero-title span.text-rust {
   padding: 32px 20px;
   background-color: #FFFFFF;
   border-bottom: 1px solid var(--color-neutral-black);
+  display: none;
 }
 

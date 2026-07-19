@@ -294,6 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
     };
 
+    let lastScrollY = window.scrollY;
     let snapTimeout = null;
     const setupScrollSnap = () => {
       if (snapTimeout) {
@@ -306,17 +307,21 @@ document.addEventListener('DOMContentLoaded', () => {
         let progress = -rectTop / totalScrollable;
         progress = Math.max(0, Math.min(1, progress));
 
-        if (progress > 0.35 && progress < 0.99) {
-          window.scrollTo({
-            top: scrollTrackTop + totalScrollable,
-            behavior: 'smooth'
-          });
-        } else if (progress > 0.01 && progress <= 0.35) {
-          window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-          });
+        if (progress > 0.02 && progress < 0.98) {
+          const isScrollingUp = currentScrollY < lastScrollY;
+          if (isScrollingUp) {
+            window.scrollTo({
+              top: 0,
+              behavior: 'smooth'
+            });
+          } else {
+            window.scrollTo({
+              top: scrollTrackTop + totalScrollable,
+              behavior: 'smooth'
+            });
+          }
         }
+        lastScrollY = currentScrollY;
       }, 250);
     };
 
