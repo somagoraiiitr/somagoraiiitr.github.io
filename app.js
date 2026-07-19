@@ -86,12 +86,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Snapping wheel redirect when scrolling up at top of Section 2
       if (this.section2) {
+        this.section2AtTopSince = this.section2.scrollTop === 0 ? Date.now() : null;
+        this.section2.addEventListener('scroll', () => {
+          if (this.section2.scrollTop > 0) {
+            this.section2AtTopSince = null;
+          } else if (this.section2AtTopSince === null) {
+            this.section2AtTopSince = Date.now();
+          }
+        }, { passive: true });
+
         this.section2.addEventListener('wheel', (e) => {
           if (this.section2.scrollTop === 0 && e.deltaY < 0) {
-            window.scrollTo({
-              top: 0,
-              behavior: 'smooth'
-            });
+            if (this.section2AtTopSince !== null && (Date.now() - this.section2AtTopSince) > 300) {
+              window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+              });
+            }
           }
         }, { passive: true });
       }

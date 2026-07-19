@@ -353,12 +353,14 @@ h1.hero-title span.text-rust {
 }
 
 /* Projects & Case Studies Table Layout */
-/* Morphing Table Layout (Brutalist, Flat Design) */
+/* Morphing Table Layout (Modern Premium Flat Design) */
 .morph-table {
-  border: 1.5px solid var(--color-neutral-black);
+  border: 1px solid var(--color-light-gray);
   background-color: var(--color-bg);
   display: flex;
   flex-direction: column;
+  border-radius: 12px; /* Smooth rounded corners on the table container! */
+  overflow: hidden;
 }
 
 .morph-row {
@@ -369,7 +371,7 @@ h1.hero-title span.text-rust {
   align-items: center;
   padding: 32px;
   height: 144px; /* 32px top/bottom padding + 80px image = 144px */
-  border-bottom: 1.5px solid var(--color-neutral-black);
+  border-bottom: 1px solid var(--color-light-gray);
   background-color: var(--color-bg);
   overflow: hidden;
   transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
@@ -392,38 +394,37 @@ h1.hero-title span.text-rust {
 }
 
 .morph-title-col h3 {
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
   color: var(--color-neutral-black);
 }
 
 .morph-role-text {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--color-gray);
   font-weight: 500;
 }
 
 .morph-year-text {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--color-gray);
   font-weight: 500;
 }
 
-/* Custom Ripple Button styling (Motion UI Inspired, Flat design, No shadows) */
+/* Custom Ripple Pill Button styling (Motion UI Inspired, Modern pill design) */
 .morph-row-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  padding: 10px 16px;
-  border: 1.5px solid var(--color-neutral-black);
+  padding: 8px 20px;
+  border: none;
   background-color: var(--color-primary); /* Rust */
   color: var(--color-bg); /* Off White */
   font-weight: 600;
   font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border-radius: 4px; /* Slightly rounded, flat design */
+  border-radius: 9999px; /* Pill design */
   transition: background-color 0.2s ease;
   cursor: pointer;
   overflow: hidden;
@@ -434,12 +435,13 @@ h1.hero-title span.text-rust {
   background-color: var(--color-secondary-2); /* Dark Peach */
 }
 
-/* Image Thumbnail */
+/* Image Thumbnail (iOS Rounded App Icon style) */
 .morph-thumbnail {
   position: relative;
   width: 80px;
   height: 80px;
-  border: 1.5px solid var(--color-neutral-black);
+  border-radius: 16px; /* Rounded icon style */
+  border: 1px solid var(--color-light-gray);
   overflow: hidden;
   transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -489,12 +491,16 @@ h1.hero-title span.text-rust {
   opacity: 1;
 }
 
-/* Expanded layout states */
+/* Expanded modern card layouts (CSS Grid with uniform margins) */
 .morph-row.expanded {
   grid-template-columns: 1fr 1.2fr;
+  gap: 32px;
+  padding: 32px; /* Clean uniform padding on all sides */
   height: 520px;
-  padding: 32px; /* Standardized uniform padding */
   background-color: var(--color-bg);
+  border-radius: 20px;
+  border: 1px solid var(--color-light-gray);
+  box-shadow: 0 12px 36px rgba(28, 33, 35, 0.08);
   cursor: default;
 }
 
@@ -505,10 +511,10 @@ h1.hero-title span.text-rust {
 .morph-row.expanded .morph-thumbnail {
   width: 100%;
   height: 100%;
-  border-radius: 0;
+  border-radius: 12px; /* Match internal card rounding */
 }
 
-/* Hide other cols when expanded */
+/* Hide other columns during expansion */
 .morph-row.expanded .morph-title-col,
 .morph-row.expanded .morph-role-col,
 .morph-row.expanded .morph-year-col,
@@ -525,11 +531,6 @@ h1.hero-title span.text-rust {
 
 /* Details Panel overlay card details */
 .morph-details-panel {
-  position: absolute;
-  top: 32px;
-  bottom: 32px;
-  right: 32px;
-  left: calc(45% + 32px); /* Padded boundaries align cleanly */
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.5s ease 0.2s;
@@ -537,6 +538,8 @@ h1.hero-title span.text-rust {
   flex-direction: column;
   justify-content: space-between;
   font-family: 'Poppins', sans-serif;
+  position: relative; /* Static flex layouts inside grid column */
+  height: 100%;
 }
 
 .morph-row.expanded .morph-details-panel {
@@ -546,16 +549,16 @@ h1.hero-title span.text-rust {
 
 .morph-close-btn {
   position: absolute;
-  top: -16px; /* Floating close toggle */
-  right: -16px;
+  top: -12px; /* Floats inside padding margins cleanly */
+  right: -12px;
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  border: 1.5px solid var(--color-neutral-black);
+  border: 1px solid var(--color-light-gray);
   background-color: var(--color-bg); /* Off White */
   color: var(--color-neutral-black);
   font-size: 20px;
-  line-height: 32px;
+  line-height: 34px;
   text-align: center;
   cursor: pointer;
   z-index: 100;
@@ -588,11 +591,12 @@ h1.hero-title span.text-rust {
 }
 
 .morph-details-content h2 {
-  font-size: 32px;
-  font-weight: 800;
+  font-size: 28px;
+  font-weight: 700;
   line-height: 1.2;
   color: var(--color-neutral-black);
-  margin-bottom: 24px;
+  margin-bottom: 20px;
+  letter-spacing: -0.02em;
 }
 
 .morph-detail-section {
