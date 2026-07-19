@@ -660,11 +660,7 @@ def main():
         </div>
       </div>
       
-      <!-- Scroll Indicator -->
-      <div class="scroll-indicator">
-        <div class="scroll-indicator-line"></div>
-        <span>Scroll Down</span>
-      </div>
+      <!-- Removed Scroll Indicator per feedback -->
       
     </div>
   </div>

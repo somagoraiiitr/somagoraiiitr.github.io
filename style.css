@@ -356,7 +356,7 @@ h1.hero-title span.text-rust {
 
 .section-title {
   font-family: var(--font-heading);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -399,7 +399,7 @@ h1.hero-title span.text-rust {
 }
 
 .morph-title-col h3 {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
   letter-spacing: -0.01em;
   color: var(--color-neutral-black);
@@ -427,11 +427,11 @@ h1.hero-title span.text-rust {
 }
 
 .morph-tag {
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 500;
   color: var(--color-gray);
   background-color: rgba(28, 33, 35, 0.05);
-  padding: 4px 10px;
+  padding: 4px 12px;
   border-radius: 999px;
   white-space: nowrap;
 }
@@ -605,7 +605,7 @@ h1.hero-title span.text-rust {
   display: flex;
   gap: 8px;
   align-items: center;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -628,7 +628,7 @@ h1.hero-title span.text-rust {
 
 .section-label {
   display: block;
-  font-size: 10px;
+  font-size: 14px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -636,7 +636,7 @@ h1.hero-title span.text-rust {
 }
 
 .section-desc {
-  font-size: 13px;
+  font-size: 16px;
   color: var(--color-dark-gray);
   line-height: 1.5;
 }
@@ -654,7 +654,7 @@ h1.hero-title span.text-rust {
   background-color: transparent;
   color: var(--color-gray);
   font-weight: 600;
-  font-size: 12px;
+  font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   cursor: not-allowed;
@@ -971,6 +971,7 @@ h1.hero-title span.text-rust {
   background-color: rgba(243, 240, 231, 0.85); /* 85% opacity of surface Off White */
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  border-bottom: 2px solid var(--color-light-gray);
   font-family: 'Poppins', sans-serif;
 }
 
