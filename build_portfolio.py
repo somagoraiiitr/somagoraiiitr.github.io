@@ -430,8 +430,8 @@ def main():
           </div>
           
           <!-- EXPANDED STATE PANEL (2 COLUMNS INTERACTION) -->
+          <button class="morph-close-btn" aria-label="Close">&times;</button>
           <div class="morph-details-panel">
-            <button class="morph-close-btn" aria-label="Close">&times;</button>
             <div class="morph-details-content">
               <div class="morph-meta-header">
                 <span class="morph-role-label">{project["role"]}</span>
@@ -628,7 +628,7 @@ def main():
         <div class="portfolio-container">
           <section id="work-section" class="portfolio-section">
             <div class="container-portfolio">
-              <h2 class="section-title">Case Studies</h2>
+              <h2 class="section-header">Case Studies</h2>
               <div class="morph-table">
                 {main_projects_rows}
               </div>
