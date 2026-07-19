@@ -84,28 +84,40 @@ document.addEventListener('DOMContentLoaded', () => {
         window.scrollTo(0, this.scrollTrackTop + totalScrollable);
       }
 
-      // Snapping wheel redirect when scrolling up at top of Section 2
+      // Block scroll-chaining back to the Home page
       if (this.section2) {
-        this.section2AtTopSince = this.section2.scrollTop === 0 ? Date.now() : null;
-        this.section2.addEventListener('scroll', () => {
-          if (this.section2.scrollTop > 0) {
-            this.section2AtTopSince = null;
-          } else if (this.section2AtTopSince === null) {
-            this.section2AtTopSince = Date.now();
-          }
-        }, { passive: true });
-
         this.section2.addEventListener('wheel', (e) => {
           if (this.section2.scrollTop === 0 && e.deltaY < 0) {
-            if (this.section2AtTopSince !== null && (Date.now() - this.section2AtTopSince) > 300) {
-              window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-              });
-            }
+            e.preventDefault(); // Stop scroll propagation
           }
-        }, { passive: true });
+        }, { passive: false }); // passive: false is required to support preventDefault
       }
+
+      // Header Logo and Menu item smooth-scroll routing
+      const logoLink = document.querySelector('.nav-logo-link');
+      if (logoLink) {
+        logoLink.addEventListener('click', (e) => {
+          e.preventDefault();
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        });
+      }
+
+      document.querySelectorAll('.nav-item').forEach(link => {
+        link.addEventListener('click', (e) => {
+          const text = link.textContent.trim().toLowerCase();
+          if (text === 'work' || text === 'about me' || text === 'resume') {
+            e.preventDefault();
+            const totalScrollable = this.scrollTrackHeight - this.viewportHeight;
+            window.scrollTo({
+              top: this.scrollTrackTop + totalScrollable,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
     }
 
     onScroll() {
