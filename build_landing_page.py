@@ -173,7 +173,7 @@ def main():
       <div class="hero-content-wrapper">
         <div class="container-editorial">
           <div class="hero-text-block">
-            <h1 class="hero-title">Hi, I am Soma</h1>
+            <h1 class="hero-title">Hi, I am <span class="text-rust">Soma</span></h1>
             <p class="hero-description">
               I am a UX designer with a cat
             </p>

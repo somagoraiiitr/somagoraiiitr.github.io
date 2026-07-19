@@ -45,7 +45,7 @@ body {
 /* Scroll Container & Sticky Viewport (z-index: 10) */
 .scroll-track {
   position: relative;
-  height: 180vh; /* Scroll length for the entire sequence (completes in one scroll) */
+  height: 220vh; /* Scroll length for the entire sequence (slowed down by 20%) */
 }
 
 .sticky-viewport {
@@ -111,6 +111,13 @@ h1.hero-title span {
   display: block;
   font-weight: 300;
   font-style: italic;
+}
+
+h1.hero-title span.text-rust {
+  display: inline;
+  font-style: normal;
+  font-weight: inherit;
+  color: var(--color-primary);
 }
 
 .hero-description {
