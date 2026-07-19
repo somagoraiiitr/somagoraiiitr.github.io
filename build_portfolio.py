@@ -426,7 +426,7 @@ def main():
           </div>
 
           <div class="morph-col morph-button-col">
-            <button class="cta-button morph-row-btn" data-id="{project["id"]}">Expand</button>
+            <button class="cta-button morph-row-btn" data-id="{project["id"]}">&rarr;</button>
           </div>
           
           <!-- EXPANDED STATE PANEL (2 COLUMNS INTERACTION) -->

@@ -340,61 +340,56 @@ h1.hero-title span.text-rust {
 }
 
 .portfolio-section {
-  padding: 96px 48px;
+  padding: 80px 0;
   background-color: var(--color-bg);
 }
 
 .section-title {
   font-family: var(--font-heading);
-  font-size: 32px;
+  font-size: 14px;
   font-weight: 600;
-  color: var(--color-neutral-black);
-  margin-bottom: 48px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-gray);
+  margin-bottom: 16px;
 }
 
 /* Projects & Case Studies Table Layout */
-/* Morphing Table Layout (Modern Premium Flat Design) */
+/* Modern Borderless List (Linear / Vercel inspired) */
 .morph-table {
-  border: 1px solid var(--color-light-gray);
-  background-color: var(--color-bg);
+  background-color: transparent;
   display: flex;
   flex-direction: column;
-  border-radius: 12px; /* Smooth rounded corners on the table container! */
-  overflow: hidden;
+  gap: 2px;
 }
 
 .morph-row {
   position: relative;
   display: grid;
-  grid-template-columns: 80px 2.5fr 1.5fr 100px 120px;
-  gap: 24px;
+  grid-template-columns: 56px 1fr 1fr 80px auto;
+  gap: 16px;
   align-items: center;
-  padding: 32px;
-  height: 144px; /* 32px top/bottom padding + 80px image = 144px */
-  border-bottom: 1px solid var(--color-light-gray);
-  background-color: var(--color-bg);
+  padding: 14px 20px;
+  border-radius: 10px;
+  background-color: transparent;
   overflow: hidden;
-  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: background-color 0.2s ease, box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1), height 0.5s cubic-bezier(0.16, 1, 0.3, 1), padding 0.5s cubic-bezier(0.16, 1, 0.3, 1), grid-template-columns 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
   font-family: 'Poppins', sans-serif;
 }
 
-.morph-row:last-child {
-  border-bottom: none;
-}
-
 .morph-row:not(.expanded):hover {
-  background-color: var(--color-secondary-1); /* Warm Peach highlight */
+  background-color: rgba(28, 33, 35, 0.04);
 }
 
 /* Columns */
 .morph-col {
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  transition: opacity 0.35s ease, transform 0.35s ease;
   opacity: 1;
 }
 
 .morph-title-col h3 {
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 600;
   letter-spacing: -0.01em;
   color: var(--color-neutral-black);
@@ -403,47 +398,48 @@ h1.hero-title span.text-rust {
 .morph-role-text {
   font-size: 13px;
   color: var(--color-gray);
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .morph-year-text {
   font-size: 13px;
-  color: var(--color-gray);
+  color: var(--color-light-gray);
   font-weight: 500;
+  font-variant-numeric: tabular-nums;
 }
 
-/* Custom Ripple Pill Button styling (Motion UI Inspired, Modern pill design) */
+/* Expand Arrow — replaces pill button */
 .morph-row-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  padding: 8px 20px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
   border: none;
-  background-color: var(--color-primary); /* Rust */
-  color: var(--color-bg); /* Off White */
-  font-weight: 600;
-  font-size: 13px;
-  border-radius: 9999px; /* Pill design */
-  transition: background-color 0.2s ease;
+  background-color: transparent;
+  color: var(--color-light-gray);
+  font-size: 18px;
+  border-radius: 8px;
+  transition: color 0.2s ease, background-color 0.2s ease;
   cursor: pointer;
   overflow: hidden;
   position: relative;
 }
 
-.morph-row-btn:hover {
-  background-color: var(--color-secondary-2); /* Dark Peach */
+.morph-row:not(.expanded):hover .morph-row-btn {
+  color: var(--color-primary);
+  background-color: rgba(182, 79, 42, 0.08);
 }
 
-/* Image Thumbnail (iOS Rounded App Icon style) */
+/* Compact Thumbnail */
 .morph-thumbnail {
   position: relative;
-  width: 80px;
-  height: 80px;
-  border-radius: 16px; /* Rounded icon style */
-  border: 1px solid var(--color-light-gray);
+  width: 56px;
+  height: 40px;
+  border-radius: 6px;
   overflow: hidden;
-  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .morph-thumbnail img {
@@ -451,57 +447,51 @@ h1.hero-title span.text-rust {
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.4s ease;
+  transition: transform 0.3s ease;
 }
 
 .morph-row:not(.expanded):hover .morph-thumbnail img {
-  transform: scale(1.1);
+  transform: scale(1.08);
 }
 
-/* Expand cue */
+/* Expand cue overlay — simplified */
 .morph-expand-cue {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(28, 33, 35, 0.85); /* Black overlay */
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(28, 33, 35, 0.7);
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   color: var(--color-bg);
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.25s ease;
+  border-radius: 6px;
 }
 
 .cue-plus {
-  font-size: 20px;
-  font-weight: 300;
+  font-size: 16px;
+  font-weight: 400;
 }
 
 .cue-text {
-  font-size: 9px;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-top: 4px;
+  display: none; /* Hide the label, just show + */
 }
 
 .morph-row:not(.expanded):hover .morph-expand-cue {
   opacity: 1;
 }
 
-/* Expanded modern card layouts (CSS Grid with uniform margins) */
+/* ===== EXPANDED STATE — Tight, focused card ===== */
 .morph-row.expanded {
-  grid-template-columns: 1fr 1.2fr;
-  gap: 32px;
-  padding: 32px; /* Clean uniform padding on all sides */
-  height: 520px;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 24px;
+  padding: 24px;
+  height: 400px;
   background-color: var(--color-bg);
-  border-radius: 20px;
-  border: 1px solid var(--color-light-gray);
-  box-shadow: 0 12px 36px rgba(28, 33, 35, 0.08);
+  border-radius: 16px;
+  box-shadow: 0 0 0 1px rgba(28, 33, 35, 0.06), 0 8px 32px rgba(28, 33, 35, 0.1);
   cursor: default;
+  margin: 4px 0;
 }
 
 .morph-row.expanded .morph-img-col {
@@ -511,7 +501,7 @@ h1.hero-title span.text-rust {
 .morph-row.expanded .morph-thumbnail {
   width: 100%;
   height: 100%;
-  border-radius: 12px; /* Match internal card rounding */
+  border-radius: 10px;
 }
 
 /* Hide other columns during expansion */
@@ -529,17 +519,18 @@ h1.hero-title span.text-rust {
   position: absolute;
 }
 
-/* Details Panel overlay card details */
+/* Details Panel — flows naturally in the grid */
 .morph-details-panel {
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.5s ease 0.2s;
+  transition: opacity 0.4s ease 0.15s;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   font-family: 'Poppins', sans-serif;
-  position: relative; /* Static flex layouts inside grid column */
+  position: relative;
   height: 100%;
+  padding: 8px 4px;
 }
 
 .morph-row.expanded .morph-details-panel {
@@ -549,95 +540,92 @@ h1.hero-title span.text-rust {
 
 .morph-close-btn {
   position: absolute;
-  top: -12px; /* Floats inside padding margins cleanly */
-  right: -12px;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 1px solid var(--color-light-gray);
-  background-color: var(--color-bg); /* Off White */
-  color: var(--color-neutral-black);
-  font-size: 20px;
-  line-height: 34px;
+  top: 0;
+  right: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  border: none;
+  background-color: rgba(28, 33, 35, 0.06);
+  color: var(--color-gray);
+  font-size: 16px;
+  line-height: 28px;
   text-align: center;
   cursor: pointer;
   z-index: 100;
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .morph-close-btn:hover {
   background-color: var(--color-primary);
   color: var(--color-bg);
-  transform: scale(1.05);
 }
 
 .morph-details-content {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  justify-content: space-between;
+  gap: 16px;
 }
 
 .morph-meta-header {
   display: flex;
-  gap: 12px;
+  gap: 8px;
   align-items: center;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--color-gray);
-  margin-bottom: 12px;
+  letter-spacing: 0.08em;
+  color: var(--color-light-gray);
 }
 
 .morph-details-content h2 {
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 700;
   line-height: 1.2;
   color: var(--color-neutral-black);
-  margin-bottom: 20px;
   letter-spacing: -0.02em;
 }
 
 .morph-detail-section {
-  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .section-label {
   display: block;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   color: var(--color-primary);
-  margin-bottom: 4px;
 }
 
 .section-desc {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--color-dark-gray);
   line-height: 1.5;
 }
 
 .morph-link-wrapper {
-  margin-top: 12px;
+  margin-top: 8px;
 }
 
 .placeholder-link-btn {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  padding: 12px 24px;
-  border: 1.5px dashed var(--color-primary);
-  background-color: rgba(182, 79, 42, 0.05); /* Burnt orange tint */
-  color: var(--color-primary);
-  font-weight: 700;
+  padding: 8px 20px;
+  border: 1.5px dashed var(--color-light-gray);
+  background-color: transparent;
+  color: var(--color-gray);
+  font-weight: 600;
   font-size: 12px;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   cursor: not-allowed;
   user-select: none;
+  border-radius: 8px;
 }
 
 
