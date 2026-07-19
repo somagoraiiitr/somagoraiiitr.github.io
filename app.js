@@ -326,6 +326,35 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
   };
 
+  // Debounced auto-scroll snap to prevent getting stuck midway in the transition
+  let snapTimeout = null;
+  const setupScrollSnap = () => {
+    if (snapTimeout) {
+      clearTimeout(snapTimeout);
+    }
+    snapTimeout = setTimeout(() => {
+      const currentScrollY = window.scrollY;
+      const rectTop = scrollTrackTop - currentScrollY;
+      const totalScrollable = scrollTrackHeight - viewportHeight;
+      let progress = -rectTop / totalScrollable;
+      progress = Math.max(0, Math.min(1, progress));
+
+      // If user stops scroll midway (progress between 0.35 and 0.99), snap forward to completion.
+      // If progress is less than or equal to 0.35, snap back to the hero screen.
+      if (progress > 0.35 && progress < 0.99) {
+        window.scrollTo({
+          top: scrollTrackTop + totalScrollable,
+          behavior: 'smooth'
+        });
+      } else if (progress > 0.01 && progress <= 0.35) {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      }
+    }, 250); // 250ms delay after scroll stops to execute snap
+  };
+
   // Throttled Scroll Loop using requestAnimationFrame
   let scrollY = window.scrollY;
   let ticking = false;
@@ -339,6 +368,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       ticking = true;
     }
+    setupScrollSnap();
   };
 
   // Scroll and Resize listeners using passive flag for peak scrolling performance
