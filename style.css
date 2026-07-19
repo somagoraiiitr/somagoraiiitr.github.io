@@ -325,7 +325,7 @@ h1.hero-title span.text-rust {
   background: rgba(17, 17, 17, 0.85);
   color: #FFFFFF;
   padding: 4px 8px;
-  font-size: 11px;
+  font-size: 14px;
   white-space: nowrap;
   pointer-events: none;
   z-index: 9999;
@@ -412,7 +412,7 @@ h1.hero-title span.text-rust {
 }
 
 .morph-year-text {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--color-light-gray);
   font-weight: 500;
   font-variant-numeric: tabular-nums;
