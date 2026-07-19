@@ -358,6 +358,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
 
     updateCachedLayout();
+    
+    // Handle deep linking to /work on initial page load/refresh
+    if (window.location.pathname === '/work') {
+      const totalScrollable = scrollTrackHeight - viewportHeight;
+      window.scrollTo(0, scrollTrackTop + totalScrollable);
+    }
+
     onScroll();
   }
 

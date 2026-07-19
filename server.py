@@ -39,6 +39,9 @@ class MyHandler(http.server.SimpleHTTPRequestHandler):
                 "port": PORT
             }
             self.wfile.write(json.dumps(status_data).encode('utf-8'))
+        elif self.path == '/work':
+            self.path = '/index.html'
+            super().do_GET()
         else:
             super().do_GET()
 
