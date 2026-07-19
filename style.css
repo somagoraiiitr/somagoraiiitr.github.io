@@ -484,6 +484,7 @@ h1.hero-title span.text-rust {
 /* ===== EXPANDED STATE — Tight, focused card ===== */
 .morph-row.expanded {
   grid-template-columns: 1.1fr 1fr;
+  grid-template-rows: 1fr;
   gap: 24px;
   padding: 24px;
   height: 400px;
@@ -495,6 +496,8 @@ h1.hero-title span.text-rust {
 }
 
 .morph-row.expanded .morph-img-col {
+  grid-column: 1;
+  grid-row: 1;
   height: 100%;
 }
 
@@ -519,12 +522,12 @@ h1.hero-title span.text-rust {
   position: absolute;
 }
 
-/* Details Panel — flows naturally in the grid */
+/* Details Panel — explicitly placed in grid column 2 */
 .morph-details-panel {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.4s ease 0.15s;
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: center;
   font-family: 'Poppins', sans-serif;
@@ -534,6 +537,9 @@ h1.hero-title span.text-rust {
 }
 
 .morph-row.expanded .morph-details-panel {
+  display: flex;
+  grid-column: 2;
+  grid-row: 1;
   opacity: 1;
   pointer-events: auto;
 }
