@@ -1,0 +1,298 @@
+/* style.css - Premium Editorial Design System */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&display=swap');
+
+:root {
+  /* Color Tokens */
+  --color-primary: #B64F2A;      /* Rust */
+  --color-accent: #195959;       /* Teal */
+  --color-light-gray: #938C82;
+  --color-gray: #6A675D;
+  --color-dark-gray: #4E4B44;
+  --color-neutral-black: #1C2123;
+  --color-secondary-1: #F5C7AF;  /* Peach */
+  --color-secondary-2: #CD846B;  /* Dark Peach */
+  --color-brown: #523C2E;
+  --color-bg: #F3F0E7;           /* Off White */
+  --color-surface: #F3F0E7;
+
+  /* Backward Compatibility Mapping */
+  --color-text: var(--color-neutral-black);
+  --color-muted: var(--color-gray);
+  --color-dark-bg: var(--color-neutral-black);
+  --color-dark-text: var(--color-bg);
+  
+  --font-heading: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scroll Container & Sticky Viewport (z-index: 10) */
+.scroll-track {
+  position: relative;
+  height: 450vh; /* Scroll length for the entire sequence */
+}
+
+.sticky-viewport {
+  position: sticky;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Background Layers */
+.hero-content-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 40; /* Above Section 2 and Curtain, but pointer-events: none */
+  display: flex;
+  align-items: center;
+  pointer-events: none; /* Let scroll events pass through */
+}
+
+.container-editorial {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  position: relative;
+}
+
+.hero-text-block {
+  width: 45%;
+  pointer-events: auto; /* Enable link clicking */
+}
+
+.kicker {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--color-primary);
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+h1.hero-title {
+  font-family: var(--font-heading);
+  font-size: 4.5rem;
+  font-weight: 800;
+  line-height: 1.05;
+  color: var(--color-text);
+  margin-bottom: 2rem;
+  letter-spacing: -0.02em;
+}
+
+h1.hero-title span {
+  display: block;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.hero-description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--color-muted);
+  margin-bottom: 2.5rem;
+}
+
+.cta-button {
+  display: inline-block;
+  padding: 1rem 2.5rem;
+  background-color: var(--color-text);
+  color: var(--color-bg);
+  text-decoration: none;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease;
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  background-color: var(--color-accent);
+}
+
+/* SVG Containers styling */
+.cat-svg-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  z-index: 10; /* Bottom-most child of viewport */
+  transition: opacity 0.05s linear;
+}
+
+.cat-svg-container.active {
+  opacity: 1;
+}
+
+.cat-svg-container svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* GPU-Accelerated Transition Circle Overlay (z-index: 30) */
+.transition-curtain {
+  position: absolute;
+  background-color: var(--color-dark-bg);
+  border-radius: 50%; /* Pure circular element */
+  z-index: 30; /* Above Section 2 (z-index 20) */
+  pointer-events: none;
+  opacity: 0;
+  width: 250vmax; /* Huge circle, guaranteed to cover screen at scale 1 */
+  height: 250vmax;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%) scale(0); /* Default to center scaling */
+  will-change: transform;
+}
+
+.transition-curtain.active {
+  opacity: 1;
+}
+
+/* Second Section (z-index: 20) */
+.next-section {
+  position: absolute; /* Placed directly on top of SVG container inside viewport */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  z-index: 20; /* Between cat-svg-container and transition-curtain */
+  opacity: 0;
+  pointer-events: none;
+}
+
+.next-section-text-block {
+  width: 45%;
+  position: relative;
+  z-index: 15;
+}
+
+.next-title {
+  font-family: var(--font-heading);
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--color-text);
+  margin-bottom: 2rem;
+}
+
+.next-description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--color-muted);
+  margin-bottom: 2.5rem;
+}
+
+
+/* Scroll indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: 3rem;
+  left: 4rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  z-index: 50; /* Top-most */
+}
+
+.scroll-indicator-line {
+  width: 40px;
+  height: 2px;
+  background-color: var(--color-muted);
+  position: relative;
+  overflow: hidden;
+}
+
+.scroll-indicator-line::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background-color: var(--color-primary);
+  animation: scroll-line-anim 2s infinite ease-in-out;
+}
+
+@keyframes scroll-line-anim {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+@media(max-width: 1024px) {
+  .hero-text-block, .next-section-text-block {
+    width: 60%;
+  }
+  h1.hero-title {
+    font-size: 3.5rem;
+  }
+}
+
+@media(max-width: 768px) {
+  .hero-text-block, .next-section-text-block {
+    width: 80%;
+  }
+  .container-editorial {
+    padding: 0 2rem;
+  }
+}
+
+/* Material Design Ripple styles */
+.ripple-span {
+  position: absolute;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.35);
+  transform: scale(0);
+  animation: ripple-animation 0.6s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+  pointer-events: none;
+}
+
+@keyframes ripple-animation {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
