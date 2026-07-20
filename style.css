@@ -1,51 +1,9 @@
-/* style.css - Premium Editorial Design System */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&display=swap');
+@import url("css/tokens.css");
 
-:root {
-  /* Color Tokens */
-  --color-primary: #B64F2A;      /* Rust */
-  --color-accent: #195959;       /* Teal */
-  --color-light-gray: #938C82;
-  --color-gray: #6A675D;
-  --color-dark-gray: #4E4B44;
-  --color-neutral-black: #1C2123;
-  --color-secondary-1: #F5C7AF;  /* Peach */
-  --color-secondary-2: #CD846B;  /* Dark Peach */
-  --color-brown: #523C2E;
-  --color-bg: #F3F0E7;           /* Off White */
-  --color-surface: #F3F0E7;
-  --color-white: #D9D9D9;
-
-
-  /* Backward Compatibility Mapping */
-  --color-text: var(--color-neutral-black);
-  --color-muted: var(--color-gray);
-  --color-dark-bg: var(--color-neutral-black);
-  --color-dark-text: var(--color-bg);
-  
-  --font-heading: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-body: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  font-family: var(--font-body);
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Scroll Container & Sticky Viewport (z-index: 10) */
 .scroll-track {
   position: relative;
   height: 220vh; /* Scroll length for the entire sequence (slowed down by 20%) */
+  scroll-snap-align: start;
 }
 
 .sticky-viewport {
@@ -323,7 +281,7 @@ h1.hero-title span.text-rust {
 .custom-tooltip {
   position: fixed;
   background: rgba(17, 17, 17, 0.85);
-  color: #FFFFFF;
+  color: var(--color-pure-white);
   padding: 4px 8px;
   font-size: 14px;
   white-space: nowrap;
@@ -342,16 +300,17 @@ h1.hero-title span.text-rust {
 .portfolio-section {
   padding: 80px 0;
   background-color: var(--color-bg);
+  scroll-snap-align: start;
 }
 
 /* Reusable Section Header Component */
 .section-header {
   font-family: var(--font-heading);
-  font-size: 32px;
+  font-size: 56px;
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   color: var(--color-neutral-black);
-  padding: 40px 24px 48px 24px;
+  padding: 80px 24px 64px 24px;
 }
 
 .section-title {
@@ -383,13 +342,14 @@ h1.hero-title span.text-rust {
   border-radius: 12px;
   background-color: transparent;
   overflow: hidden;
-  transition: background-color 0.2s ease, box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1), height 0.5s cubic-bezier(0.16, 1, 0.3, 1), padding 0.5s cubic-bezier(0.16, 1, 0.3, 1), grid-template-columns 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: background-color 0.2s ease, box-shadow 0.5s var(--ease-spring), min-height 0.5s var(--ease-spring), grid-template-columns 0.5s var(--ease-spring);
+  will-change: min-height, grid-template-columns;
   cursor: pointer;
   font-family: 'Poppins', sans-serif;
 }
 
 .morph-row:not(.expanded):hover {
-  background-color: rgba(28, 33, 35, 0.04);
+  background-color: var(--color-surface-hover);
 }
 
 /* Columns */
@@ -446,7 +406,7 @@ h1.hero-title span.text-rust {
   height: 32px;
   padding: 0;
   border: none;
-  background-color: rgba(28, 33, 35, 0.04);
+  background-color: var(--color-surface-hover);
   color: var(--color-gray);
   font-size: 18px;
   border-radius: 8px;
@@ -454,13 +414,13 @@ h1.hero-title span.text-rust {
   cursor: pointer;
   overflow: hidden;
   position: absolute;
-  top: 24px;
+  top: 28px;
   right: 24px;
   z-index: 100;
 }
 
 .morph-row:not(.expanded):hover .morph-row-btn {
-  background-color: rgba(28, 33, 35, 0.08);
+  background-color: var(--color-surface-hover-dark);
   color: var(--color-neutral-black);
 }
 
@@ -472,7 +432,7 @@ h1.hero-title span.text-rust {
 }
 
 .morph-close-btn:hover {
-  background-color: rgba(28, 33, 35, 0.08);
+  background-color: var(--color-surface-hover-dark);
   color: var(--color-neutral-black);
 }
 
@@ -529,14 +489,13 @@ h1.hero-title span.text-rust {
 .morph-row.expanded {
   grid-template-columns: 1.1fr 1fr;
   grid-template-rows: 1fr;
-  gap: 24px;
+  gap: 32px;
   padding: 24px;
-  height: 400px;
+  min-height: 380px;
   background-color: var(--color-bg);
   border-radius: 16px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
   cursor: default;
-  margin: 4px 0;
 }
 
 .morph-row.expanded .morph-img-col {
@@ -583,7 +542,7 @@ h1.hero-title span.text-rust {
   font-family: 'Poppins', sans-serif;
   position: relative;
   height: 100%;
-  padding: 8px 0;
+  padding: 16px 0;
   overflow-y: auto;
 }
 
@@ -601,81 +560,103 @@ h1.hero-title span.text-rust {
   gap: 16px;
 }
 
-.morph-meta-header {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  font-size: 14px;
-  font-weight: 600;
+/* -- Expanded Card Component Typography -- */
+
+.morph-card-subtext {
+  font-size: 12px;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   color: var(--color-light-gray);
 }
 
-.morph-details-content h2 {
+.morph-card-header {
   font-size: 24px;
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.25;
   color: var(--color-neutral-black);
   letter-spacing: -0.02em;
 }
 
-.morph-detail-section {
+.morph-card-tags {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
-.section-label {
-  display: block;
+.morph-card-tag {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-gray);
+  background-color: rgba(28, 33, 35, 0.05);
+  padding: 4px 12px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.morph-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.morph-card-body p {
   font-size: 14px;
+  color: var(--color-dark-gray);
+  line-height: 1.6;
+}
+
+.morph-card-label {
+  font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--color-primary);
 }
 
-.section-desc {
-  font-size: 16px;
-  color: var(--color-dark-gray);
-  line-height: 1.5;
+.morph-card-divider {
+  height: 1px;
+  background-color: rgba(28, 33, 35, 0.08);
 }
 
-.morph-link-wrapper {
-  margin-top: 8px;
+.morph-card-action {
+  margin-top: auto;
+  padding-top: 8px;
 }
 
-.placeholder-link-btn {
+.morph-card-link {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  padding: 8px 20px;
-  border: 1.5px dashed var(--color-light-gray);
-  background-color: transparent;
-  color: var(--color-gray);
-  font-weight: 600;
+  gap: 6px;
   font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  cursor: not-allowed;
-  user-select: none;
-  border-radius: 8px;
+  font-weight: 600;
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: gap 0.2s ease, color 0.2s ease;
 }
 
+.morph-card-link:hover {
+  gap: 10px;
+  color: var(--color-neutral-black);
+}
+
+.morph-card-link-icon {
+  font-size: 18px;
+}
 
 /* ==========================================================================
    Case Study Page Styles
    ========================================================================== */
 
 .case-study-body {
-  background-color: #FDFDFD;
+  background-color: var(--color-bg);
   color: var(--color-neutral-black);
   font-family: var(--font-body);
   margin: 0;
 }
 
 .case-study-back-bar {
-  background-color: #FDFDFD;
+  background-color: var(--color-surface);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -724,7 +705,7 @@ h1.hero-title span.text-rust {
 .case-study-hero {
   padding: 96px 48px;
   border-bottom: 1.5px solid var(--color-neutral-black);
-  background-color: #FAFAFA;
+  background-color: var(--color-bg);
 }
 
 .hero-accent-bar {
@@ -753,7 +734,7 @@ h1.hero-title span.text-rust {
 
 .case-study-main {
   padding: 64px 48px 96px 48px;
-  background-color: #FDFDFD;
+  background-color: var(--color-surface);
 }
 
 .case-study-split {
@@ -886,13 +867,13 @@ h1.hero-title span.text-rust {
   border: 1px solid var(--color-neutral-black);
   padding: 24px;
   margin-bottom: 48px;
-  background-color: #FFFFFF;
+  background-color: var(--color-pure-white);
 }
 
 /* Collapsible drawers for heuristic reviews using modern semantic layout */
 .heuristic-details, .collapsible-drawer {
   border: 1px solid var(--color-neutral-black);
-  background-color: #FFFFFF;
+  background-color: var(--color-pure-white);
   margin-bottom: 48px;
 }
 
@@ -933,12 +914,12 @@ h1.hero-title span.text-rust {
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid var(--color-neutral-black);
-  background-color: #FAFAFA;
+  background-color: var(--color-bg);
 }
 
 .accordion-content {
   padding: 32px 20px;
-  background-color: #FFFFFF;
+  background-color: var(--color-pure-white);
   border-bottom: 1px solid var(--color-neutral-black);
   display: none;
 }
@@ -966,12 +947,12 @@ h1.hero-title span.text-rust {
   top: 0;
   left: 0;
   width: 100%;
-  height: 72px;
+  height: 88px;
   z-index: 1000;
   background-color: rgba(243, 240, 231, 0.85); /* 85% opacity of surface Off White */
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom: 2px solid var(--color-light-gray);
+  border-bottom: 2px solid #E0E0E0; /* Light gray border as requested */
   font-family: 'Poppins', sans-serif;
 }
 
@@ -997,7 +978,7 @@ h1.hero-title span.text-rust {
 }
 
 .nav-logo-svg {
-  height: 32px; /* Elegant height fitting in 72px navbar */
+  height: 64px;
   width: auto;
   display: block;
 }

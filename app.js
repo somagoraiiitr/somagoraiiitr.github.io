@@ -84,20 +84,39 @@ document.addEventListener('DOMContentLoaded', () => {
         window.scrollTo(0, this.scrollTrackTop + totalScrollable);
       }
 
-      // Block scroll-chaining back to the Home page
-      if (this.section2) {
-        this.section2.addEventListener('wheel', (e) => {
-          if (this.section2.scrollTop === 0 && e.deltaY < 0) {
-            e.preventDefault(); // Stop scroll propagation
-          }
-        }, { passive: false }); // passive: false is required to support preventDefault
+      // Disable browser native scroll restoration to prevent it from jumping
+      // back to the 0.80 progress point where the pushState originally happened.
+      if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
       }
+
+      // Initialize state for the first load so we have a known state
+      if (window.location.pathname === '/') {
+        window.history.replaceState({ section: 'home' }, '', '/');
+      } else if (window.location.pathname === '/work') {
+        window.history.replaceState({ section: 'work' }, '', '/work');
+      }
+
+      // Handle browser back/forward button naturally without locking
+      window.addEventListener('popstate', (e) => {
+        const state = e.state;
+        const targetPath = window.location.pathname;
+        
+        if ((state && state.section === 'home') || targetPath === '/') {
+          document.body.style.overflow = ''; // Unlock scroll
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else if ((state && state.section === 'work') || targetPath === '/work') {
+          const totalScrollable = this.scrollTrackHeight - this.viewportHeight;
+          window.scrollTo({ top: this.scrollTrackTop + totalScrollable, behavior: 'smooth' });
+        }
+      });
 
       // Header Logo and Menu item smooth-scroll routing
       const logoLink = document.querySelector('.nav-logo-link');
       if (logoLink) {
         logoLink.addEventListener('click', (e) => {
           e.preventDefault();
+          document.body.style.overflow = ''; // Unlock scroll
           window.scrollTo({
             top: 0,
             behavior: 'smooth'
@@ -115,6 +134,10 @@ document.addEventListener('DOMContentLoaded', () => {
               top: this.scrollTrackTop + totalScrollable,
               behavior: 'smooth'
             });
+          } else if (text === 'home') {
+            e.preventDefault();
+            document.body.style.overflow = ''; // Unlock scroll
+            window.scrollTo({ top: 0, behavior: 'smooth' });
           }
         });
       });
@@ -129,13 +152,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         this.ticking = true;
       }
-      this.setupScrollSnap(currentScrollY);
     }
 
     updateAnimation(currentScrollY) {
+
       const rectTop = this.scrollTrackTop - currentScrollY;
       const totalScrollable = this.scrollTrackHeight - this.viewportHeight;
       let progress = -rectTop / totalScrollable;
+      // Fix floating point precision issues (e.g. 0.9999999999999) 
+      // which cause the if-else blocks to incorrectly trigger the curtain active state.
+      progress = Math.round(progress * 100000) / 100000;
       progress = Math.max(0, Math.min(1, progress));
 
       // Constant calculations
@@ -330,6 +356,14 @@ document.addEventListener('DOMContentLoaded', () => {
         this.section2.style.zIndex = section2ZIndex;
       }
 
+      // Lock body overflow when we are fully at the work page to prevent scroll chaining
+      // and accidental reverse of the iris curtain.
+      if (progress >= 1.0) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
+
       let currentCenterX = this.viewportWidth / 2;
       let currentCenterY = this.viewportHeight / 2;
 
@@ -358,50 +392,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
     }
-
-    setupScrollSnap(currentScrollY) {
-      if (this.snapTimeout) {
-        clearTimeout(this.snapTimeout);
-      }
-      this.snapTimeout = setTimeout(() => {
-        const finalScrollY = window.scrollY;
-        const rectTop = this.scrollTrackTop - finalScrollY;
-        const totalScrollable = this.scrollTrackHeight - this.viewportHeight;
-        let progress = -rectTop / totalScrollable;
-        progress = Math.max(0, Math.min(1, progress));
-
-        // Snap bounds: trigger transition if stopped in the active 10% to 90% zone
-        if (progress > 0.10 && progress < 0.90) {
-          const isScrollingUp = finalScrollY < this.lastScrollY;
-          if (isScrollingUp) {
-            // Snap to top
-            window.scrollTo({
-              top: 0,
-              behavior: 'smooth'
-            });
-          } else {
-            // Snap to bottom
-            window.scrollTo({
-              top: this.scrollTrackTop + totalScrollable,
-              behavior: 'smooth'
-            });
-          }
-        } else if (progress <= 0.10 && progress > 0.01) {
-          // Snap back to 0
-          window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-          });
-        } else if (progress >= 0.90 && progress < 0.99) {
-          // Snap down to bottom
-          window.scrollTo({
-            top: this.scrollTrackTop + totalScrollable,
-            behavior: 'smooth'
-          });
-        }
-        this.lastScrollY = finalScrollY;
-      }, 250);
-    }
   }
 
   // ==========================================================================
@@ -420,19 +410,15 @@ document.addEventListener('DOMContentLoaded', () => {
       // Row expansion and collapse triggers
       this.morphRows.forEach(row => {
         row.addEventListener('click', (e) => {
-          // Close button trigger
-          if (e.target.classList.contains('morph-close-btn')) {
+          // Close button trigger — check both the button and its inner Material icon span
+          const closeBtn = e.target.closest('.morph-close-btn');
+          if (closeBtn) {
             e.stopPropagation();
             row.classList.remove('expanded');
             return;
           }
 
-          // Link button check
-          if (e.target.classList.contains('placeholder-link-btn')) {
-            return;
-          }
-
-          // Exclude direct link bubble clicks
+          // Exclude link clicks (card action link, etc.)
           if (e.target.tagName.toLowerCase() === 'a' || e.target.closest('a')) {
             return;
           }
@@ -449,15 +435,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
           // Expand row
           row.classList.add('expanded');
-
-          // Smoothly scroll container to center the card
-          setTimeout(() => {
-            if (this.section2) {
-              const yOffset = 40;
-              const targetY = row.offsetTop - yOffset;
-              this.section2.scrollTo({ top: targetY, behavior: 'smooth' });
-            }
-          }, 350);
         });
       });
 

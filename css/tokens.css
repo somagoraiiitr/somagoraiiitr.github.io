@@ -1,0 +1,68 @@
+/* css/tokens.css - Premium Editorial Design System Tokens */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&display=swap');
+
+:root {
+  /* Core Color Palette */
+  --color-primary: #B64F2A;      /* Rust */
+  --color-accent: #195959;       /* Teal */
+  --color-light-gray: #938C82;
+  --color-gray: #6A675D;
+  --color-dark-gray: #4E4B44;
+  --color-neutral-black: #1C2123;
+  --color-secondary-1: #F5C7AF;  /* Peach */
+  --color-secondary-2: #CD846B;  /* Dark Peach */
+  --color-brown: #523C2E;
+  
+  /* Background & Surface */
+  --color-bg: #F3F0E7;           /* Off White */
+  --color-surface: #FDFDFD;      /* Pure White Surface */
+  --color-surface-hover: rgba(28, 33, 35, 0.04);
+  --color-surface-hover-dark: rgba(28, 33, 35, 0.08);
+  --color-white: #D9D9D9;
+  --color-pure-white: #FFFFFF;
+
+  /* Semantic Aliases */
+  --color-text: var(--color-neutral-black);
+  --color-muted: var(--color-gray);
+  --color-dark-bg: var(--color-neutral-black);
+  --color-dark-text: var(--color-bg);
+  --color-border: var(--color-light-gray);
+  
+  /* Typography Tokens */
+  --font-heading: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+  
+  /* Spacing Tokens */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+  --space-4xl: 96px;
+
+  /* Easing & Animation */
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-smooth: ease-in-out;
+  --time-fast: 0.2s;
+  --time-normal: 0.4s;
+  --time-slow: 0.6s;
+}
+
+/* CSS Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-snap-type: y proximity;
+}
