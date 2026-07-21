@@ -28,9 +28,15 @@
   --color-dark-text: var(--color-bg);
   --color-border: var(--color-light-gray);
   
-  /* Typography Tokens */
+  /* Typography Tokens — Design System Standards */
   --font-heading: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-size-body: 16px;      /* Standard Body Text across design system */
+  --font-size-notes: 14px;     /* Notes, Sidebars, Annotations */
+  --font-size-caption: 14px;   /* Captions & Subtext */
+  --font-size-h1: 32px;
+  --font-size-h2: 24px;
+  --font-size-h3: 16px;
   
   /* Spacing Tokens */
   --space-xs: 4px;
@@ -61,6 +67,7 @@ body {
   background-color: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-body);
+  font-size: var(--font-size-body);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

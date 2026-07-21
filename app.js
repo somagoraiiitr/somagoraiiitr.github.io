@@ -36,11 +36,18 @@ document.addEventListener('DOMContentLoaded', () => {
       this.lastScrollY = window.scrollY;
       this.ticking = false;
       this.snapTimeout = null;
+      this.isSnapping = false;
 
       // Initialize
       this.bindEvents();
       this.updateLayout();
       this.onScroll();
+
+      if (window.location.hash === '#work' || window.location.pathname === '/work') {
+        const totalScrollable = this.scrollTrackHeight - this.viewportHeight;
+        window.scrollTo({ top: this.scrollTrackTop + totalScrollable, behavior: 'instant' });
+        this.onScroll();
+      }
     }
 
     createDebugOverlay() {
@@ -79,9 +86,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }, { passive: true });
 
       // Handle deep linking to /work on page load
-      if (window.location.pathname === '/work') {
+      if (window.location.pathname === '/work' || window.location.hash === '#work') {
         const totalScrollable = this.scrollTrackHeight - this.viewportHeight;
-        window.scrollTo(0, this.scrollTrackTop + totalScrollable);
+        window.scrollTo({ top: this.scrollTrackTop + totalScrollable, behavior: 'instant' });
       }
 
       // Disable browser native scroll restoration to prevent it from jumping
@@ -104,10 +111,10 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if ((state && state.section === 'home') || targetPath === '/') {
           document.body.style.overflow = ''; // Unlock scroll
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          window.scrollTo({ top: 0, behavior: 'instant' });
         } else if ((state && state.section === 'work') || targetPath === '/work') {
           const totalScrollable = this.scrollTrackHeight - this.viewportHeight;
-          window.scrollTo({ top: this.scrollTrackTop + totalScrollable, behavior: 'smooth' });
+          window.scrollTo({ top: this.scrollTrackTop + totalScrollable, behavior: 'instant' });
         }
       });
 
@@ -119,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
           document.body.style.overflow = ''; // Unlock scroll
           window.scrollTo({
             top: 0,
-            behavior: 'smooth'
+            behavior: 'instant'
           });
         });
       }
@@ -127,17 +134,22 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('.nav-item').forEach(link => {
         link.addEventListener('click', (e) => {
           const text = link.textContent.trim().toLowerCase();
-          if (text === 'work' || text === 'about me' || text === 'resume') {
-            e.preventDefault();
-            const totalScrollable = this.scrollTrackHeight - this.viewportHeight;
-            window.scrollTo({
-              top: this.scrollTrackTop + totalScrollable,
-              behavior: 'smooth'
-            });
+          const href = link.getAttribute('href');
+          if (text === 'work' || href === '/work' || href === 'index.html#work') {
+            if (window.location.pathname === '/' || window.location.pathname === '/index.html' || window.location.pathname === '/work') {
+              e.preventDefault();
+              const totalScrollable = this.scrollTrackHeight - this.viewportHeight;
+              window.scrollTo({
+                top: this.scrollTrackTop + totalScrollable,
+                behavior: 'instant'
+              });
+              this.onScroll();
+            }
           } else if (text === 'home') {
             e.preventDefault();
             document.body.style.overflow = ''; // Unlock scroll
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo({ top: 0, behavior: 'instant' });
+            this.onScroll();
           }
         });
       });
@@ -362,6 +374,25 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.overflow = 'hidden';
       } else {
         document.body.style.overflow = '';
+      }
+
+      // Magnetic scroll snap: If scroll pauses inside the transition range (0.35 <= progress < 0.98),
+      // auto-complete the transition after 60ms to work page (or back to hero if < 0.45).
+      if (!this.isSnapping && progress > 0.35 && progress < 0.98) {
+        if (this.snapTimeout) clearTimeout(this.snapTimeout);
+        this.snapTimeout = setTimeout(() => {
+          this.isSnapping = true;
+          const targetY = progress >= 0.45 ? (this.scrollTrackTop + totalScrollable) : 0;
+          
+          window.scrollTo({
+            top: targetY,
+            behavior: 'smooth'
+          });
+
+          setTimeout(() => {
+            this.isSnapping = false;
+          }, 450);
+        }, 60);
       }
 
       let currentCenterX = this.viewportWidth / 2;

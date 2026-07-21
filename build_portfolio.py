@@ -179,9 +179,10 @@ def main():
         }
     ]
 
-    for project in case_studies_data:
+    for i, project in enumerate(case_studies_data):
+        is_expanded = " expanded" if i == 0 else ""
         case_studies_rows += f"""
-        <div class="morph-row" data-id="{project["id"]}">
+        <div class="morph-row{is_expanded}" data-id="{project["id"]}">
           <!-- DEFAULT STATE ELEMENTS (5 COLUMNS) -->
           <div class="morph-col morph-img-col">
             <div class="morph-thumbnail">
@@ -354,6 +355,9 @@ def generate_about_page():
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
+  <!-- Swiper.js CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="about-page bg-grid">
@@ -374,13 +378,12 @@ def generate_about_page():
 <path d="M20.2019 110.754C16.3764 110.754 12.9701 110.099 9.98306 108.789C6.996 107.479 4.6378 105.697 2.90845 103.443C1.1791 101.138 0.209618 98.5698 0 95.7399H13.2845C13.4418 97.2597 14.1492 98.4912 15.4069 99.4345C16.6646 100.378 18.2106 100.849 20.0447 100.849C21.7217 100.849 23.0056 100.535 23.8965 99.9061C24.8397 99.2248 25.3114 98.3602 25.3114 97.3121C25.3114 96.0544 24.6563 95.1373 23.3462 94.5608C22.0361 93.932 19.9137 93.2507 16.9791 92.5171C13.8348 91.7834 11.2146 91.0235 9.11838 90.2375C7.0222 89.399 5.21425 88.1151 3.69452 86.3857C2.17479 84.604 1.41492 82.2196 1.41492 79.2325C1.41492 76.7171 2.09618 74.4375 3.4587 72.3937C4.87362 70.2975 6.9174 68.6468 9.59003 67.4415C12.3151 66.2362 15.5379 65.6335 19.2587 65.6335C24.7611 65.6335 29.0845 66.9961 32.2288 69.7211C35.4254 72.4461 37.2596 76.062 37.7312 80.5688H25.3114C25.1018 79.0491 24.4205 77.8438 23.2676 76.9529C22.1671 76.062 20.6998 75.6166 18.8656 75.6166C17.2935 75.6166 16.0882 75.931 15.2497 76.5599C14.4112 77.1363 13.992 77.9486 13.992 78.9967C13.992 80.2544 14.6471 81.1977 15.9572 81.8265C17.3197 82.4554 19.4159 83.0842 22.2457 83.7131C25.4948 84.5516 28.1412 85.39 30.185 86.2285C32.2288 87.0146 34.0105 88.3247 35.5303 90.1589C37.1024 91.9406 37.9147 94.3512 37.9671 97.3907C37.9671 99.9585 37.2334 102.264 35.7661 104.308C34.3512 106.299 32.2812 107.872 29.5561 109.024C26.8835 110.177 23.7654 110.754 20.2019 110.754Z" fill="#195959"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M265.553 1.37757C265.341 2.06557 264.912 11.7026 264.6 22.7936C263.899 47.6956 264.865 50.8106 275.576 58.1796L280 61.2236V69.1166V77.0106L273.789 80.3186C250.259 92.8526 241.754 111.992 239.543 157.378L239.019 168.128H252.118H265.217L264.561 165.378C264.2 163.865 263.648 161.728 263.334 160.628C262.836 158.886 263.132 158.967 265.631 161.264C277.371 172.05 295.747 167.717 300.117 153.133C302.358 145.653 305.864 145.432 307.794 152.648C312.882 171.672 339.843 172.267 346.531 153.503C347.718 150.173 347.918 149.995 347.956 152.242C348.005 155.163 346.501 163.689 345.462 166.378C344.84 167.99 345.814 168.128 357.782 168.128H370.779L370.35 159.378C368.614 123.902 363.952 106.071 353.304 94.1796L349.321 89.7316L352.406 85.3536C356.845 79.0566 357.264 68.9216 353.601 56.4716C348.809 40.1826 351.114 29.1276 359.301 29.1276C364.412 29.1276 365.381 23.9836 360.611 22.1696C346.532 16.8176 338.893 36.6566 346.05 59.9826C348.263 67.1956 348.561 75.4716 346.735 79.0486C345.298 81.8656 343 82.9596 343 80.8266C343 76.7896 334.766 63.2086 328.961 57.6716L322.869 51.8606L324.908 47.1206C326.811 42.6966 326.906 41.0566 326.337 22.5046C325.542 -3.43043 324.835 -4.29443 313.633 6.99357L306.819 13.8596L295.436 13.7436L284.053 13.6276L277.252 6.87757C270.654 0.329567 266.479 -1.63243 265.553 1.37757ZM287.171 30.7826C289.45 32.8446 289.542 37.8716 287.345 40.2986C283.658 44.3736 275 41.2536 275 35.8506C275 29.9176 282.682 26.7196 287.171 30.7826ZM313.429 30.6986C319.42 36.6906 310.116 46.1626 303.829 40.4726C299.45 36.5096 302.49 29.1276 308.5 29.1276C310.346 29.1276 312.564 29.8346 313.429 30.6986ZM280 35.6276C280 36.4606 280.889 37.1276 282 37.1276C283.111 37.1276 284 36.4606 284 35.6276C284 34.7946 283.111 34.1276 282 34.1276C280.889 34.1276 280 34.7946 280 35.6276ZM307 35.6276C307 36.4526 307.675 37.1276 308.5 37.1276C309.325 37.1276 310 36.4526 310 35.6276C310 34.8026 309.325 34.1276 308.5 34.1276C307.675 34.1276 307 34.8026 307 35.6276ZM298.874 42.4756C299.728 43.5046 299.519 44.2526 297.992 45.6346C294.831 48.4956 288.692 44.7686 291.667 41.7946C292.841 40.6206 297.717 41.0816 298.874 42.4756ZM326.482 115.102C329.478 119.425 337.28 125.064 343.172 127.164C346.703 128.423 346.87 128.698 347.527 134.362C348.126 139.52 347.394 143.447 346.359 140.628C340.762 125.381 318.502 123.162 310 137.004C306.401 142.864 301.806 142.804 297.475 136.84C293.65 131.572 289.096 128.489 283.828 127.599L279.703 126.902L288.101 124.183C302.495 119.524 310.742 114.275 316.7 105.983L320.374 100.869L322.042 105.985C322.959 108.799 324.957 112.902 326.482 115.102ZM269.317 131.013C267.126 132.6 264.4 135.181 263.258 136.748L261.183 139.597L261.972 135.282C262.879 130.323 263.547 129.468 267 128.849C272.941 127.783 273.306 128.124 269.317 131.013ZM290.028 137.655C301.646 148.786 288.415 166.482 273.981 159.118C264.931 154.501 264.548 141.526 273.299 136.028C278.056 133.039 286.018 133.813 290.028 137.655ZM333.938 135.955C343.579 141.126 342.941 154.447 332.8 159.723C322.835 164.907 311.038 155.127 313.998 144.136C316.298 135.593 325.911 131.65 333.938 135.955ZM278.2 145.328C275.535 147.993 278.069 153.128 282.048 153.128C284.926 153.128 287.423 148.787 286.036 146.195C284.795 143.876 280.165 143.363 278.2 145.328ZM322.2 145.328C319.535 147.993 322.069 153.128 326.048 153.128C328.926 153.128 331.423 148.787 330.036 146.195C328.795 143.876 324.165 143.363 322.2 145.328ZM257.403 152.878C257.776 156.591 258.356 161.381 258.692 163.524C259.301 167.412 259.296 167.419 256.407 166.694C245.925 164.063 243.739 146.128 253.901 146.128C256.652 146.128 256.741 146.299 257.403 152.878ZM360.646 148.683C365.754 153.791 359.816 167.128 352.434 167.128C350.354 167.128 350.338 167 351.62 160.378C352.339 156.665 352.943 151.941 352.963 149.878C353.009 145.196 356.6 144.638 360.646 148.683ZM297.601 162.965C296.419 164.877 300.133 168.128 303.5 168.128C305.838 168.128 307.356 167.458 308.402 165.965C310.563 162.879 309.605 162.128 303.5 162.128C300.54 162.128 297.885 162.505 297.601 162.965Z" fill="#1C2123"/>
 </svg>
-
         </a>
       </div>
       <div class="nav-right">
         <div class="nav-links">
-          <a href="/work" class="nav-item">Work</a>
-          <a href="/about" class="nav-item">About me</a>
+          <a href="index.html#work" class="nav-item">Work</a>
+          <a href="about.html" class="nav-item">About me</a>
           <a href="#resume" class="nav-item">Resume</a>
         </div>
         <span class="nav-divider">|</span>
@@ -397,13 +400,13 @@ def generate_about_page():
     </div>
   </nav>
 
-  <main class="about-main container-portfolio" style="padding-top: 120px;">
+  <main class="about-main container-portfolio" style="padding-top: 80px;">
     <div class="about-grid" style="margin: 0 auto;">
       
       <!-- Hero Section -->
       <section class="about-hero">
         <div class="about-hero-content">
-          <h1 class="section-header" style="margin-bottom: 24px; padding-top: 0;">About Me</h1>
+          <h1 class="section-header" style="margin-bottom: 16px; padding: 0;">About Me</h1>
           
           <div class="about-meta">
             <div class="meta-item">
@@ -422,7 +425,7 @@ def generate_about_page():
           
           <div class="about-desc">
             <p>Hi, I’m Soma, a Product Designer at ValueLabs (Hyderabad). I graduated in 2024 from IIT Roorkee with a Bachelor's in Architecture and am a self-taught designer.</p>
-            <p style="margin-top: 16px;">Currently, I’ve been working with a US-based warehousing company since December 2023, where, alongside one colleague, we design products across four verticals. We’ve created holistic, end-to-end products and streamlined the design process with a Design System.</p>
+            <p style="margin-top: 12px;">Currently, I’ve been working with a US-based warehousing company since December 2023, where, alongside one colleague, we design products across four verticals. We’ve created holistic, end-to-end products and streamlined the design process with a Design System.</p>
           </div>
         </div>
         
@@ -431,42 +434,70 @@ def generate_about_page():
         </div>
       </section>
 
-      <!-- Interests Grid -->
-      <section class="about-interests">
-        <div class="interest-block">
-          <div class="interest-photo shape-16-9" style="background-image: url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=400&auto=format&fit=crop');"></div>
-          <h3>🗺️ Travel Enthusiast</h3>
-          <p>On a mission to cover every corner of India.</p>
-          <p>So far: Himachal (Shimla, Dharamshala, Kullu), Uttarakhand (Mussoorie, Dhanaulti, Chakrata, Tehri, Dehradun, Kuari), Ladakh, Goa, Kerala (Munnar, Alleppey, Kochi, Trivandrum), Gujarat (Ahmedabad), Rajasthan (Jaipur), and the North-East (Itanagar, Majuli, Kaziranga, Shillong, Sohra).</p>
-          <p>DM me for itineraries or travel chats!</p>
+      <!-- Interests Swiper Section -->
+      <section class="about-interests-swiper swiper" style="margin-top: 32px;">
+        <div class="swiper-wrapper">
+          
+          <!-- Slide 1: Travel -->
+          <div class="swiper-slide">
+            <div class="swiper-slide-content swiper-material-animate-opacity">
+              <div class="interest-photo shape-16-9" style="background-image: url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=400&auto=format&fit=crop');"></div>
+              <div class="swiper-slide-text interest-details">
+                <h3>🗺️ Travel Enthusiast</h3>
+                <p>On a mission to cover every corner of India.</p>
+                <p>So far: Himachal (Shimla, Dharamshala, Kullu), Uttarakhand (Mussoorie, Dhanaulti, Chakrata, Tehri, Dehradun, Kuari), Ladakh, Goa, Kerala (Munnar, Alleppey, Kochi, Trivandrum), Gujarat (Ahmedabad), Rajasthan (Jaipur), and the North-East (Itanagar, Majuli, Kaziranga, Shillong, Sohra).</p>
+                <p>DM me for itineraries or travel chats!</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Slide 2: Books -->
+          <div class="swiper-slide">
+            <div class="swiper-slide-content swiper-material-animate-opacity">
+              <div class="interest-photo shape-4-3" style="background-image: url('https://images.unsplash.com/photo-1457369804613-52c61a468e7d?q=80&w=400&auto=format&fit=crop');"></div>
+              <div class="swiper-slide-text interest-details">
+                <h3>📚 Books and Literature</h3>
+                <p>Used to read voraciously — still pick up a book now and then. Currently reading <em>The Last Queen</em>; all-time favorite: <em>The Book Thief</em>.</p>
+                <p>I’ve also written a bit — some old rambles <a href="#" class="inline-link">live here</a>.</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Slide 3: Art & Craft -->
+          <div class="swiper-slide">
+            <div class="swiper-slide-content swiper-material-animate-opacity">
+              <div class="interest-photo shape-1-1" style="background-image: url('https://images.unsplash.com/photo-1579783902614-a3fb3927b675?q=80&w=400&auto=format&fit=crop');"></div>
+              <div class="swiper-slide-text interest-details">
+                <h3>🎨 Art and Craft</h3>
+                <p>I paint when inspiration strikes — mostly people, always with feeling.</p>
+                <p>Also love dabbling in crafts and handmade things.</p>
+                <p>A few of my pieces <a href="#" class="inline-link">live here</a>.</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Slide 4: Movies -->
+          <div class="swiper-slide">
+            <div class="swiper-slide-content swiper-material-animate-opacity">
+              <div class="interest-photo shape-3-4" style="background-image: url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=400&auto=format&fit=crop');"></div>
+              <div class="swiper-slide-text interest-details">
+                <h3>🎬 Movie Buff</h3>
+                <p>As a literature enthusiast, appreciating cinema comes naturally.</p>
+                <p><em>5 Centimeters per Second</em> by Makoto Shinkai is my all-time favorite — perfect for anyone who enjoys the deeply melancholic, existential-crisis-kind-of vibe. I especially love horror, btw.</p>
+                <p>I occasionally <a href="#" class="inline-link">review movies here</a>.</p>
+              </div>
+            </div>
+          </div>
+          
         </div>
-        
-        <div class="interest-block">
-          <div class="interest-photo shape-4-3" style="background-image: url('https://images.unsplash.com/photo-1457369804613-52c61a468e7d?q=80&w=400&auto=format&fit=crop');"></div>
-          <h3>📚 Books and Literature</h3>
-          <p>Used to read voraciously — still pick up a book now and then. Currently reading <em>The Last Queen</em>; all-time favorite: <em>The Book Thief</em>.</p>
-          <p>I’ve also written a bit — some old rambles <a href="#" class="inline-link">live here</a>.</p>
-        </div>
-        
-        <div class="interest-block">
-          <div class="interest-photo shape-1-1" style="background-image: url('https://images.unsplash.com/photo-1579783902614-a3fb3927b675?q=80&w=400&auto=format&fit=crop');"></div>
-          <h3>🎨 Art and Craft</h3>
-          <p>I paint when inspiration strikes — mostly people, always with feeling.</p>
-          <p>Also love dabbling in crafts and handmade things.</p>
-          <p>A few of my pieces <a href="#" class="inline-link">live here</a>.</p>
-        </div>
-        
-        <div class="interest-block">
-          <div class="interest-photo shape-3-4" style="background-image: url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=400&auto=format&fit=crop');"></div>
-          <h3>🎬 Movie Buff</h3>
-          <p>As a literature enthusiast, appreciating cinema comes naturally.</p>
-          <p><em>5 Centimeters per Second</em> by Makoto Shinkai is my all-time favorite — perfect for anyone who enjoys the deeply melancholic, existential-crisis-kind-of vibe. I especially love horror, btw.</p>
-          <p>I occasionally <a href="#" class="inline-link">review movies here</a>.</p>
-        </div>
+
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
       </section>
 
       <!-- Let's Connect -->
-      <section class="about-connect">
+      <section class="about-connect" style="margin-top: 40px;">
         <h2 class="connect-title">Lets connect</h2>
         <p class="connect-desc">I’m always up for conversations around design systems, interaction design, user research, or service design — feel free to reach out!</p>
         
@@ -481,6 +512,33 @@ def generate_about_page():
       
     </div>
   </main>
+
+  <!-- Swiper.js Script -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      new Swiper('.about-interests-swiper', {
+        slidesPerView: 1,
+        spaceBetween: 24,
+        grabCursor: true,
+        loop: true,
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+        breakpoints: {
+          768: {
+            slidesPerView: 2,
+            spaceBetween: 32,
+          }
+        }
+      });
+    });
+  </script>
   <script src="app.js"></script>
 </body>
 </html>
@@ -489,6 +547,55 @@ def generate_about_page():
         f.write(about_content)
     print("Generated about.html successfully!")
 
+def generate_case_study_demo_page():
+    if not os.path.exists("templates/case_study.html"):
+        return
+    with open("templates/case_study.html", "r", encoding="utf-8") as f:
+        template = f.read()
+
+    demo_html = template.format(
+        title="Contextual AI Insights for Warehouse Operations",
+        description="Explored AI-assisted predictive layers for an operational control tower, focusing on interpretability, confidence, and decision support.",
+        tags_html='<span class="morph-tag">Enterprise UX</span><span class="morph-tag">AI</span><span class="morph-tag">Systems</span>',
+        duration="Jan 2024 - Apr 2024 (4 mos)",
+        sidenav_links='<ul><li><a href="#overview" class="active">Overview</a></li><li><a href="#research">Research</a></li><li><a href="#design">Design Process</a></li><li><a href="#outcomes">Outcomes</a></li></ul>',
+        content_body="""
+        <section id="overview">
+          <h2>Overview</h2>
+          <p>This is a placeholder for the case study overview. It details the problem space, the target users, and the primary objectives of the project.</p>
+        </section>
+
+        <section id="research">
+          <h2>Research</h2>
+          <p>Explored user behavior, pain points, and current workflow inefficiencies across warehouse operations.</p>
+          <h3>Key Insights</h3>
+          <p>Operators required immediate contextual feedback without navigating away from their primary dashboard views.</p>
+        </section>
+
+        <section id="design">
+          <h2>Design Process</h2>
+          <p>Iterated through wireframes, component specifications, and interactive prototypes.</p>
+        </section>
+
+        <section id="outcomes">
+          <h2>Outcomes</h2>
+          <p>Reduced cognitive overload and improved response time for critical warehouse alerts.</p>
+        </section>
+        """,
+        notes_html="""
+        <div class="cs-notes-block">
+          <div class="cs-notes-heading">Citations & References</div>
+          <p class="cs-notes-item">1. Operational Control Systems Report 2024.</p>
+          <p class="cs-notes-item">2. User Study on High-Density Fulfillment Workflows.</p>
+        </div>
+        """
+    )
+
+    with open("case_study_demo.html", "w", encoding="utf-8") as f:
+        f.write(demo_html)
+    print("Generated case_study_demo.html successfully!")
+
 
 if __name__ == "__main__":
     main()
+    generate_case_study_demo_page()
