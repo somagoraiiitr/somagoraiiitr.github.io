@@ -23,9 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
       this.section2 = document.getElementById('section-2');
       this.heroContentWrapper = document.querySelector('.hero-content-wrapper');
 
-      // Create diagnostics debug overlay
-      this.createDebugOverlay();
-
       // Layout cache
       this.viewportWidth = window.innerWidth;
       this.viewportHeight = window.innerHeight;
@@ -48,27 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
         window.scrollTo({ top: this.scrollTrackTop + totalScrollable, behavior: 'instant' });
         this.onScroll();
       }
-    }
-
-    createDebugOverlay() {
-      this.debugOverlay = document.createElement('div');
-      this.debugOverlay.id = 'transition-debug-overlay';
-      Object.assign(this.debugOverlay.style, {
-        position: 'fixed',
-        top: '10px',
-        left: '10px',
-        padding: '8px 12px',
-        background: 'rgba(0, 0, 0, 0.85)',
-        color: '#00FF00',
-        fontFamily: 'monospace',
-        fontSize: '11px',
-        borderRadius: '4px',
-        zIndex: '1000',
-        pointerEvents: 'none',
-        lineHeight: '1.4',
-        boxShadow: '0 2px 10px rgba(0,0,0,0.5)'
-      });
-      document.body.appendChild(this.debugOverlay);
     }
 
     updateLayout() {
@@ -402,15 +378,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const scaleRounded = scaleVal.toFixed(4);
         this.transitionCurtain.style.transform = `translate(${currentCenterX}px, ${currentCenterY}px) translate(-50%, -50%) scale(${scaleRounded})`;
       }
-
-      this.debugOverlay.innerHTML = `
-        <strong>DIAGNOSTICS</strong><br>
-        Progress: ${progress.toFixed(4)}<br>
-        Screen: ${this.viewportWidth}x${this.viewportHeight}px<br>
-        Curtain Scale Factor: ${scaleVal.toFixed(4)}<br>
-        Curtain active: ${this.transitionCurtain ? this.transitionCurtain.classList.contains('active') : 'null'}<br>
-        Sec2 opacity: ${this.section2 ? this.section2.style.opacity : 'null'}<br>
-      `;
 
       // Sync address bar route dynamically
       if (progress >= 0.80) {
