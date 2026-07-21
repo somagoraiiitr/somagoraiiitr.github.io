@@ -22,9 +22,9 @@ document.addEventListener('DOMContentLoaded', () => {
       this.transitionCurtain = document.getElementById('transition-curtain');
       this.section2 = document.getElementById('section-2');
       this.heroContentWrapper = document.querySelector('.hero-content-wrapper');
-
-      // Create diagnostics debug overlay
-      this.createDebugOverlay();
+      
+      this.scrollProgressContainer = document.getElementById('scroll-progress-container');
+      this.scrollProgressBar = document.getElementById('scroll-progress-bar');
 
       // Layout cache
       this.viewportWidth = window.innerWidth;
@@ -35,33 +35,13 @@ document.addEventListener('DOMContentLoaded', () => {
       // Scroll states
       this.lastScrollY = window.scrollY;
       this.ticking = false;
-      this.snapTimeout = null;
+      // Track the last URL we pushed so we don't spam history
+      this._lastPushedPath = window.location.pathname;
 
       // Initialize
       this.bindEvents();
       this.updateLayout();
       this.onScroll();
-    }
-
-    createDebugOverlay() {
-      this.debugOverlay = document.createElement('div');
-      this.debugOverlay.id = 'transition-debug-overlay';
-      Object.assign(this.debugOverlay.style, {
-        position: 'fixed',
-        top: '10px',
-        left: '10px',
-        padding: '8px 12px',
-        background: 'rgba(0, 0, 0, 0.85)',
-        color: '#00FF00',
-        fontFamily: 'monospace',
-        fontSize: '11px',
-        borderRadius: '4px',
-        zIndex: '1000',
-        pointerEvents: 'none',
-        lineHeight: '1.4',
-        boxShadow: '0 2px 10px rgba(0,0,0,0.5)'
-      });
-      document.body.appendChild(this.debugOverlay);
     }
 
     updateLayout() {
@@ -78,67 +58,64 @@ document.addEventListener('DOMContentLoaded', () => {
         this.onScroll();
       }, { passive: true });
 
-      // Handle deep linking to /work on page load
+      // Handle deep linking to /work on page load — defer until layout is ready
       if (window.location.pathname === '/work') {
-        const totalScrollable = this.scrollTrackHeight - this.viewportHeight;
-        window.scrollTo(0, this.scrollTrackTop + totalScrollable);
+        requestAnimationFrame(() => {
+          this.updateLayout();
+          const totalScrollable = this.scrollTrackHeight - this.viewportHeight;
+          window.scrollTo(0, this.scrollTrackTop + totalScrollable);
+        });
       }
 
-      // Disable browser native scroll restoration to prevent it from jumping
-      // back to the 0.80 progress point where the pushState originally happened.
+      // Disable browser native scroll restoration
       if ('scrollRestoration' in history) {
         history.scrollRestoration = 'manual';
       }
 
-      // Initialize state for the first load so we have a known state
-      if (window.location.pathname === '/') {
-        window.history.replaceState({ section: 'home' }, '', '/');
-      } else if (window.location.pathname === '/work') {
-        window.history.replaceState({ section: 'work' }, '', '/work');
+      // Seed the initial history state so popstate always has something to read
+      if (!history.state) {
+        const section = window.location.pathname === '/work' ? 'work' : 'home';
+        window.history.replaceState({ section }, '', window.location.pathname);
       }
 
-      // Handle browser back/forward button naturally without locking
+      // Handle browser back/forward
       window.addEventListener('popstate', (e) => {
-        const state = e.state;
         const targetPath = window.location.pathname;
-        
-        if ((state && state.section === 'home') || targetPath === '/') {
-          document.body.style.overflow = ''; // Unlock scroll
+        if (targetPath === '/' || (e.state && e.state.section === 'home')) {
+          document.body.style.overflow = '';
           window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else if ((state && state.section === 'work') || targetPath === '/work') {
+        } else if (targetPath === '/work' || (e.state && e.state.section === 'work')) {
+          this.updateLayout();
           const totalScrollable = this.scrollTrackHeight - this.viewportHeight;
           window.scrollTo({ top: this.scrollTrackTop + totalScrollable, behavior: 'smooth' });
         }
       });
 
-      // Header Logo and Menu item smooth-scroll routing
+      // Logo click — go home
       const logoLink = document.querySelector('.nav-logo-link');
       if (logoLink) {
         logoLink.addEventListener('click', (e) => {
           e.preventDefault();
-          document.body.style.overflow = ''; // Unlock scroll
-          window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-          });
+          document.body.style.overflow = '';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         });
       }
 
+      // Nav item clicks — only intercept "Work" on the homepage
       document.querySelectorAll('.nav-item').forEach(link => {
         link.addEventListener('click', (e) => {
           const text = link.textContent.trim().toLowerCase();
-          if (text === 'work' || text === 'about me' || text === 'resume') {
+          // Only intercept the "work" link when we are ON the homepage (scroll animation page)
+          if (text === 'work' && window.location.pathname === '/') {
             e.preventDefault();
+            this.updateLayout();
             const totalScrollable = this.scrollTrackHeight - this.viewportHeight;
             window.scrollTo({
               top: this.scrollTrackTop + totalScrollable,
               behavior: 'smooth'
             });
-          } else if (text === 'home') {
-            e.preventDefault();
-            document.body.style.overflow = ''; // Unlock scroll
-            window.scrollTo({ top: 0, behavior: 'smooth' });
           }
+          // All other links (about me, resume, etc.) follow their href naturally
         });
       });
     }
@@ -152,15 +129,33 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         this.ticking = true;
       }
+
+      // Snap scroll: if user stops mid-animation, snap to nearest section
+      clearTimeout(this._snapTimer);
+      this._snapTimer = setTimeout(() => {
+        this.updateLayout();
+        const totalScrollable = this.scrollTrackHeight - this.viewportHeight;
+        const rectTop = this.scrollTrackTop - window.scrollY;
+        let progress = -rectTop / totalScrollable;
+        progress = Math.max(0, Math.min(1, progress));
+
+        // Only snap if we're inside the scroll-track zone (0 < progress < 1)
+        if (progress > 0 && progress < 1) {
+          if (progress < 0.5) {
+            // Snap back to top / home
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          } else {
+            // Snap forward to work
+            window.scrollTo({ top: this.scrollTrackTop + totalScrollable, behavior: 'smooth' });
+          }
+        }
+      }, 180); // 180ms after scroll stops
     }
 
     updateAnimation(currentScrollY) {
-
       const rectTop = this.scrollTrackTop - currentScrollY;
       const totalScrollable = this.scrollTrackHeight - this.viewportHeight;
       let progress = -rectTop / totalScrollable;
-      // Fix floating point precision issues (e.g. 0.9999999999999) 
-      // which cause the if-else blocks to incorrectly trigger the curtain active state.
       progress = Math.round(progress * 100000) / 100000;
       progress = Math.max(0, Math.min(1, progress));
 
@@ -278,7 +273,6 @@ document.addEventListener('DOMContentLoaded', () => {
       let curtainActive = false;
       let section2Opacity = 0.0;
       let section2PointerEvents = 'none';
-      let section2ZIndex = '20';
       let catContainerOpacity = '1';
       let catContainerVisibility = 'visible';
 
@@ -287,8 +281,6 @@ document.addEventListener('DOMContentLoaded', () => {
         curtainOpacity = 0.0;
         curtainActive = false;
         section2Opacity = 0.0;
-        section2PointerEvents = 'none';
-        section2ZIndex = '20';
         catContainerOpacity = '1';
         catContainerVisibility = 'visible';
       } else if (progress >= 0.50 && progress < 0.75) {
@@ -298,8 +290,6 @@ document.addEventListener('DOMContentLoaded', () => {
         curtainOpacity = 1.0;
         curtainActive = true;
         section2Opacity = 0.0;
-        section2PointerEvents = 'none';
-        section2ZIndex = '20';
         catContainerOpacity = '1';
         catContainerVisibility = 'visible';
       } else if (progress >= 0.75 && progress < 0.80) {
@@ -307,8 +297,6 @@ document.addEventListener('DOMContentLoaded', () => {
         curtainOpacity = 1.0;
         curtainActive = true;
         section2Opacity = 1.0;
-        section2PointerEvents = 'none';
-        section2ZIndex = '20';
         catContainerOpacity = '0';
         catContainerVisibility = 'hidden';
       } else if (progress >= 0.80 && progress < 1.0) {
@@ -319,16 +307,15 @@ document.addEventListener('DOMContentLoaded', () => {
         curtainActive = true;
         section2Opacity = 1.0;
         section2PointerEvents = 'auto';
-        section2ZIndex = '20';
         catContainerOpacity = '0';
         catContainerVisibility = 'hidden';
       } else {
+        // progress >= 1.0 — fully at work section
         scaleVal = 0.0;
         curtainOpacity = 0.0;
         curtainActive = false;
         section2Opacity = 1.0;
         section2PointerEvents = 'auto';
-        section2ZIndex = '20';
         catContainerOpacity = '0';
         catContainerVisibility = 'hidden';
       }
@@ -348,47 +335,38 @@ document.addEventListener('DOMContentLoaded', () => {
         this.transitionCurtain.style.opacity = curtainOpacity.toString();
         this.transitionCurtain.style.zIndex = '30';
         this.transitionCurtain.style.backgroundColor = 'var(--color-neutral-black)';
+
+        const currentCenterX = this.viewportWidth / 2;
+        const currentCenterY = this.viewportHeight / 2;
+        this.transitionCurtain.style.transform = `translate(${currentCenterX}px, ${currentCenterY}px) translate(-50%, -50%) scale(${scaleVal.toFixed(4)})`;
       }
 
       if (this.section2) {
         this.section2.style.opacity = section2Opacity.toString();
         this.section2.style.pointerEvents = section2PointerEvents;
-        this.section2.style.zIndex = section2ZIndex;
       }
 
-      // Lock body overflow when we are fully at the work page to prevent scroll chaining
-      // and accidental reverse of the iris curtain.
+      // Lock body scroll only at full progress; always unlock when scrolling back
       if (progress >= 1.0) {
         document.body.style.overflow = 'hidden';
       } else {
         document.body.style.overflow = '';
       }
 
-      let currentCenterX = this.viewportWidth / 2;
-      let currentCenterY = this.viewportHeight / 2;
-
-      if (this.transitionCurtain) {
-        const scaleRounded = scaleVal.toFixed(4);
-        this.transitionCurtain.style.transform = `translate(${currentCenterX}px, ${currentCenterY}px) translate(-50%, -50%) scale(${scaleRounded})`;
+      // Sync address bar — use replaceState (not pushState) to avoid flooding history
+      const targetPath = progress >= 0.80 ? '/work' : '/';
+      if (this._lastPushedPath !== targetPath) {
+        window.history.replaceState({ section: targetPath === '/work' ? 'work' : 'home' }, '', targetPath);
+        this._lastPushedPath = targetPath;
       }
 
-      this.debugOverlay.innerHTML = `
-        <strong>DIAGNOSTICS</strong><br>
-        Progress: ${progress.toFixed(4)}<br>
-        Screen: ${this.viewportWidth}x${this.viewportHeight}px<br>
-        Curtain Scale Factor: ${scaleVal.toFixed(4)}<br>
-        Curtain active: ${this.transitionCurtain ? this.transitionCurtain.classList.contains('active') : 'null'}<br>
-        Sec2 opacity: ${this.section2 ? this.section2.style.opacity : 'null'}<br>
-      `;
-
-      // Sync address bar route dynamically
-      if (progress >= 0.80) {
-        if (window.location.pathname !== '/work') {
-          window.history.pushState({ section: 'work' }, '', '/work');
-        }
-      } else {
-        if (window.location.pathname !== '/') {
-          window.history.pushState({ section: 'home' }, '', '/');
+      // Update Scroll Progress Bar
+      if (this.scrollProgressContainer && this.scrollProgressBar) {
+        if (progress >= 0 && progress < 1) {
+          this.scrollProgressContainer.classList.add('visible');
+          this.scrollProgressBar.style.width = `${progress * 100}%`;
+        } else {
+          this.scrollProgressContainer.classList.remove('visible');
         }
       }
     }
@@ -479,7 +457,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     initScrollSpy() {
-      if (this.sideNavLinks.length === 0) return;
+      // Use the .cs-nav links (correct template structure)
+      const navLinks = document.querySelectorAll('.cs-nav a');
+      if (navLinks.length === 0) return;
+
+      // Observe all h2 elements with an id inside the main content
+      const headings = document.querySelectorAll('.cs-content h2[id]');
+      if (headings.length === 0) return;
 
       const observerOptions = {
         root: null,
@@ -491,7 +475,7 @@ document.addEventListener('DOMContentLoaded', () => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             const id = entry.target.getAttribute('id');
-            this.sideNavLinks.forEach(link => {
+            navLinks.forEach(link => {
               if (link.getAttribute('href') === `#${id}`) {
                 link.classList.add('active');
               } else {
@@ -502,16 +486,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }, observerOptions);
 
-      this.sections.forEach(section => observer.observe(section));
+      headings.forEach(h => observer.observe(h));
 
-      this.sideNavLinks.forEach(link => {
+      // Smooth scroll on nav click
+      navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
           e.preventDefault();
           const targetId = link.getAttribute('href');
-          const targetSection = document.querySelector(targetId);
-          if (targetSection) {
+          const targetEl = document.querySelector(targetId);
+          if (targetEl) {
             const yOffset = -80;
-            const y = targetSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
+            const y = targetEl.getBoundingClientRect().top + window.pageYOffset + yOffset;
             window.scrollTo({ top: y, behavior: 'smooth' });
           }
         });
@@ -541,4 +526,29 @@ document.addEventListener('DOMContentLoaded', () => {
   new HeroZoomController();
   new CaseStudiesController();
   new SubPageUtilities();
+
+  // ==========================================================================
+  // 5. CONNECT ICON RIPPLE (About Page)
+  // ==========================================================================
+  document.querySelectorAll('.connect-ripple-btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      const ripple = this.querySelector('.ripple-span');
+      if (!ripple) return;
+
+      const rect = this.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height);
+      ripple.style.width = ripple.style.height = `${size}px`;
+      ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
+      ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
+
+      this.classList.remove('ripple-active');
+      // Force reflow so animation restarts
+      void this.offsetWidth;
+      this.classList.add('ripple-active');
+
+      ripple.addEventListener('animationend', () => {
+        this.classList.remove('ripple-active');
+      }, { once: true });
+    });
+  });
 });

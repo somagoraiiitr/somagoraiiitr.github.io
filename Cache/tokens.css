@@ -30,7 +30,7 @@
   
   /* Typography Tokens */
   --font-heading: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
   
   /* Spacing Tokens */
   --space-xs: 4px;

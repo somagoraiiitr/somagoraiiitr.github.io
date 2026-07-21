@@ -398,7 +398,7 @@ h1.hero-title span.text-rust {
   white-space: nowrap;
 }
 
-/* Shared action button â€” expand (â†’) and close (Ã—) occupy the same spot */
+/* Shared action button — expand (→) and close (×) occupy the same spot */
 .morph-row-btn,
 .morph-close-btn {
   display: inline-flex;
@@ -460,7 +460,7 @@ h1.hero-title span.text-rust {
   transform: scale(1.08);
 }
 
-/* Expand cue overlay â€” simplified */
+/* Expand cue overlay — simplified */
 .morph-expand-cue {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -487,7 +487,7 @@ h1.hero-title span.text-rust {
   opacity: 1;
 }
 
-/* ===== EXPANDED STATE â€” Tight, focused card ===== */
+/* ===== EXPANDED STATE — Tight, focused card ===== */
 .morph-row.expanded {
   grid-template-columns: 1.1fr 1fr;
   grid-template-rows: 1fr;
@@ -533,7 +533,7 @@ h1.hero-title span.text-rust {
   position: absolute;
 }
 
-/* Details Panel â€” explicitly placed in grid column 2 */
+/* Details Panel — explicitly placed in grid column 2 */
 .morph-details-panel {
   opacity: 0;
   pointer-events: none;
@@ -1639,7 +1639,7 @@ span.material-symbols-outlined.icon-filled {
   align-items: center;
 }
 
-/* Connect ripple buttons â€” match cta-button ripple style, rust border */
+/* Connect ripple buttons — match cta-button ripple style, rust border */
 .connect-ripple-btn {
   position: relative;
   overflow: hidden;

@@ -42,6 +42,9 @@ class MyHandler(http.server.SimpleHTTPRequestHandler):
         elif self.path == '/work':
             self.path = '/index.html'
             super().do_GET()
+        elif self.path == '/about':
+            self.path = '/about.html'
+            super().do_GET()
         else:
             super().do_GET()
 
