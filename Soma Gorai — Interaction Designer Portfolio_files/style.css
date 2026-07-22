@@ -889,6 +889,10 @@ h1.hero-title span.text-rust {
   margin-top: 64px;
 }
 
+.cs-body-content section:first-child .section-heading {
+  margin-top: 0;
+}
+
 .section-heading h2 {
   font-family: var(--font-heading);
   font-size: 24px;

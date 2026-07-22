@@ -546,23 +546,33 @@ document.addEventListener('DOMContentLoaded', () => {
   // 5. CASE STUDY SIDEBAR SCROLLSPY
   // ==========================================================================
   const updateActiveSideNav = () => {
-    const navLinks = document.querySelectorAll('.cs-nav a');
+    const navLinks = Array.from(document.querySelectorAll('.cs-nav a'));
     if (navLinks.length === 0) return;
 
-    const sections = Array.from(document.querySelectorAll('section[id]'));
-    if (sections.length === 0) return;
+    const targetIds = navLinks
+      .map(link => link.getAttribute('href'))
+      .filter(href => href && href.startsWith('#'))
+      .map(href => href.substring(1));
 
-    const scrollPosition = window.scrollY + 160;
-    let currentSection = sections[0];
+    if (targetIds.length === 0) return;
 
-    for (let i = 0; i < sections.length; i++) {
-      const section = sections[i];
-      if (section.offsetTop <= scrollPosition) {
-        currentSection = section;
+    const targets = targetIds
+      .map(id => document.getElementById(id))
+      .filter(el => el !== null);
+
+    if (targets.length === 0) return;
+
+    const scrollPosition = window.scrollY + 180;
+    let currentTarget = targets[0];
+
+    for (let i = 0; i < targets.length; i++) {
+      const el = targets[i];
+      if (el.offsetTop <= scrollPosition) {
+        currentTarget = el;
       }
     }
 
-    const currentId = currentSection.getAttribute('id');
+    const currentId = currentTarget.getAttribute('id');
     navLinks.forEach(link => {
       if (link.getAttribute('href') === `#${currentId}`) {
         link.classList.add('active');
