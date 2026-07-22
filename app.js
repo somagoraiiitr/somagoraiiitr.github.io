@@ -38,13 +38,14 @@ document.addEventListener('DOMContentLoaded', () => {
       // Initialize
       this.bindEvents();
       this.updateLayout();
-      this.onScroll();
 
       if (window.location.hash === '#work' || window.location.pathname === '/work') {
         const totalScrollable = this.scrollTrackHeight - this.viewportHeight;
-        window.scrollTo({ top: this.scrollTrackTop + totalScrollable, behavior: 'instant' });
-        this.onScroll();
+        window.scrollTo(0, this.scrollTrackTop + totalScrollable);
+        this.lastScrollY = window.scrollY;
       }
+
+      this.onScroll();
     }
 
     updateLayout() {
@@ -508,7 +509,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const targetId = link.getAttribute('href');
           const targetSection = document.querySelector(targetId);
           if (targetSection) {
-            const yOffset = -80;
+            const yOffset = -120;
             const y = targetSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
             window.scrollTo({ top: y, behavior: 'smooth' });
           }
@@ -524,6 +525,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (content && content.classList.contains('accordion-content')) {
             const isVisible = content.style.display === 'block';
             content.style.display = isVisible ? 'none' : 'block';
+            header.setAttribute('aria-expanded', (!isVisible).toString());
             if (chevron) {
               chevron.style.transform = isVisible ? 'rotate(0deg)' : 'rotate(180deg)';
             }
@@ -539,4 +541,37 @@ document.addEventListener('DOMContentLoaded', () => {
   new HeroZoomController();
   new CaseStudiesController();
   new SubPageUtilities();
+
+  // ==========================================================================
+  // 5. CASE STUDY SIDEBAR SCROLLSPY
+  // ==========================================================================
+  const updateActiveSideNav = () => {
+    const navLinks = document.querySelectorAll('.cs-nav a');
+    if (navLinks.length === 0) return;
+
+    const sections = Array.from(document.querySelectorAll('section[id]'));
+    if (sections.length === 0) return;
+
+    const scrollPosition = window.scrollY + 160;
+    let currentSection = sections[0];
+
+    for (let i = 0; i < sections.length; i++) {
+      const section = sections[i];
+      if (section.offsetTop <= scrollPosition) {
+        currentSection = section;
+      }
+    }
+
+    const currentId = currentSection.getAttribute('id');
+    navLinks.forEach(link => {
+      if (link.getAttribute('href') === `#${currentId}`) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
+  };
+
+  window.addEventListener('scroll', updateActiveSideNav, { passive: true });
+  updateActiveSideNav();
 });

@@ -14,7 +14,7 @@
   --color-brown: #523C2E;
   
   /* Background & Surface */
-  --color-bg: #F3F0E7;           /* Off White */
+  --color-bg: #F8F5F5;           /* Off White Background */
   --color-surface: #FDFDFD;      /* Pure White Surface */
   --color-surface-hover: rgba(28, 33, 35, 0.04);
   --color-surface-hover-dark: rgba(28, 33, 35, 0.08);
@@ -27,6 +27,19 @@
   --color-dark-bg: var(--color-neutral-black);
   --color-dark-text: var(--color-bg);
   --color-border: var(--color-light-gray);
+  
+  /* Case Study Highlight & Accent Tokens */
+  --cs-highlight-yellow: rgba(237, 221, 132, 0.35);
+  --cs-highlight-green: rgba(184, 238, 199, 0.35);
+  --cs-highlight-blue: rgba(155, 208, 255, 0.35);
+  --cs-highlight-pink: rgba(255, 181, 181, 0.35);
+  --cs-highlight-lavender: rgba(209, 179, 255, 0.35);
+
+  --cs-accent-yellow: #FFE24A;
+  --cs-accent-green: #B8EEC7;
+  --cs-accent-blue: #9BD0FF;
+  --cs-accent-pink: #FFB5B5;
+  --cs-accent-lavender: #D1B3FF;
   
   /* Typography Tokens — Design System Standards */
   --font-heading: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;

@@ -1,5 +1,54 @@
 @import url("css/tokens.css");
 
+:root {
+  /* Core Color Palette */
+  --color-primary: #B64F2A;      /* Rust */
+  --color-accent: #195959;       /* Teal */
+  --color-light-gray: #938C82;
+  --color-gray: #6A675D;
+  --color-dark-gray: #4E4B44;
+  --color-neutral-black: #1C2123;
+  --color-secondary-1: #F5C7AF;  /* Peach */
+  --color-secondary-2: #CD846B;  /* Dark Peach */
+  --color-brown: #523C2E;
+  
+  /* Background & Surface */
+  --color-bg: #F8F5F5;           /* Off White Background */
+  --color-surface: #FDFDFD;      /* Pure White Surface */
+  --color-surface-hover: rgba(28, 33, 35, 0.04);
+  --color-surface-hover-dark: rgba(28, 33, 35, 0.08);
+  --color-white: #D9D9D9;
+  --color-pure-white: #FFFFFF;
+
+  /* Semantic Aliases */
+  --color-text: var(--color-neutral-black);
+  --color-muted: var(--color-gray);
+  --color-dark-bg: var(--color-neutral-black);
+  --color-dark-text: var(--color-bg);
+  --color-border: var(--color-light-gray);
+}
+
+html {
+  scroll-padding-top: 110px;
+  scroll-behavior: smooth;
+}
+
+html, body, .case-study-body {
+  background-color: var(--color-bg) !important;
+}
+
+section[id], .cs-content section[id] {
+  scroll-margin-top: 110px;
+}
+
+.scroll-track,
+.sticky-viewport,
+.cat-svg-container,
+.portfolio-container,
+.portfolio-section {
+  background-color: var(--color-bg);
+}
+
 .scroll-track {
   position: relative;
   height: 220vh; /* Scroll length for the entire sequence (slowed down by 20%) */
@@ -337,7 +386,7 @@ h1.hero-title span.text-rust {
 .morph-row {
   position: relative;
   display: grid;
-  grid-template-columns: 56px 1.5fr 1fr 1.5fr 80px 32px;
+  grid-template-columns: 56px 1.5fr 1fr 1.5fr 32px;
   gap: 16px;
   align-items: center;
   padding: 24px;
@@ -733,7 +782,7 @@ h1.hero-title span.text-rust {
 
 .case-study-main {
   padding: 64px 48px 96px 48px;
-  background-color: var(--color-surface);
+  background-color: var(--color-bg);
 }
 
 .case-study-split {
@@ -850,8 +899,26 @@ h1.hero-title span.text-rust {
 
 .highlighted-label {
   display: inline-block;
-  padding: 2px 8px;
+  background-color: var(--cs-highlight-yellow);
+  padding: 1px 2px !important;
+  border-radius: 2px;
   margin-bottom: 16px;
+}
+
+.highlighted-label.green-highlight {
+  background-color: var(--cs-highlight-green);
+}
+
+.highlighted-label.blue-highlight {
+  background-color: var(--cs-highlight-blue);
+}
+
+.highlighted-label.pink-highlight {
+  background-color: var(--cs-highlight-pink);
+}
+
+.highlighted-label.lavender-highlight {
+  background-color: var(--cs-highlight-lavender);
 }
 
 .highlighted-label h3 {
@@ -859,7 +926,9 @@ h1.hero-title span.text-rust {
   font-size: 18px;
   font-weight: 500;
   color: var(--color-neutral-black);
-  margin: 0;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
 }
 
 .user-goal-box {
@@ -948,7 +1017,7 @@ h1.hero-title span.text-rust {
   width: 100%;
   height: 88px;
   z-index: 1000;
-  background-color: rgba(243, 240, 231, 0.85); /* 85% opacity of surface Off White */
+  background-color: rgba(248, 245, 245, 0.85); /* 85% opacity of F8F5F5 */
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 2px solid #E0E0E0; /* Light gray border as requested */
@@ -1247,10 +1316,10 @@ span.material-symbols-outlined.icon-filled {
 /* 3-Column Grid Layout (2 Rows: Row 1 = Back & Header; Row 2 = Nav & Body Content & Notes) */
 .cs-layout {
   display: grid;
-  grid-template-columns: 240px minmax(0, 1360px) 240px;
-  gap: 40px 32px;
-  padding: 120px 80px 80px 80px; /* 80px margin on left & right sides */
-  max-width: 1440px;
+  grid-template-columns: 200px 1fr 200px;
+  gap: 40px 24px;
+  padding: 120px 48px 80px 48px; /* 48px margin on left & right sides */
+  max-width: 1600px;
   margin: 0 auto;
   align-items: start;
   width: 100%;
@@ -1403,7 +1472,7 @@ span.material-symbols-outlined.icon-filled {
 .cs-nav a {
   text-decoration: none;
   font-family: var(--font-heading);
-  font-size: 16px;
+  font-size: 14px;
   color: var(--color-gray);
   font-weight: 500;
   line-height: 1.2;
@@ -1477,10 +1546,6 @@ span.material-symbols-outlined.icon-filled {
   font-size: 16px;
   font-weight: 700;
   color: var(--color-neutral-black);
-  background-color: rgba(216, 69, 0, 0.1);
-  display: inline-block;
-  padding: 4px 12px;
-  border-radius: 4px;
   margin: 32px 0 16px 0;
 }
 
@@ -1526,9 +1591,12 @@ span.material-symbols-outlined.icon-filled {
   margin-bottom: 20px;
 }
 
-.cs-content img, .cs-content iframe, .cs-content video {
-  width: 100%;
-  border-radius: 12px;
+.cs-content img, .cs-body-content img, .cs-content iframe, .cs-content video {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  display: block;
+  border-radius: 0 !important;
   margin: 24px 0;
 }
 

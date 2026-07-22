@@ -85,6 +85,10 @@ def prepare_svg(filename):
     if svg_str.startswith("<?xml"):
         svg_str = svg_str[svg_str.find(">")+1:]
         
+    # Standardize background rect fill
+    svg_str = re.sub(r'style="fill: var\(--color-bg\);"\s*', '', svg_str)
+    svg_str = re.sub(r'<rect([^>]*)\bfill=["\'][^"\'\>]+["\']', r'<rect\1fill="#F6F0ED" style="fill: var(--color-bg);"', svg_str, count=1)
+
     # Replace hex codes with CSS variables
     replacements = {
         '#B64F2A': 'var(--color-primary)',      # Rust - Primary
@@ -96,7 +100,6 @@ def prepare_svg(filename):
         '#F5C7AF': 'var(--color-secondary-1)',
         '#CD846B': 'var(--color-secondary-2)',
         '#523C2E': 'var(--color-brown)',
-        '#F3F0E7': 'var(--color-bg)',
         '#D9D9D9': 'var(--color-white)',
     }
     for hex_val, var_val in replacements.items():
@@ -135,47 +138,47 @@ def main():
     case_studies_data = [
         {
             "id": 1,
-            "title": "Project Alpha",
-            "role": "Lead UI/UX Designer",
-            "year": "2025",
-            "tags": ["SaaS", "Dashboard", "B2B"],
-            "synopsis": "A next-generation SaaS dashboard designed to simplify multi-tenant operations and monitoring.",
-            "problem": "Users struggled to correlate metrics from disparate database instances, leading to slow incident response times.",
-            "image": "./Soma Gorai — Interaction Designer Portfolio_files/photo-1551288049-bebda4e38f71",
-            "link": "http://localhost:8000/case_study_demo.html"
+            "title": "Designing the Warehouse Control Tower Ecosystem",
+            "role": "Product Designer",
+            "year": "Jan 2025 - Sep 2025",
+            "tags": ["B2B Enterprise", "Service Design"],
+            "synopsis": "Centralized control tower enabling real-time warehouse planning, validation, and operational visibility.",
+            "problem": "Replaced fragmented, Excel-driven warehouse setup with a centralized system unifying sales configuration, process mapping, and operations. Enabled real-time validation, traceability, and client-managed updates, removing data silos and engineering dependency.",
+            "image": "./assets/235012a9efdd1b8a0d8d6e2e8f019cf4f55d6082.png",
+            "link": "case-study-control-tower.html"
         },
         {
             "id": 2,
-            "title": "Project Beta",
-            "role": "Interaction Engineer",
-            "year": "2024",
-            "tags": ["Fintech", "Real-time", "Data Viz"],
-            "synopsis": "An interactive, web-based tool for visualizing real-time financial market swings and order books.",
-            "problem": "Traditional graphs lagged when handling high-frequency tick data, causing visualization delay for day traders.",
-            "image": "./Soma Gorai — Interaction Designer Portfolio_files/photo-1611974789855-9c2a0a7236a3",
-            "link": "http://localhost:8000/case_study_demo.html"
+            "title": "From Fragmented UI to a Single Source of Truth",
+            "role": "Interaction Designer",
+            "year": "Mar 2024 - Aug 2024",
+            "tags": ["Design System", "Component Library"],
+            "synopsis": "Design system that reduced rework, aligned teams, and accelerated delivery across Axon's warehouse products.",
+            "problem": "We built a custom design system to address inconsistent UI patterns across Axon's warehouse software. By standardizing components, colors, typography, and states, the system reduced repeated design and development effort and made UI decisions clearer and easier to apply.",
+            "image": "./assets/73ea07ba5ba50811bfb0f5457a8d2a2eb8baf486.png",
+            "link": "case-study-design-system.html"
         },
         {
             "id": 3,
-            "title": "Project Gamma",
-            "role": "Design Systems Lead",
-            "year": "2024",
-            "tags": ["Systems", "Mobile", "Web"],
-            "synopsis": "Building a multi-theme component library to align consumer-facing platforms across web and mobile web.",
-            "problem": "Fragmented component definitions led to excessive design debt and high build payload sizes.",
-            "image": "./Soma Gorai — Interaction Designer Portfolio_files/photo-1507238691740-187a5b1d37b8",
-            "link": "http://localhost:8000/case_study_demo.html"
+            "title": "Optimizing Teams Notifications",
+            "role": "Product Intern",
+            "year": "May 2023 - July 2023",
+            "tags": ["Product Management", "Data Analysis"],
+            "synopsis": "Redesigning Microsoft Teams' notification system to reduce cognitive load and help users distinguish signal from noise.",
+            "problem": "Redesigned Microsoft Teams' notification system to reduce cognitive load and help users distinguish signal from noise through intelligent notification management. Explored multiple solutions including anchored notifications, pull notification systems, and visual hierarchy using color cues.",
+            "image": "./assets/e96c9cc922798632243bfacf2f601225830c14d9.png",
+            "link": "case-study-teams-redesign.html"
         },
         {
             "id": 4,
-            "title": "Project Delta",
-            "role": "UX Researcher",
-            "year": "2023",
-            "tags": ["E-commerce", "Research", "Checkout"],
-            "synopsis": "An in-depth study of friction points in digital checkout flows for regional e-commerce products.",
-            "problem": "High drop-off rates at payment gateways due to misleading layout indicators and lack of localization options.",
-            "image": "./Soma Gorai — Interaction Designer Portfolio_files/photo-1460925895917-afdab827c52f",
-            "link": "http://localhost:8000/case_study_demo.html"
+            "title": "Physical-to-Digital Monitoring for Robotic Systems",
+            "role": "Product Designer",
+            "year": "Oct 2024 - Jan 2025",
+            "tags": ["Automation", "Data Viz"],
+            "synopsis": "Real-time monitoring for robotic picking operations",
+            "problem": "Designed a real-time monitoring system that translates live robotic operations into a clear, spatially grounded digital view. The interface mirrors the physical layout of RAPTOR systems, enabling faster understanding and confident action across roles.",
+            "image": "./assets/8f71ad3af89068a4848d360e1e3517ffd16f2df4.png",
+            "link": "case-study-digital-twin.html"
         }
     ]
 
@@ -206,10 +209,6 @@ def main():
             {"".join([f'<span class="morph-tag">{tag}</span>' for tag in project["tags"]])}
           </div>
 
-          <div class="morph-col morph-year-col">
-            <span class="morph-year-text">{project["year"]}</span>
-          </div>
-
           <div class="morph-col morph-button-col">
             <button class="cta-button morph-row-btn" data-id="{project["id"]}"><span class="material-symbols-outlined">arrow_forward</span></button>
           </div>
@@ -223,12 +222,9 @@ def main():
               <div class="morph-card-tags">
                 {"".join([f'<span class="morph-card-tag">{tag}</span>' for tag in project["tags"]])}
               </div>
-              <div class="morph-card-body">
-                <p>{project["synopsis"]}</p>
-              </div>
               <div class="morph-card-divider"></div>
               <div class="morph-card-body">
-                <div class="morph-card-label">Problem</div>
+                <div class="morph-card-label">Summary</div>
                 <p>{project["problem"]}</p>
               </div>
               <div class="morph-card-action">
@@ -248,34 +244,37 @@ def main():
             "title": "Contextual AI Insights for Warehouse Operations",
             "desc": "Explored AI-assisted predictive layers for an operational control tower, focusing on interpretability, confidence, and decision support rather than automation.",
             "tags": ["AI", "Systems", "Dashboard"],
-            "image": "./Soma Gorai — Interaction Designer Portfolio_files/photo-1518770660439-4636190af475",
-            "link": "http://localhost:8000/case_study_demo.html"
+            "image": "./assets/3bb82bf383a52e322b1f9c7ed1243553ccaabf11.png",
+            "link": "case-study-predictive-analytics.html"
         },
         {
             "title": "WES Redesign Through Heuristic Analysis",
             "desc": "Researched bulk vs. individual record interactions, evaluated alternatives (split affordances, in-row actions, expansion patterns), and defined clear conventions for focus, quick actions, and side-panel details.",
             "tags": ["Interaction Design", "Enterprise UX"],
-            "image": "./Soma Gorai — Interaction Designer Portfolio_files/photo-1551288049-bebda4e38f71(1)",
-            "link": "http://localhost:8000/case_study_demo.html"
+            "image": "./assets/9e5c9ce58f92fcf33dff7ca8800befd4fcca8371.png",
+            "link": "case-study-wes-redesign.html"
         },
         {
             "title": "andwemet — Dating App Redesign",
             "desc": "Redesigned the dashboard and enhanced the UX/UI for andwemet dating app. Focused on creating an intuitive dashboard that provides users with a global overview and easy access to key features and information.",
             "tags": ["Product Design", "Consumer UX"],
-            "image": "./Soma Gorai — Interaction Designer Portfolio_files/photo-1511632765486-a01980e01a18",
-            "link": "http://localhost:8000/case_study_demo.html"
+            "image": "./assets/87d249f923ad0eae4c34c69a356affb48c2e12f3.png",
+            "link": "https://www.behance.net/gallery/137446671/Redesigning-the-User-dashboard-for-andwemet",
+            "external": True
         },
         {
             "title": "R Store — App Store for University Developers",
             "desc": "Designed a centralized platform for student developers to publish, discover, and manage small scale apps.",
             "tags": ["Platform Design", "Systems", "Developer Tools"],
-            "image": "./Soma Gorai — Interaction Designer Portfolio_files/photo-1498050108023-c5249f4df085",
-            "link": "http://localhost:8000/case_study_demo.html"
+            "image": "./assets/0f28c8fda4629ddf29a5cc50b5a56361b13ec511.png",
+            "link": "https://somagorai.medium.com/designing-rstore-for-channeli-d4b52f7e462a",
+            "external": True
         }
     ]
 
     for proj in projects_data:
         tags_html = "".join([f'<span class="morph-tag">{tag}</span>' for tag in proj["tags"]])
+        ext_attr = ' target="_blank" rel="noopener noreferrer"' if proj.get("external") else ""
         projects_rows += f"""
         <div class="project-row">
           <div class="project-col project-img-col">
@@ -297,24 +296,22 @@ def main():
           </div>
           
           <div class="project-col project-link-col">
-            <a href="{proj["link"]}" class="cta-button morph-row-btn" style="padding: 12px; border-radius: 50%; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; text-decoration: none;"><span class="material-symbols-outlined" style="font-size: 20px;">open_in_new</span></a>
+            <a href="{proj["link"]}"{ext_attr} class="cta-button morph-row-btn" style="padding: 12px; border-radius: 50%; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; text-decoration: none;"><span class="material-symbols-outlined" style="font-size: 20px;">open_in_new</span></a>
           </div>
         </div>\n"""
 
     # 3. Explorations (bento-grid)
     explorations_rows = ""
     explorations_data = [
-        {"title": "Patronus", "size": "bento-large", "image": "https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=600&auto=format&fit=crop", "link": "http://localhost:8000/case_study_demo.html"},
-        {"title": "WhatsApp Marketplace", "size": "bento-tall", "image": "https://images.unsplash.com/photo-1614680376593-902f74cf0d41?q=80&w=600&auto=format&fit=crop", "link": "http://localhost:8000/case_study_demo.html"},
-        {"title": "A Living City", "size": "bento-wide", "image": "https://images.unsplash.com/photo-1449844908441-8829872d2607?q=80&w=600&auto=format&fit=crop", "link": "http://localhost:8000/case_study_demo.html"},
-        {"title": "Flying Saucer", "size": "bento-square", "image": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=600&auto=format&fit=crop", "link": "http://localhost:8000/case_study_demo.html"},
-        {"title": "Future Commute", "size": "bento-tall", "image": "https://images.unsplash.com/photo-1519003722824-194d4455a60c?q=80&w=600&auto=format&fit=crop", "link": "http://localhost:8000/case_study_demo.html"},
-        {"title": "Eco-Tracker", "size": "bento-tall", "image": "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=600&auto=format&fit=crop", "link": "http://localhost:8000/case_study_demo.html"}
+        {"title": "Patronus", "size": "bento-large", "image": "./assets/f82c750cdb4506633c5b1899caa9e178a64df8d4.png", "link": "https://somagorai.medium.com/patronus-cec5abaf7e30"},
+        {"title": "WhatsApp Marketplace", "size": "bento-tall", "image": "./assets/9430c9f8e66b1e7546b24a99c8687a1fdc9863a2.png", "link": "https://www.behance.net/gallery/137906089/Case-Study-Rethinking-WhatsApp-Business"},
+        {"title": "A Living City", "size": "bento-wide", "image": "./assets/3cc07253aa4d70e51e0fe2f85e14c865d940e797.png", "link": "https://www.behance.net/gallery/243356443/A-Living-City"},
+        {"title": "Flying Saucer", "size": "bento-square", "image": "./assets/ba287376c419d92e997159257d087b70b1eabfe9.png", "link": "https://www.behance.net/gallery/136269837/Living-in-Future"}
     ]
 
     for exp in explorations_data:
         explorations_rows += f"""
-        <a href="{exp["link"]}" class="bento-tile {exp["size"]}" style="text-decoration: none;">
+        <a href="{exp["link"]}" target="_blank" rel="noopener noreferrer" class="bento-tile {exp["size"]}" style="text-decoration: none;">
           <div class="bento-bg" style="background-image: url('{exp["image"]}');"></div>
           <div class="bento-content">
             <h3>{exp["title"]}</h3>
@@ -334,8 +331,10 @@ def main():
         f.write(final_html)
     print("Generated index.html successfully.")
     
-    # Also generate about.html
+    # Also generate about.html and refactor case studies
     generate_about_page()
+    import refactor_case_studies
+    refactor_case_studies.main()
     print("Success: Compiled entire portfolio site!")
 
 def generate_about_page():
@@ -384,12 +383,12 @@ def generate_about_page():
         <div class="nav-links">
           <a href="index.html#work" class="nav-item">Work</a>
           <a href="about.html" class="nav-item">About me</a>
-          <a href="#resume" class="nav-item">Resume</a>
+          <a href="https://drive.google.com/file/d/16j93JSDc_al76dDUlxPgmRXdaimkZ4Vv/view?usp=sharing" target="_blank" class="nav-item">Resume</a>
         </div>
         <span class="nav-divider">|</span>
         <div class="nav-socials">
           <span class="nav-say-hi">Say Hi!</span>
-          <a href="https://linkedin.com/in/somagorai" target="_blank" class="social-icon-link" aria-label="LinkedIn">
+          <a href="https://www.linkedin.com/in/soma-gorai/" target="_blank" class="social-icon-link" aria-label="LinkedIn">
             <svg class="social-icon" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
           </a>
           <a href="mailto:soma.gorai@outlook.com" class="social-icon-link" aria-label="Email">
@@ -430,70 +429,44 @@ def generate_about_page():
         </div>
         
         <div class="about-hero-image">
-          <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800&auto=format&fit=crop" alt="Soma Gorai">
+          <img src="./assets/about_hero_graduate.png" alt="Soma Gorai">
         </div>
       </section>
 
-      <!-- Interests Swiper Section -->
-      <section class="about-interests-swiper swiper" style="margin-top: 32px;">
-        <div class="swiper-wrapper">
+      <!-- Hobbies & Interests Bento Grid Section -->
+      <section class="about-hobbies-section" style="margin-top: 48px;">
+        <h2 class="section-header" style="margin-bottom: 32px; padding: 0;">Hobbies & Interests</h2>
+        <div class="bento-grid">
           
-          <!-- Slide 1: Travel -->
-          <div class="swiper-slide">
-            <div class="swiper-slide-content swiper-material-animate-opacity">
-              <div class="interest-photo shape-16-9" style="background-image: url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=400&auto=format&fit=crop');"></div>
-              <div class="swiper-slide-text interest-details">
-                <h3>🗺️ Travel Enthusiast</h3>
-                <p>On a mission to cover every corner of India.</p>
-                <p>So far: Himachal (Shimla, Dharamshala, Kullu), Uttarakhand (Mussoorie, Dhanaulti, Chakrata, Tehri, Dehradun, Kuari), Ladakh, Goa, Kerala (Munnar, Alleppey, Kochi, Trivandrum), Gujarat (Ahmedabad), Rajasthan (Jaipur), and the North-East (Itanagar, Majuli, Kaziranga, Shillong, Sohra).</p>
-                <p>DM me for itineraries or travel chats!</p>
-              </div>
+          <div class="bento-tile bento-large">
+            <div class="bento-bg" style="background-image: url('./assets/hobby_travel.png');"></div>
+            <div class="bento-content">
+              <h3>🗺️ Travel Enthusiast</h3>
             </div>
           </div>
-          
-          <!-- Slide 2: Books -->
-          <div class="swiper-slide">
-            <div class="swiper-slide-content swiper-material-animate-opacity">
-              <div class="interest-photo shape-4-3" style="background-image: url('https://images.unsplash.com/photo-1457369804613-52c61a468e7d?q=80&w=400&auto=format&fit=crop');"></div>
-              <div class="swiper-slide-text interest-details">
-                <h3>📚 Books and Literature</h3>
-                <p>Used to read voraciously — still pick up a book now and then. Currently reading <em>The Last Queen</em>; all-time favorite: <em>The Book Thief</em>.</p>
-                <p>I’ve also written a bit — some old rambles <a href="#" class="inline-link">live here</a>.</p>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Slide 3: Art & Craft -->
-          <div class="swiper-slide">
-            <div class="swiper-slide-content swiper-material-animate-opacity">
-              <div class="interest-photo shape-1-1" style="background-image: url('https://images.unsplash.com/photo-1579783902614-a3fb3927b675?q=80&w=400&auto=format&fit=crop');"></div>
-              <div class="swiper-slide-text interest-details">
-                <h3>🎨 Art and Craft</h3>
-                <p>I paint when inspiration strikes — mostly people, always with feeling.</p>
-                <p>Also love dabbling in crafts and handmade things.</p>
-                <p>A few of my pieces <a href="#" class="inline-link">live here</a>.</p>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Slide 4: Movies -->
-          <div class="swiper-slide">
-            <div class="swiper-slide-content swiper-material-animate-opacity">
-              <div class="interest-photo shape-3-4" style="background-image: url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=400&auto=format&fit=crop');"></div>
-              <div class="swiper-slide-text interest-details">
-                <h3>🎬 Movie Buff</h3>
-                <p>As a literature enthusiast, appreciating cinema comes naturally.</p>
-                <p><em>5 Centimeters per Second</em> by Makoto Shinkai is my all-time favorite — perfect for anyone who enjoys the deeply melancholic, existential-crisis-kind-of vibe. I especially love horror, btw.</p>
-                <p>I occasionally <a href="#" class="inline-link">review movies here</a>.</p>
-              </div>
-            </div>
-          </div>
-          
-        </div>
 
-        <div class="swiper-pagination"></div>
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
+          <div class="bento-tile bento-tall">
+            <div class="bento-bg" style="background-image: url('./assets/hobby_books.png');"></div>
+            <div class="bento-content">
+              <h3>📚 Books & Literature</h3>
+            </div>
+          </div>
+
+          <div class="bento-tile bento-wide">
+            <div class="bento-bg" style="background-image: url('./assets/hobby_arts.png');"></div>
+            <div class="bento-content">
+              <h3>🎨 Art & Craft</h3>
+            </div>
+          </div>
+
+          <div class="bento-tile bento-square">
+            <div class="bento-bg" style="background-image: url('./assets/hobby_movies.png');"></div>
+            <div class="bento-content">
+              <h3>🎬 Movie Buff</h3>
+            </div>
+          </div>
+
+        </div>
       </section>
 
       <!-- Let's Connect -->

@@ -14,7 +14,7 @@
   --color-brown: #523C2E;
   
   /* Background & Surface */
-  --color-bg: #F3F0E7;           /* Off White */
+  --color-bg: #F8F5F5;           /* Off White Background */
   --color-surface: #FDFDFD;      /* Pure White Surface */
   --color-surface-hover: rgba(28, 33, 35, 0.04);
   --color-surface-hover-dark: rgba(28, 33, 35, 0.08);
@@ -28,9 +28,28 @@
   --color-dark-text: var(--color-bg);
   --color-border: var(--color-light-gray);
   
-  /* Typography Tokens */
+  /* Case Study Highlight & Accent Tokens */
+  --cs-highlight-yellow: rgba(237, 221, 132, 0.35);
+  --cs-highlight-green: rgba(184, 238, 199, 0.35);
+  --cs-highlight-blue: rgba(155, 208, 255, 0.35);
+  --cs-highlight-pink: rgba(255, 181, 181, 0.35);
+  --cs-highlight-lavender: rgba(209, 179, 255, 0.35);
+
+  --cs-accent-yellow: #FFE24A;
+  --cs-accent-green: #B8EEC7;
+  --cs-accent-blue: #9BD0FF;
+  --cs-accent-pink: #FFB5B5;
+  --cs-accent-lavender: #D1B3FF;
+  
+  /* Typography Tokens — Design System Standards */
   --font-heading: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-body: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-size-body: 16px;      /* Standard Body Text across design system */
+  --font-size-notes: 14px;     /* Notes, Sidebars, Annotations */
+  --font-size-caption: 14px;   /* Captions & Subtext */
+  --font-size-h1: 32px;
+  --font-size-h2: 24px;
+  --font-size-h3: 16px;
   
   /* Spacing Tokens */
   --space-xs: 4px;
@@ -61,6 +80,7 @@ body {
   background-color: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-body);
+  font-size: var(--font-size-body);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

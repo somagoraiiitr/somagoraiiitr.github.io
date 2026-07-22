@@ -11,9 +11,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
   
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+  <link rel="stylesheet" href="css/tokens.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <script>
+    if (window.location.hash === '#work' || window.location.pathname === '/work') {
+      window.scrollTo(0, 10000);
+    }
+  </script>
 
   <!-- Top Navigation Bar -->
   <nav class="top-nav-bar">
@@ -39,12 +45,12 @@
         <div class="nav-links">
           <a href="index.html#work" class="nav-item">Work</a>
           <a href="about.html" class="nav-item">About me</a>
-          <a href="#resume" class="nav-item">Resume</a>
+          <a href="https://drive.google.com/file/d/16j93JSDc_al76dDUlxPgmRXdaimkZ4Vv/view?usp=sharing" target="_blank" class="nav-item">Resume</a>
         </div>
         <span class="nav-divider">|</span>
         <div class="nav-socials">
           <span class="nav-say-hi">Say Hi!</span>
-          <a href="https://linkedin.com/in/somagorai" target="_blank" class="social-icon-link" aria-label="LinkedIn">
+          <a href="https://www.linkedin.com/in/soma-gorai/" target="_blank" class="social-icon-link" aria-label="LinkedIn">
             <svg class="social-icon" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
           </a>
           <a href="mailto:soma.gorai@outlook.com" class="social-icon-link" aria-label="Email">
@@ -65,7 +71,7 @@
       <!-- Single Baseline SVG Container (z-index: 10) -->
       <div id="cat-svg-container" class="cat-svg-container active">
         <svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" fill="none" preserveAspectRatio="xMidYMid slice">
-<rect width="1920" height="1080" fill="var(--color-bg)" />
+<rect width="1920" height="1080" fill="#F6F0ED" style="fill: var(--color-bg);" />
 <g id="cat-g-1"><path d="M1166.96 415.983C1166.67 415.991 1166.39 415.994 1166.11 415.995C1163.13 415.99 1159.72 416.058 1157.54 413.69C1154.12 409.987 1153.59 402.433 1153.08 397.599C1151.04 377.973 1152.19 357.502 1151.8 337.736C1151.38 317.159 1149.68 296.665 1149.67 276.057C1149.67 252.444 1152.33 229.52 1154.67 206.096C1156.11 191.63 1156.76 176.259 1160.41 162.166C1161.25 158.94 1162.5 154.864 1164.98 152.486C1175.29 142.601 1233.49 135.515 1249.43 134.282C1266.8 132.938 1284.41 132.553 1301.82 132.629C1306.06 135.268 1308.14 138.538 1311.17 142.483C1321.09 142.301 1368.01 145.09 1372.87 150.652C1381.66 160.721 1385.07 219.294 1387.07 235.781C1387.38 246.703 1387.17 257.643 1387.24 268.569C1387.28 275.926 1387.57 283.27 1387.73 290.626C1387.92 299.375 1387.39 308.502 1388.29 317.201C1390.12 335.117 1395.38 352.666 1397.78 370.474C1399.83 385.485 1388.88 398.537 1379.6 409.515C1384.22 416.255 1390.7 420.767 1396.2 430.417C1396.74 430.349 1397.86 429.835 1398.42 429.608C1403.91 426.707 1408.99 424.014 1414.67 421.455L1421.55 418.185C1427.38 415.325 1431.99 413.131 1438.05 410.707C1447.76 407.297 1471.75 399.722 1476.55 414.105C1478.86 421.022 1474.07 429.976 1468.94 434.435C1457.84 444.709 1445.68 453.755 1433.62 462.844C1431.33 464.562 1423.82 470.277 1421.65 471.335C1423.36 474.403 1431.05 487.289 1430.78 490.391L1429.57 491.826C1436.68 506.745 1439.09 531.924 1434.11 547.878C1430.94 558.015 1415.74 569.94 1406.12 574.29C1403.48 575.485 1392.6 579.145 1391.55 580.287L1391.3 581.162C1391.67 585.435 1392.79 601.995 1393.57 605.468L1393.34 606.3C1393.59 616.282 1393.93 626.253 1394.37 636.224C1394.52 643.021 1394.77 650.138 1394.78 656.908C1394.98 663.486 1395.31 670.448 1395.29 677C1395.43 684.725 1395.93 693.362 1395.87 700.927C1396.25 708.263 1396.43 715.609 1396.4 722.955C1396.4 727.383 1396.67 744.109 1395.89 747.816C1395.81 750.073 1395.8 753.237 1395.47 755.392C1395.35 757.964 1394.95 773.318 1394.46 774.817C1393.87 784.164 1392.9 791.409 1391.24 800.633C1390.28 807.286 1388.95 813.608 1387.62 820.186L1383.25 841.739C1382.59 844.945 1381.37 850.371 1381.15 853.487C1381.48 857.141 1382.29 877.761 1381.6 880.519C1382.61 887.348 1381.27 896.289 1381.45 903.566C1381.87 921.022 1379.63 937.732 1379.77 955.263C1379.88 968.211 1380.9 981.463 1381.63 995.126C1382.37 1008.89 1406.47 1032.83 1399.21 1047.88C1394.13 1054.88 1382.65 1056.7 1374.83 1057.51C1363.25 1058.7 1348.44 1064.46 1338.3 1056.66C1326.95 1047.91 1333.14 1023.33 1332.97 1010.66C1332.83 1000.87 1332.04 990.895 1332.15 981.415C1326.94 972.809 1324.19 967.501 1320.25 958.373C1319.04 955.817 1317.85 953.246 1316.69 950.669L1313.5 959.691C1312.47 963.969 1305.25 984.061 1303.01 987.673C1302.27 988.137 1301.5 988.558 1300.71 988.937C1296.48 990.964 1289.67 991.514 1285.48 990.073C1271.64 985.32 1281.59 951.101 1279.76 939.69C1278.87 934.141 1275 926.726 1272.64 921.689C1269.24 914.183 1266 906.607 1262.92 898.962C1261.31 894.71 1259.97 890.56 1258.56 886.238C1256.09 877.233 1253.69 869.652 1251.84 860.454L1251.5 859.83C1251.28 856.661 1249.88 849.464 1249.31 846.044C1248.1 836.916 1247.26 827.041 1247.86 817.849L1247.69 816.926C1247.83 810.465 1248.05 803.999 1248.33 797.544C1232.86 795.463 1208.52 793.5 1193.17 792.678C1187.97 791.883 1172.94 791.899 1169.98 789.003C1168.82 785.295 1170.84 772.629 1171.28 767.913C1173.5 744.21 1176.08 720.549 1179.03 696.926C1181.26 679.848 1184.06 662.787 1186.23 645.72C1185.22 643.88 1184.95 644.835 1182.59 643.266C1180.78 637.04 1184.96 610.685 1185.4 602.059C1180.44 603.483 1176.17 603.457 1171.34 601.872C1151.18 595.251 1143.29 588.449 1138.91 567.563C1134.13 544.837 1136.77 531.677 1143.2 509.897C1141.6 508.769 1141.32 508.933 1140.53 507.287C1140.88 501.883 1152.97 476.134 1155.78 469.863C1154.46 467.778 1153.33 463.919 1153.74 461.457C1154.74 455.458 1161.98 454.169 1165.61 451.514C1170.43 441.886 1182.04 424.598 1188.82 416.447C1182.23 416.399 1173.36 416.579 1166.96 415.983Z" fill="var(--color-light-gray)" />
 <path d="M1166.96 415.983C1166.68 415.991 1166.39 415.994 1166.11 415.995C1163.13 415.99 1159.72 416.058 1157.54 413.69C1154.12 409.987 1153.59 402.433 1153.09 397.599C1151.04 377.973 1152.19 357.502 1151.8 337.736C1151.38 317.159 1149.68 296.665 1149.67 276.057C1149.67 252.444 1152.33 229.52 1154.67 206.096C1156.11 191.63 1156.76 176.259 1160.41 162.166C1161.25 158.94 1162.5 154.864 1164.98 152.486C1175.29 142.601 1233.49 135.515 1249.44 134.282C1266.8 132.938 1284.41 132.553 1301.82 132.629C1306.06 135.268 1308.14 138.538 1311.18 142.483C1321.09 142.301 1368.01 145.09 1372.87 150.652C1381.66 160.721 1385.07 219.294 1387.08 235.781C1387.39 246.703 1387.17 257.643 1387.24 268.569C1387.28 275.926 1387.58 283.27 1387.73 290.626C1387.92 299.375 1387.39 308.502 1388.29 317.201C1390.12 335.117 1395.38 352.666 1397.78 370.474C1399.83 385.485 1388.88 398.537 1379.6 409.515L1373.65 405.754L1369.33 404.047C1369.72 398.641 1370.34 388.135 1368.57 382.823C1368.11 381.433 1366.89 381.187 1365.74 380.797C1364.1 378.869 1364.86 379.253 1362.83 378.717L1361.46 377.382L1362.19 375.819C1362.73 373.381 1362.71 368.726 1362.78 366.073C1363.32 364.466 1363.63 359.015 1363.79 357.043L1362.5 357.896C1359.97 357.572 1359.56 356.809 1357.34 355.089C1357.17 355.869 1356.99 356.646 1356.8 357.422L1355.78 357.469C1354.55 356.82 1354.5 356.777 1353.57 355.753L1353.9 354.253C1353.14 352.746 1353.19 353.149 1351.21 352.475C1350.11 354.658 1349.86 355.182 1348.28 357.052L1345.8 358.729L1344.95 359.339C1336.6 361.181 1313.59 362.238 1305.01 362.097C1285.81 361.961 1266.26 363.96 1246.78 363.215C1246.92 368.116 1246.57 385.668 1247.13 389.066C1243.82 390.505 1241.53 391.518 1238.36 393.309C1237.56 392.49 1236.95 391.466 1235.91 391.73C1230.74 393.04 1223.41 396.658 1218.63 398.824C1221.51 404.942 1227.67 415.506 1229.7 420.724C1220.6 420.993 1211.5 420.234 1202.57 418.46C1198.45 417.653 1194.25 416.434 1190.19 415.77C1182.48 416.098 1174.43 415.508 1166.96 415.983Z" fill="var(--color-neutral-black)" />
 <path d="M1332.74 252.042C1338.13 252.182 1342.83 252.636 1348 254.443C1354.23 258.373 1352.64 259.692 1354.41 266.232C1361.49 266.001 1370.06 263.794 1370.45 273.099L1373.25 273.944C1381.54 279.42 1380.77 285.471 1379.94 294.547C1378.9 305.968 1373.31 315.812 1362.13 319.866C1364.62 334.453 1364.62 342.139 1363.79 357.043L1362.5 357.896C1359.96 357.573 1359.56 356.809 1357.34 355.09C1357.17 355.869 1356.99 356.646 1356.8 357.422L1355.78 357.469C1354.55 356.82 1354.5 356.777 1353.57 355.753L1353.9 354.253C1353.14 352.746 1353.19 353.149 1351.21 352.475C1350.11 354.659 1349.85 355.182 1348.28 357.052L1345.8 358.729L1344.95 359.339C1336.6 361.182 1313.59 362.238 1305.01 362.098C1285.81 361.961 1266.26 363.96 1246.78 363.215C1246.92 368.116 1246.57 385.668 1247.13 389.066C1243.81 390.505 1241.53 391.519 1238.36 393.309C1237.56 392.491 1236.95 391.466 1235.91 391.73C1230.74 393.041 1223.41 396.658 1218.63 398.824C1211.61 384.078 1205.53 370.705 1199.69 355.389C1193.09 343.774 1189.15 293.526 1189.98 279.233L1189.92 278.534C1187.62 276.705 1181.74 278.906 1179.58 273.929C1180.49 269.063 1185.28 269.032 1189.23 268.318C1189.95 265.939 1190.93 262.599 1192.59 260.782C1198.35 254.455 1213.73 254.719 1222.2 254.259C1231.71 254.632 1251.9 252.016 1260.49 257.74C1262.69 259.203 1262.98 266.652 1263.29 269.608C1270.39 267.54 1273.25 267.763 1280.35 269.105C1280.48 260.057 1280.06 254.362 1290.69 253.143C1304.72 251.535 1318.65 251.897 1332.74 252.042Z" fill="var(--color-secondary-1)" />
@@ -192,7 +198,7 @@
           <!-- DEFAULT STATE ELEMENTS (5 COLUMNS) -->
           <div class="morph-col morph-img-col">
             <div class="morph-thumbnail">
-              <img src="./Soma Gorai — Interaction Designer Portfolio_files/photo-1551288049-bebda4e38f71" alt="Project Alpha">
+              <img src="./assets/235012a9efdd1b8a0d8d6e2e8f019cf4f55d6082.png" alt="Designing the Warehouse Control Tower Ecosystem">
               <div class="morph-expand-cue">
                 <span class="material-symbols-outlined cue-plus">add</span>
                 <span class="cue-text">View Project</span>
@@ -201,19 +207,15 @@
           </div>
           
           <div class="morph-col morph-title-col">
-            <h3>Project Alpha</h3>
+            <h3>Designing the Warehouse Control Tower Ecosystem</h3>
           </div>
           
           <div class="morph-col morph-role-col">
-            <span class="morph-role-text">Lead UI/UX Designer</span>
+            <span class="morph-role-text">Product Designer</span>
           </div>
           
           <div class="morph-col morph-tags-col">
-            <span class="morph-tag">SaaS</span><span class="morph-tag">Dashboard</span><span class="morph-tag">B2B</span>
-          </div>
-
-          <div class="morph-col morph-year-col">
-            <span class="morph-year-text">2025</span>
+            <span class="morph-tag">B2B Enterprise</span><span class="morph-tag">Service Design</span>
           </div>
 
           <div class="morph-col morph-button-col">
@@ -224,21 +226,18 @@
           <button class="morph-close-btn" aria-label="Close"><span class="material-symbols-outlined">close</span></button>
           <div class="morph-details-panel">
             <div class="morph-details-content">
-              <div class="morph-card-subtext">Lead UI/UX Designer  ·  2025</div>
-              <h2 class="morph-card-header">Project Alpha</h2>
+              <div class="morph-card-subtext">Product Designer  ·  Jan 2025 - Sep 2025</div>
+              <h2 class="morph-card-header">Designing the Warehouse Control Tower Ecosystem</h2>
               <div class="morph-card-tags">
-                <span class="morph-card-tag">SaaS</span><span class="morph-card-tag">Dashboard</span><span class="morph-card-tag">B2B</span>
-              </div>
-              <div class="morph-card-body">
-                <p>A next-generation SaaS dashboard designed to simplify multi-tenant operations and monitoring.</p>
+                <span class="morph-card-tag">B2B Enterprise</span><span class="morph-card-tag">Service Design</span>
               </div>
               <div class="morph-card-divider"></div>
               <div class="morph-card-body">
-                <div class="morph-card-label">Problem</div>
-                <p>Users struggled to correlate metrics from disparate database instances, leading to slow incident response times.</p>
+                <div class="morph-card-label">Summary</div>
+                <p>Replaced fragmented, Excel-driven warehouse setup with a centralized system unifying sales configuration, process mapping, and operations. Enabled real-time validation, traceability, and client-managed updates, removing data silos and engineering dependency.</p>
               </div>
               <div class="morph-card-action">
-                <a href="http://localhost:8000/case_study_demo.html" class="morph-card-link cta-button">
+                <a href="case-study-control-tower.html" class="morph-card-link cta-button">
                   <span>View Case Study</span>
                   <span class="material-symbols-outlined morph-card-link-icon" style="font-size: 16px; margin-left: 8px;">arrow_forward</span>
                 </a>
@@ -251,7 +250,7 @@
           <!-- DEFAULT STATE ELEMENTS (5 COLUMNS) -->
           <div class="morph-col morph-img-col">
             <div class="morph-thumbnail">
-              <img src="./Soma Gorai — Interaction Designer Portfolio_files/photo-1611974789855-9c2a0a7236a3" alt="Project Beta">
+              <img src="./assets/73ea07ba5ba50811bfb0f5457a8d2a2eb8baf486.png" alt="From Fragmented UI to a Single Source of Truth">
               <div class="morph-expand-cue">
                 <span class="material-symbols-outlined cue-plus">add</span>
                 <span class="cue-text">View Project</span>
@@ -260,19 +259,15 @@
           </div>
           
           <div class="morph-col morph-title-col">
-            <h3>Project Beta</h3>
+            <h3>From Fragmented UI to a Single Source of Truth</h3>
           </div>
           
           <div class="morph-col morph-role-col">
-            <span class="morph-role-text">Interaction Engineer</span>
+            <span class="morph-role-text">Interaction Designer</span>
           </div>
           
           <div class="morph-col morph-tags-col">
-            <span class="morph-tag">Fintech</span><span class="morph-tag">Real-time</span><span class="morph-tag">Data Viz</span>
-          </div>
-
-          <div class="morph-col morph-year-col">
-            <span class="morph-year-text">2024</span>
+            <span class="morph-tag">Design System</span><span class="morph-tag">Component Library</span>
           </div>
 
           <div class="morph-col morph-button-col">
@@ -283,21 +278,18 @@
           <button class="morph-close-btn" aria-label="Close"><span class="material-symbols-outlined">close</span></button>
           <div class="morph-details-panel">
             <div class="morph-details-content">
-              <div class="morph-card-subtext">Interaction Engineer  ·  2024</div>
-              <h2 class="morph-card-header">Project Beta</h2>
+              <div class="morph-card-subtext">Interaction Designer  ·  Mar 2024 - Aug 2024</div>
+              <h2 class="morph-card-header">From Fragmented UI to a Single Source of Truth</h2>
               <div class="morph-card-tags">
-                <span class="morph-card-tag">Fintech</span><span class="morph-card-tag">Real-time</span><span class="morph-card-tag">Data Viz</span>
-              </div>
-              <div class="morph-card-body">
-                <p>An interactive, web-based tool for visualizing real-time financial market swings and order books.</p>
+                <span class="morph-card-tag">Design System</span><span class="morph-card-tag">Component Library</span>
               </div>
               <div class="morph-card-divider"></div>
               <div class="morph-card-body">
-                <div class="morph-card-label">Problem</div>
-                <p>Traditional graphs lagged when handling high-frequency tick data, causing visualization delay for day traders.</p>
+                <div class="morph-card-label">Summary</div>
+                <p>We built a custom design system to address inconsistent UI patterns across Axon's warehouse software. By standardizing components, colors, typography, and states, the system reduced repeated design and development effort and made UI decisions clearer and easier to apply.</p>
               </div>
               <div class="morph-card-action">
-                <a href="http://localhost:8000/case_study_demo.html" class="morph-card-link cta-button">
+                <a href="case-study-design-system.html" class="morph-card-link cta-button">
                   <span>View Case Study</span>
                   <span class="material-symbols-outlined morph-card-link-icon" style="font-size: 16px; margin-left: 8px;">arrow_forward</span>
                 </a>
@@ -310,7 +302,7 @@
           <!-- DEFAULT STATE ELEMENTS (5 COLUMNS) -->
           <div class="morph-col morph-img-col">
             <div class="morph-thumbnail">
-              <img src="./Soma Gorai — Interaction Designer Portfolio_files/photo-1507238691740-187a5b1d37b8" alt="Project Gamma">
+              <img src="./assets/e96c9cc922798632243bfacf2f601225830c14d9.png" alt="Optimizing Teams Notifications">
               <div class="morph-expand-cue">
                 <span class="material-symbols-outlined cue-plus">add</span>
                 <span class="cue-text">View Project</span>
@@ -319,19 +311,15 @@
           </div>
           
           <div class="morph-col morph-title-col">
-            <h3>Project Gamma</h3>
+            <h3>Optimizing Teams Notifications</h3>
           </div>
           
           <div class="morph-col morph-role-col">
-            <span class="morph-role-text">Design Systems Lead</span>
+            <span class="morph-role-text">Product Intern</span>
           </div>
           
           <div class="morph-col morph-tags-col">
-            <span class="morph-tag">Systems</span><span class="morph-tag">Mobile</span><span class="morph-tag">Web</span>
-          </div>
-
-          <div class="morph-col morph-year-col">
-            <span class="morph-year-text">2024</span>
+            <span class="morph-tag">Product Management</span><span class="morph-tag">Data Analysis</span>
           </div>
 
           <div class="morph-col morph-button-col">
@@ -342,21 +330,18 @@
           <button class="morph-close-btn" aria-label="Close"><span class="material-symbols-outlined">close</span></button>
           <div class="morph-details-panel">
             <div class="morph-details-content">
-              <div class="morph-card-subtext">Design Systems Lead  ·  2024</div>
-              <h2 class="morph-card-header">Project Gamma</h2>
+              <div class="morph-card-subtext">Product Intern  ·  May 2023 - July 2023</div>
+              <h2 class="morph-card-header">Optimizing Teams Notifications</h2>
               <div class="morph-card-tags">
-                <span class="morph-card-tag">Systems</span><span class="morph-card-tag">Mobile</span><span class="morph-card-tag">Web</span>
-              </div>
-              <div class="morph-card-body">
-                <p>Building a multi-theme component library to align consumer-facing platforms across web and mobile web.</p>
+                <span class="morph-card-tag">Product Management</span><span class="morph-card-tag">Data Analysis</span>
               </div>
               <div class="morph-card-divider"></div>
               <div class="morph-card-body">
-                <div class="morph-card-label">Problem</div>
-                <p>Fragmented component definitions led to excessive design debt and high build payload sizes.</p>
+                <div class="morph-card-label">Summary</div>
+                <p>Redesigned Microsoft Teams' notification system to reduce cognitive load and help users distinguish signal from noise through intelligent notification management. Explored multiple solutions including anchored notifications, pull notification systems, and visual hierarchy using color cues.</p>
               </div>
               <div class="morph-card-action">
-                <a href="http://localhost:8000/case_study_demo.html" class="morph-card-link cta-button">
+                <a href="case-study-teams-redesign.html" class="morph-card-link cta-button">
                   <span>View Case Study</span>
                   <span class="material-symbols-outlined morph-card-link-icon" style="font-size: 16px; margin-left: 8px;">arrow_forward</span>
                 </a>
@@ -369,7 +354,7 @@
           <!-- DEFAULT STATE ELEMENTS (5 COLUMNS) -->
           <div class="morph-col morph-img-col">
             <div class="morph-thumbnail">
-              <img src="./Soma Gorai — Interaction Designer Portfolio_files/photo-1460925895917-afdab827c52f" alt="Project Delta">
+              <img src="./assets/8f71ad3af89068a4848d360e1e3517ffd16f2df4.png" alt="Physical-to-Digital Monitoring for Robotic Systems">
               <div class="morph-expand-cue">
                 <span class="material-symbols-outlined cue-plus">add</span>
                 <span class="cue-text">View Project</span>
@@ -378,19 +363,15 @@
           </div>
           
           <div class="morph-col morph-title-col">
-            <h3>Project Delta</h3>
+            <h3>Physical-to-Digital Monitoring for Robotic Systems</h3>
           </div>
           
           <div class="morph-col morph-role-col">
-            <span class="morph-role-text">UX Researcher</span>
+            <span class="morph-role-text">Product Designer</span>
           </div>
           
           <div class="morph-col morph-tags-col">
-            <span class="morph-tag">E-commerce</span><span class="morph-tag">Research</span><span class="morph-tag">Checkout</span>
-          </div>
-
-          <div class="morph-col morph-year-col">
-            <span class="morph-year-text">2023</span>
+            <span class="morph-tag">Automation</span><span class="morph-tag">Data Viz</span>
           </div>
 
           <div class="morph-col morph-button-col">
@@ -401,21 +382,18 @@
           <button class="morph-close-btn" aria-label="Close"><span class="material-symbols-outlined">close</span></button>
           <div class="morph-details-panel">
             <div class="morph-details-content">
-              <div class="morph-card-subtext">UX Researcher  ·  2023</div>
-              <h2 class="morph-card-header">Project Delta</h2>
+              <div class="morph-card-subtext">Product Designer  ·  Oct 2024 - Jan 2025</div>
+              <h2 class="morph-card-header">Physical-to-Digital Monitoring for Robotic Systems</h2>
               <div class="morph-card-tags">
-                <span class="morph-card-tag">E-commerce</span><span class="morph-card-tag">Research</span><span class="morph-card-tag">Checkout</span>
-              </div>
-              <div class="morph-card-body">
-                <p>An in-depth study of friction points in digital checkout flows for regional e-commerce products.</p>
+                <span class="morph-card-tag">Automation</span><span class="morph-card-tag">Data Viz</span>
               </div>
               <div class="morph-card-divider"></div>
               <div class="morph-card-body">
-                <div class="morph-card-label">Problem</div>
-                <p>High drop-off rates at payment gateways due to misleading layout indicators and lack of localization options.</p>
+                <div class="morph-card-label">Summary</div>
+                <p>Designed a real-time monitoring system that translates live robotic operations into a clear, spatially grounded digital view. The interface mirrors the physical layout of RAPTOR systems, enabling faster understanding and confident action across roles.</p>
               </div>
               <div class="morph-card-action">
-                <a href="http://localhost:8000/case_study_demo.html" class="morph-card-link cta-button">
+                <a href="case-study-digital-twin.html" class="morph-card-link cta-button">
                   <span>View Case Study</span>
                   <span class="material-symbols-outlined morph-card-link-icon" style="font-size: 16px; margin-left: 8px;">arrow_forward</span>
                 </a>
@@ -436,7 +414,7 @@
         <div class="project-row">
           <div class="project-col project-img-col">
             <div class="project-thumbnail">
-              <img src="./Soma Gorai — Interaction Designer Portfolio_files/photo-1518770660439-4636190af475" alt="Contextual AI Insights for Warehouse Operations">
+              <img src="./assets/3bb82bf383a52e322b1f9c7ed1243553ccaabf11.png" alt="Contextual AI Insights for Warehouse Operations">
             </div>
           </div>
           
@@ -453,14 +431,14 @@
           </div>
           
           <div class="project-col project-link-col">
-            <a href="http://localhost:8000/case_study_demo.html" class="cta-button morph-row-btn" style="padding: 12px; border-radius: 50%; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; text-decoration: none;"><span class="material-symbols-outlined" style="font-size: 20px;">open_in_new</span></a>
+            <a href="case-study-predictive-analytics.html" class="cta-button morph-row-btn" style="padding: 12px; border-radius: 50%; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; text-decoration: none;"><span class="material-symbols-outlined" style="font-size: 20px;">open_in_new</span></a>
           </div>
         </div>
 
         <div class="project-row">
           <div class="project-col project-img-col">
             <div class="project-thumbnail">
-              <img src="./Soma Gorai — Interaction Designer Portfolio_files/photo-1551288049-bebda4e38f71(1)" alt="WES Redesign Through Heuristic Analysis">
+              <img src="./assets/9e5c9ce58f92fcf33dff7ca8800befd4fcca8371.png" alt="WES Redesign Through Heuristic Analysis">
             </div>
           </div>
           
@@ -477,14 +455,14 @@
           </div>
           
           <div class="project-col project-link-col">
-            <a href="http://localhost:8000/case_study_demo.html" class="cta-button morph-row-btn" style="padding: 12px; border-radius: 50%; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; text-decoration: none;"><span class="material-symbols-outlined" style="font-size: 20px;">open_in_new</span></a>
+            <a href="case-study-wes-redesign.html" class="cta-button morph-row-btn" style="padding: 12px; border-radius: 50%; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; text-decoration: none;"><span class="material-symbols-outlined" style="font-size: 20px;">open_in_new</span></a>
           </div>
         </div>
 
         <div class="project-row">
           <div class="project-col project-img-col">
             <div class="project-thumbnail">
-              <img src="./Soma Gorai — Interaction Designer Portfolio_files/photo-1511632765486-a01980e01a18" alt="andwemet — Dating App Redesign">
+              <img src="./assets/87d249f923ad0eae4c34c69a356affb48c2e12f3.png" alt="andwemet — Dating App Redesign">
             </div>
           </div>
           
@@ -501,14 +479,14 @@
           </div>
           
           <div class="project-col project-link-col">
-            <a href="http://localhost:8000/case_study_demo.html" class="cta-button morph-row-btn" style="padding: 12px; border-radius: 50%; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; text-decoration: none;"><span class="material-symbols-outlined" style="font-size: 20px;">open_in_new</span></a>
+            <a href="https://www.behance.net/gallery/137446671/Redesigning-the-User-dashboard-for-andwemet" target="_blank" rel="noopener noreferrer" class="cta-button morph-row-btn" style="padding: 12px; border-radius: 50%; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; text-decoration: none;"><span class="material-symbols-outlined" style="font-size: 20px;">open_in_new</span></a>
           </div>
         </div>
 
         <div class="project-row">
           <div class="project-col project-img-col">
             <div class="project-thumbnail">
-              <img src="./Soma Gorai — Interaction Designer Portfolio_files/photo-1498050108023-c5249f4df085" alt="R Store — App Store for University Developers">
+              <img src="./assets/0f28c8fda4629ddf29a5cc50b5a56361b13ec511.png" alt="R Store — App Store for University Developers">
             </div>
           </div>
           
@@ -525,7 +503,7 @@
           </div>
           
           <div class="project-col project-link-col">
-            <a href="http://localhost:8000/case_study_demo.html" class="cta-button morph-row-btn" style="padding: 12px; border-radius: 50%; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; text-decoration: none;"><span class="material-symbols-outlined" style="font-size: 20px;">open_in_new</span></a>
+            <a href="https://somagorai.medium.com/designing-rstore-for-channeli-d4b52f7e462a" target="_blank" rel="noopener noreferrer" class="cta-button morph-row-btn" style="padding: 12px; border-radius: 50%; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; text-decoration: none;"><span class="material-symbols-outlined" style="font-size: 20px;">open_in_new</span></a>
           </div>
         </div>
 
@@ -539,45 +517,31 @@
               <h2 class="section-header">Explorations</h2>
               <div class="bento-grid">
                 
-        <a href="http://localhost:8000/case_study_demo.html" class="bento-tile bento-large" style="text-decoration: none;">
-          <div class="bento-bg" style="background-image: url('https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=600&auto=format&fit=crop');"></div>
+        <a href="https://somagorai.medium.com/patronus-cec5abaf7e30" target="_blank" rel="noopener noreferrer" class="bento-tile bento-large" style="text-decoration: none;">
+          <div class="bento-bg" style="background-image: url('./assets/f82c750cdb4506633c5b1899caa9e178a64df8d4.png');"></div>
           <div class="bento-content">
             <h3>Patronus</h3>
           </div>
         </a>
 
-        <a href="http://localhost:8000/case_study_demo.html" class="bento-tile bento-tall" style="text-decoration: none;">
-          <div class="bento-bg" style="background-image: url('https://images.unsplash.com/photo-1614680376593-902f74cf0d41?q=80&w=600&auto=format&fit=crop');"></div>
+        <a href="https://www.behance.net/gallery/137906089/Case-Study-Rethinking-WhatsApp-Business" target="_blank" rel="noopener noreferrer" class="bento-tile bento-tall" style="text-decoration: none;">
+          <div class="bento-bg" style="background-image: url('./assets/9430c9f8e66b1e7546b24a99c8687a1fdc9863a2.png');"></div>
           <div class="bento-content">
             <h3>WhatsApp Marketplace</h3>
           </div>
         </a>
 
-        <a href="http://localhost:8000/case_study_demo.html" class="bento-tile bento-wide" style="text-decoration: none;">
-          <div class="bento-bg" style="background-image: url('https://images.unsplash.com/photo-1449844908441-8829872d2607?q=80&w=600&auto=format&fit=crop');"></div>
+        <a href="https://www.behance.net/gallery/243356443/A-Living-City" target="_blank" rel="noopener noreferrer" class="bento-tile bento-wide" style="text-decoration: none;">
+          <div class="bento-bg" style="background-image: url('./assets/3cc07253aa4d70e51e0fe2f85e14c865d940e797.png');"></div>
           <div class="bento-content">
             <h3>A Living City</h3>
           </div>
         </a>
 
-        <a href="http://localhost:8000/case_study_demo.html" class="bento-tile bento-square" style="text-decoration: none;">
-          <div class="bento-bg" style="background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=600&auto=format&fit=crop');"></div>
+        <a href="https://www.behance.net/gallery/136269837/Living-in-Future" target="_blank" rel="noopener noreferrer" class="bento-tile bento-square" style="text-decoration: none;">
+          <div class="bento-bg" style="background-image: url('./assets/ba287376c419d92e997159257d087b70b1eabfe9.png');"></div>
           <div class="bento-content">
             <h3>Flying Saucer</h3>
-          </div>
-        </a>
-
-        <a href="http://localhost:8000/case_study_demo.html" class="bento-tile bento-tall" style="text-decoration: none;">
-          <div class="bento-bg" style="background-image: url('https://images.unsplash.com/photo-1519003722824-194d4455a60c?q=80&w=600&auto=format&fit=crop');"></div>
-          <div class="bento-content">
-            <h3>Future Commute</h3>
-          </div>
-        </a>
-
-        <a href="http://localhost:8000/case_study_demo.html" class="bento-tile bento-tall" style="text-decoration: none;">
-          <div class="bento-bg" style="background-image: url('https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=600&auto=format&fit=crop');"></div>
-          <div class="bento-content">
-            <h3>Eco-Tracker</h3>
           </div>
         </a>
 
