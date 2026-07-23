@@ -470,48 +470,26 @@ document.addEventListener('DOMContentLoaded', () => {
   class SubPageUtilities {
     constructor() {
       this.sideNavLinks = document.querySelectorAll('.side-nav-link, .cs-nav a');
-      this.sections = document.querySelectorAll('.case-study-content section[id], .cs-content h2[id]');
       this.accordionHeaders = document.querySelectorAll('.accordion-header');
 
-      this.initScrollSpy();
+      this.initNavClickHandlers();
       this.initAccordions();
     }
 
-    initScrollSpy() {
+    initNavClickHandlers() {
       if (this.sideNavLinks.length === 0) return;
-
-      const observerOptions = {
-        root: null,
-        rootMargin: '-10% 0px -70% 0px',
-        threshold: 0
-      };
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const id = entry.target.getAttribute('id');
-            this.sideNavLinks.forEach(link => {
-              if (link.getAttribute('href') === `#${id}`) {
-                link.classList.add('active');
-              } else {
-                link.classList.remove('active');
-              }
-            });
-          }
-        });
-      }, observerOptions);
-
-      this.sections.forEach(section => observer.observe(section));
 
       this.sideNavLinks.forEach(link => {
         link.addEventListener('click', (e) => {
-          e.preventDefault();
-          const targetId = link.getAttribute('href');
-          const targetSection = document.querySelector(targetId);
-          if (targetSection) {
-            const yOffset = -120;
-            const y = targetSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
-            window.scrollTo({ top: y, behavior: 'smooth' });
+          const href = link.getAttribute('href');
+          if (href && href.startsWith('#') && href.length > 1) {
+            e.preventDefault();
+            const targetSection = document.querySelector(href);
+            if (targetSection) {
+              const yOffset = -120;
+              const y = targetSection.getBoundingClientRect().top + window.pageYOffset + yOffset;
+              window.scrollTo({ top: y, behavior: 'smooth' });
+            }
           }
         });
       });
@@ -562,13 +540,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (targets.length === 0) return;
 
-    const scrollPosition = window.scrollY + 180;
-    let currentTarget = targets[0];
+    const isAtBottom = (window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 50);
 
-    for (let i = 0; i < targets.length; i++) {
-      const el = targets[i];
-      if (el.offsetTop <= scrollPosition) {
-        currentTarget = el;
+    let currentTarget = targets[0];
+    if (isAtBottom) {
+      currentTarget = targets[targets.length - 1];
+    } else {
+      const scrollPosition = window.scrollY + 180;
+      for (let i = 0; i < targets.length; i++) {
+        const el = targets[i];
+        if (el.offsetTop <= scrollPosition) {
+          currentTarget = el;
+        }
       }
     }
 

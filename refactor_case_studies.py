@@ -101,10 +101,11 @@ def main():
             "tags": ["Automation", "Data Viz"],
             "duration": "Oct 2024 - Jan 2025",
             "sidenav_items": [
-                {"href": "#overview", "label": "Overview"},
-                {"href": "#challenge", "label": "Problem Space"},
-                {"href": "#solution", "label": "System Architecture"},
-                {"href": "#outcomes", "label": "Operational Impact"}
+                {"href": "#context", "label": "Context & Problem"},
+                {"href": "#design-process", "label": "Market Research"},
+                {"href": "#design-iterations", "label": "Design Iterations"},
+                {"href": "#information-architecture", "label": "Information Architecture"},
+                {"href": "#final-dashboard", "label": "Final Dashboard UI"}
             ]
         },
         {
@@ -114,10 +115,9 @@ def main():
             "tags": ["AI", "Systems", "Dashboard"],
             "duration": "Jan 2024 - Apr 2024",
             "sidenav_items": [
-                {"href": "#overview", "label": "Overview"},
-                {"href": "#research", "label": "Research & Insights"},
-                {"href": "#design", "label": "Interaction Models"},
-                {"href": "#outcomes", "label": "Outcomes"}
+                {"href": "#problem", "label": "Problem & Context"},
+                {"href": "#features", "label": "Finalized Features"},
+                {"href": "#use-case", "label": "Use Case: Pharmaceutical"}
             ]
         },
         {
@@ -127,11 +127,11 @@ def main():
             "tags": ["Product Management", "Data Analysis"],
             "duration": "May 2023 - July 2023",
             "sidenav_items": [
-                {"href": "#overview", "label": "Overview"},
-                {"href": "#problem", "label": "The Notification Challenge"},
-                {"href": "#research", "label": "User Research"},
-                {"href": "#solution", "label": "Design Solutions"},
-                {"href": "#outcomes", "label": "Results & Impact"}
+                {"href": "#context", "label": "Context & Problem"},
+                {"href": "#user-issues", "label": "User Issues Identified"},
+                {"href": "#anchored-notifications", "label": "Anchored Notifications"},
+                {"href": "#pull-notifications", "label": "Pull Notifications"},
+                {"href": "#notification-hierarchy", "label": "Notification Hierarchy"}
             ]
         },
         {
@@ -141,10 +141,7 @@ def main():
             "tags": ["Interaction Design", "Enterprise UX"],
             "duration": "Jul 2024 - Sep 2024",
             "sidenav_items": [
-                {"href": "#overview", "label": "Overview"},
-                {"href": "#heuristic", "label": "Heuristic Analysis"},
-                {"href": "#patterns", "label": "Interaction Patterns"},
-                {"href": "#outcomes", "label": "Results"}
+                {"href": "#coming-soon", "label": "Coming Soon"}
             ]
         }
     ]
