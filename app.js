@@ -50,6 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (window.location.hash === '#work' || window.location.pathname === '/work') {
         const max = this.trackH - this.vh;
         window.scrollTo(0, this.trackTop + max);
+        if (this.section2) this.section2.scrollTop = 0;
       }
 
       // Seed history state
@@ -107,9 +108,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const path = window.location.pathname;
         if ((e.state && e.state.section === 'home') || path === '/') {
           document.body.style.overflow = '';
+          if (this.section2) this.section2.scrollTop = 0;
           window.scrollTo({ top: 0, behavior: 'instant' });
         } else if ((e.state && e.state.section === 'work') || path === '/work') {
           const max = this.trackH - this.vh;
+          if (this.section2) this.section2.scrollTop = 0;
           window.scrollTo({ top: this.trackTop + max, behavior: 'instant' });
         }
       });
@@ -120,6 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
         logoLink.addEventListener('click', (e) => {
           e.preventDefault();
           document.body.style.overflow = '';
+          if (this.section2) this.section2.scrollTop = 0;
           window.scrollTo({ top: 0, behavior: 'instant' });
         });
       }
@@ -133,12 +137,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (['/','','/index.html','/work'].includes(window.location.pathname)) {
               e.preventDefault();
               const max = this.trackH - this.vh;
+              if (this.section2) this.section2.scrollTop = 0;
               window.scrollTo({ top: this.trackTop + max, behavior: 'instant' });
               this.onScroll();
             }
           } else if (text === 'home') {
             e.preventDefault();
             document.body.style.overflow = '';
+            if (this.section2) this.section2.scrollTop = 0;
             window.scrollTo({ top: 0, behavior: 'instant' });
             this.onScroll();
           }
@@ -261,6 +267,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (this.section2) {
         this.section2.style.opacity = s2opacity.toString();
         this.section2.style.pointerEvents = s2events;
+        if (progress < 0.50 && this.section2.scrollTop > 0) {
+          this.section2.scrollTop = 0;
+        }
       }
 
       // ── Body overflow lock ──
