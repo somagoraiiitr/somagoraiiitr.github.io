@@ -390,17 +390,17 @@ document.addEventListener('DOMContentLoaded', () => {
         this.progressBar.style.width = yawnFill + '%';
       }
       if (this.progressWrapper) {
-        // Show once scrolling starts, hide when work page is fully revealed
-        if (progress > 0.02 && progress < 0.85) {
+        // Show from page load; hide when work page is revealing
+        if (progress < 0.80) {
           this.progressWrapper.classList.add('visible');
         } else {
           this.progressWrapper.classList.remove('visible');
         }
       }
 
-      // Magnetic scroll snap: If scroll pauses inside the transition range (0.35 <= progress < 0.98),
+      // Magnetic scroll snap: If scroll pauses inside the transition range (0.20 <= progress < 0.98),
       // auto-complete the transition after 60ms to work page (or back to hero if < 0.45).
-      if (!this.isSnapping && progress > 0.35 && progress < 0.98) {
+      if (!this.isSnapping && progress > 0.20 && progress < 0.98) {
         if (this.snapTimeout) clearTimeout(this.snapTimeout);
         this.snapTimeout = setTimeout(() => {
           this.isSnapping = true;
