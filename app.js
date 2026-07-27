@@ -48,11 +48,9 @@ document.addEventListener('DOMContentLoaded', () => {
       this.bindEvents();
       this.updateLayout();
 
-      // Deep-link to /work
+      // Deep-link or load directly on /work
       if (window.location.hash === '#work' || window.location.pathname === '/work') {
-        const max = this.trackH - this.vh;
-        window.scrollTo(0, this.trackTop + max);
-        if (this.section2) this.section2.scrollTop = 0;
+        this.navigateToWorkSync();
       }
 
       // Seed history state
@@ -67,6 +65,42 @@ document.addEventListener('DOMContentLoaded', () => {
       this.vh = window.innerHeight;
       this.trackH   = this.scrollTrack.offsetHeight;
       this.trackTop = this.scrollTrack.offsetTop;
+    }
+
+    navigateToWorkSync() {
+      const max = this.trackH - this.vh;
+      this.scrollDir = 'forward';
+
+      // Temporarily force auto scroll behavior so scrollTo is 100% instant
+      document.documentElement.style.scrollBehavior = 'auto';
+      document.body.style.overflow = 'hidden';
+
+      if (this.section2) {
+        this.section2.scrollTop = 0;
+        this.section2.style.opacity = '1';
+        this.section2.style.pointerEvents = 'auto';
+      }
+      if (this.curtain) {
+        this.curtain.style.opacity = '0';
+        this.curtain.style.display = 'none';
+        this.curtain.classList.remove('active');
+      }
+      if (this.heroWrapper) {
+        this.heroWrapper.style.opacity = '0';
+      }
+      const catEl = document.getElementById('cat-svg-container');
+      if (catEl) {
+        catEl.style.opacity = '0';
+        catEl.style.visibility = 'hidden';
+      }
+
+      window.scrollTo(0, this.trackTop + max);
+      this.updateAnimation(this.trackTop + max);
+
+      // Remove critical render class if set on initial page load
+      document.documentElement.classList.remove('is-work-page');
+
+      window.history.replaceState({ section: 'work' }, '', '/work');
     }
 
     bindEvents() {
@@ -114,34 +148,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { passive: false });
       }
 
-      // Synchronous navigation to Work to avoid home page glance
-      const navigateToWorkSync = () => {
-        const max = this.trackH - this.vh;
-        this.scrollDir = 'forward';
-        document.body.style.overflow = 'hidden';
-        if (this.section2) {
-          this.section2.scrollTop = 0;
-          this.section2.style.opacity = '1';
-          this.section2.style.pointerEvents = 'auto';
-        }
-        if (this.curtain) {
-          this.curtain.style.opacity = '0';
-          this.curtain.style.display = 'none';
-          this.curtain.classList.remove('active');
-        }
-        if (this.heroWrapper) {
-          this.heroWrapper.style.opacity = '0';
-        }
-        const catEl = document.getElementById('cat-svg-container');
-        if (catEl) {
-          catEl.style.opacity = '0';
-          catEl.style.visibility = 'hidden';
-        }
-        window.scrollTo({ top: this.trackTop + max, behavior: 'instant' });
-        this.updateAnimation(this.trackTop + max);
-        window.history.replaceState({ section: 'work' }, '', '/work');
-      };
-
       // Browser back/forward
       window.addEventListener('popstate', (e) => {
         const path = window.location.pathname;
@@ -150,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (this.section2) this.section2.scrollTop = 0;
           window.scrollTo({ top: 0, behavior: 'instant' });
         } else if ((e.state && e.state.section === 'work') || path === '/work') {
-          navigateToWorkSync();
+          this.navigateToWorkSync();
         }
       });
 
@@ -173,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (text === 'work' || href === '/work' || href === 'index.html#work') {
             if (['/','','/index.html','/work'].includes(window.location.pathname)) {
               e.preventDefault();
-              navigateToWorkSync();
+              this.navigateToWorkSync();
             }
           } else if (text === 'home') {
             e.preventDefault();

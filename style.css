@@ -30,9 +30,25 @@
 
 html {
   scroll-padding-top: 110px;
-  scroll-behavior: smooth;
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;     /* Firefox */
+}
+
+/* Critical initial render override when loading /work directly */
+html.is-work-page .hero-content-wrapper,
+html.is-work-page #cat-svg-container {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+html.is-work-page #section-2 {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+html.is-work-page #transition-curtain {
+  opacity: 0 !important;
+  display: none !important;
 }
 
 html::-webkit-scrollbar,
