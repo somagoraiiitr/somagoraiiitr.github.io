@@ -2185,9 +2185,7 @@ span.material-symbols-outlined.icon-filled {
   width: 100vw;
   height: 100vh;
   z-index: 2000;
-  background: rgba(28, 33, 35, 0.45);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.50);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2264,24 +2262,25 @@ span.material-symbols-outlined.icon-filled {
 }
 
 .dialog-close-btn {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background-color: var(--color-surface-hover);
-  border: none;
-  color: var(--color-neutral-black);
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  background-color: var(--color-surface-hover);
+  color: var(--color-gray);
+  font-size: 18px;
+  border-radius: 8px;
+  transition: color 0.2s ease, background-color 0.2s ease;
   cursor: pointer;
   flex-shrink: 0;
-  transition: all 0.2s ease;
 }
 
 .dialog-close-btn:hover {
-  background-color: var(--color-neutral-black);
-  color: #FFFFFF;
-  transform: rotate(90deg);
+  background-color: var(--color-surface-hover-dark);
+  color: var(--color-neutral-black);
 }
 
 /* Dialog Body (Scrollable Window) */

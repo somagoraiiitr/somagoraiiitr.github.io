@@ -116,6 +116,7 @@ def main():
             "duration": "Jan 2024 - Apr 2024",
             "sidenav_items": [
                 {"href": "#problem", "label": "Problem & Context"},
+                {"href": "#market-research", "label": "Market Research"},
                 {"href": "#features", "label": "Finalized Features"},
                 {"href": "#use-case", "label": "Use Case: Pharmaceutical"}
             ]
