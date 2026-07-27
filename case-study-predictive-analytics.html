@@ -53,12 +53,17 @@
 
   <main class="cs-layout">
     
-    <!-- Row 1, Col 1: Back Icon Button aligned with Title -->
-    <div class="cs-back-wrapper">
-      <a href="index.html#work" class="cs-back-btn" aria-label="Back to Portfolio" title="Back to Portfolio">
-        <span class="material-symbols-outlined" style="font-size: 20px;">arrow_back</span>
-      </a>
-    </div>
+    <!-- Row 1 & 2, Col 1: Sticky Sidebar (Back Button stacked above Left Navigation) -->
+    <aside class="case-study-sidebar">
+      <div class="cs-back-wrapper">
+        <a href="index.html#work" class="cs-back-btn" aria-label="Back to Portfolio" title="Back to Portfolio">
+          <span class="material-symbols-outlined" style="font-size: 20px;">arrow_back</span>
+        </a>
+      </div>
+      <nav class="cs-nav">
+        <ul><li><a href="#problem" class="active">Problem & Context</a></li><li><a href="#features">Finalized Features</a></li><li><a href="#use-case">Use Case: Pharmaceutical</a></li></ul>
+      </nav>
+    </aside>
 
     <!-- Row 1, Col 2: Title, Subtitle, Tags & Time -->
     <header class="cs-header">
@@ -78,13 +83,6 @@
 
     <!-- Row 1, Col 3: Empty header note space -->
     <div class="cs-header-notes"></div>
-
-    <!-- Row 2, Col 1: Left Navigation aligned with H2 Overview -->
-    <aside class="case-study-sidebar">
-      <nav class="cs-nav">
-        <ul><li><a href="#problem" class="active">Problem & Context</a></li><li><a href="#features">Finalized Features</a></li><li><a href="#use-case">Use Case: Pharmaceutical</a></li></ul>
-      </nav>
-    </aside>
 
     <!-- Row 2, Col 2: Main Body Content -->
     <article class="cs-content">
