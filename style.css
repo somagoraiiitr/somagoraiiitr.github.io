@@ -76,7 +76,7 @@ section[id], .cs-content section[id] {
 
 .scroll-track {
   position: relative;
-  height: 160vh; /* Scroll length for the transition sequence */
+  height: 210vh; /* Extended scroll track for 30% slower transition effects */
   scroll-snap-align: start;
 }
 

@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
               this.scrollDir = 'reverse';
               document.body.style.overflow = '';
               if (this.snapTimeout) { clearTimeout(this.snapTimeout); this.snapTimeout = null; }
-              window.scrollBy({ top: e.deltaY, behavior: 'instant' });
+              window.scrollBy({ top: e.deltaY * 0.7, behavior: 'instant' });
             }
           } else {
             this._upScrollAccumulator = 0;
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
               this.scrollDir = 'reverse';
               document.body.style.overflow = '';
               if (this.snapTimeout) { clearTimeout(this.snapTimeout); this.snapTimeout = null; }
-              window.scrollBy({ top: -dy * 1.5, behavior: 'instant' });
+              window.scrollBy({ top: -dy * 1.0, behavior: 'instant' });
               this._touchStartY = e.touches[0].clientY;
             }
           } else {
