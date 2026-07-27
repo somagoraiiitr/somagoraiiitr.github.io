@@ -22,6 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
       this.transitionCurtain = document.getElementById('transition-curtain');
       this.section2 = document.getElementById('section-2');
       this.heroContentWrapper = document.querySelector('.hero-content-wrapper');
+      this.progressWrapper = document.getElementById('scroll-progress-wrapper');
+      this.progressBar = document.getElementById('scroll-progress-bar');
 
       // Layout cache
       this.viewportWidth = window.innerWidth;
@@ -61,6 +63,32 @@ document.addEventListener('DOMContentLoaded', () => {
         this.updateLayout();
         this.onScroll();
       }, { passive: true });
+
+      // Scroll-up from /work: when section-2 is scrolled to the very top
+      // and user scrolls up, unlock body so reverse iris animation plays.
+      if (this.section2) {
+        this.section2.addEventListener('wheel', (e) => {
+          if (e.deltaY < 0 && this.section2.scrollTop <= 0) {
+            e.preventDefault();
+            document.body.style.overflow = '';
+            // Trigger a small upward scroll on body to kick reverse animation
+            window.scrollBy({ top: -5, behavior: 'instant' });
+          }
+        }, { passive: false });
+
+        this.section2.addEventListener('touchstart', (e) => {
+          this._touchStartY = e.touches[0].clientY;
+        }, { passive: true });
+
+        this.section2.addEventListener('touchmove', (e) => {
+          const dy = e.touches[0].clientY - this._touchStartY;
+          if (dy > 0 && this.section2.scrollTop <= 0) {
+            e.preventDefault();
+            document.body.style.overflow = '';
+            window.scrollBy({ top: -5, behavior: 'instant' });
+          }
+        }, { passive: false });
+      }
 
       // Handle deep linking to /work on page load
       if (window.location.pathname === '/work' || window.location.hash === '#work') {
@@ -345,12 +373,29 @@ document.addEventListener('DOMContentLoaded', () => {
         this.section2.style.zIndex = section2ZIndex;
       }
 
-      // Lock body overflow when we are fully at the work page to prevent scroll chaining
-      // and accidental reverse of the iris curtain.
+      // Lock body overflow when fully at /work so internal section-2 scroll works.
+      // Unlocking happens when user scrolls up from top of section-2 (see bindEvents).
       if (progress >= 1.0) {
         document.body.style.overflow = 'hidden';
-      } else {
+      } else if (progress < 0.95) {
+        // Only unlock during the transition (not at the boundary where
+        // the wheel listener handles it).
         document.body.style.overflow = '';
+      }
+
+      // Progress bar: fill tracks the yawn phase (0 → 0.45 → 100%)
+      // Visible from progress > 0 and fades out as work page appears.
+      if (this.progressBar) {
+        const yawnFill = Math.min(1.0, progress / 0.45) * 100;
+        this.progressBar.style.width = yawnFill + '%';
+      }
+      if (this.progressWrapper) {
+        // Show once scrolling starts, hide when work page is fully revealed
+        if (progress > 0.02 && progress < 0.85) {
+          this.progressWrapper.classList.add('visible');
+        } else {
+          this.progressWrapper.classList.remove('visible');
+        }
       }
 
       // Magnetic scroll snap: If scroll pauses inside the transition range (0.35 <= progress < 0.98),
