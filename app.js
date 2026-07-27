@@ -3,76 +3,85 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   // ==========================================================================
-  // 1. HERO ZOOM CONTROLLER (Isolated Scroll & Yawn Animation)
+  // 1. HERO ZOOM CONTROLLER (Scroll-driven Iris Transition)
   // ==========================================================================
   class HeroZoomController {
     constructor() {
       this.scrollTrack = document.getElementById('scroll-track');
       if (!this.scrollTrack) return;
 
-      this.catG = document.getElementById('cat-g-1');
-      this.eyeLeft = document.getElementById('cat-eye-left');
-      this.eyeRight = document.getElementById('cat-eye-right');
-      this.mouth = document.getElementById('cat-mouth');
-      this.tongue = document.getElementById('cat-tongue');
-      this.toothLeft = document.getElementById('cat-tooth-left');
-      this.toothRight = document.getElementById('cat-tooth-right');
-      this.detail1 = document.getElementById('cat-mouth-detail-1');
-      this.detail2 = document.getElementById('cat-mouth-detail-2');
-      this.transitionCurtain = document.getElementById('transition-curtain');
-      this.section2 = document.getElementById('section-2');
-      this.heroContentWrapper = document.querySelector('.hero-content-wrapper');
+      // SVG elements
+      this.catG        = document.getElementById('cat-g-1');
+      this.eyeLeft     = document.getElementById('cat-eye-left');
+      this.eyeRight    = document.getElementById('cat-eye-right');
+      this.mouth       = document.getElementById('cat-mouth');
+      this.tongue      = document.getElementById('cat-tongue');
+      this.toothLeft   = document.getElementById('cat-tooth-left');
+      this.toothRight  = document.getElementById('cat-tooth-right');
+      this.detail1     = document.getElementById('cat-mouth-detail-1');
+      this.detail2     = document.getElementById('cat-mouth-detail-2');
+      this.curtain     = document.getElementById('transition-curtain');
+      this.section2    = document.getElementById('section-2');
+      this.heroWrapper = document.querySelector('.hero-content-wrapper');
       this.progressWrapper = document.getElementById('scroll-progress-wrapper');
-      this.progressBar = document.getElementById('scroll-progress-bar');
+      this.progressBar     = document.getElementById('scroll-progress-bar');
 
       // Layout cache
-      this.viewportWidth = window.innerWidth;
-      this.viewportHeight = window.innerHeight;
-      this.scrollTrackHeight = this.scrollTrack.offsetHeight;
-      this.scrollTrackTop = this.scrollTrack.offsetTop;
+      this.vw = window.innerWidth;
+      this.vh = window.innerHeight;
+      this.trackH   = this.scrollTrack.offsetHeight;
+      this.trackTop = this.scrollTrack.offsetTop;
 
-      // Scroll states
-      this.lastScrollY = window.scrollY;
-      this.ticking = false;
+      // Scroll state
+      this.ticking     = false;
       this.snapTimeout = null;
-      this.isSnapping = false;
+      this.isSnapping  = false;
+      // Direction: 'forward' | 'reverse' | null — used to inhibit snap during reverse
+      this.scrollDir   = null;
+      this._lastProgress = 0;
+      this._touchStartY = 0;
 
-      // Initialize
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
       this.bindEvents();
       this.updateLayout();
 
+      // Deep-link to /work
       if (window.location.hash === '#work' || window.location.pathname === '/work') {
-        const totalScrollable = this.scrollTrackHeight - this.viewportHeight;
-        window.scrollTo(0, this.scrollTrackTop + totalScrollable);
-        this.lastScrollY = window.scrollY;
+        const max = this.trackH - this.vh;
+        window.scrollTo(0, this.trackTop + max);
       }
+
+      // Seed history state
+      if (window.location.pathname === '/')     window.history.replaceState({ section: 'home' }, '', '/');
+      else if (window.location.pathname === '/work') window.history.replaceState({ section: 'work' }, '', '/work');
 
       this.onScroll();
     }
 
     updateLayout() {
-      this.viewportWidth = window.innerWidth;
-      this.viewportHeight = window.innerHeight;
-      this.scrollTrackHeight = this.scrollTrack.offsetHeight;
-      this.scrollTrackTop = this.scrollTrack.offsetTop;
+      this.vw = window.innerWidth;
+      this.vh = window.innerHeight;
+      this.trackH   = this.scrollTrack.offsetHeight;
+      this.trackTop = this.scrollTrack.offsetTop;
     }
 
     bindEvents() {
       window.addEventListener('scroll', () => this.onScroll(), { passive: true });
-      window.addEventListener('resize', () => {
-        this.updateLayout();
-        this.onScroll();
-      }, { passive: true });
+      window.addEventListener('resize', () => { this.updateLayout(); this.onScroll(); }, { passive: true });
 
-      // Scroll-up from /work: when section-2 is scrolled to the very top
-      // and user scrolls up, unlock body so reverse iris animation plays.
+      // ── Reverse iris: translate wheel deltaY into body scroll when at top of section-2 ──
+      // This mirrors the forward scroll 1:1 — no fixed 5px kick, proportional feel.
       if (this.section2) {
         this.section2.addEventListener('wheel', (e) => {
           if (e.deltaY < 0 && this.section2.scrollTop <= 0) {
             e.preventDefault();
+            this.scrollDir = 'reverse';
             document.body.style.overflow = '';
-            // Trigger a small upward scroll on body to kick reverse animation
-            window.scrollBy({ top: -5, behavior: 'instant' });
+            // Cancel any pending forward snap immediately
+            if (this.snapTimeout) { clearTimeout(this.snapTimeout); this.snapTimeout = null; }
+            // Translate the same deltaY proportionally onto the body scroll
+            window.scrollBy({ top: e.deltaY, behavior: 'instant' });
           }
         }, { passive: false });
 
@@ -84,75 +93,52 @@ document.addEventListener('DOMContentLoaded', () => {
           const dy = e.touches[0].clientY - this._touchStartY;
           if (dy > 0 && this.section2.scrollTop <= 0) {
             e.preventDefault();
+            this.scrollDir = 'reverse';
             document.body.style.overflow = '';
-            window.scrollBy({ top: -5, behavior: 'instant' });
+            if (this.snapTimeout) { clearTimeout(this.snapTimeout); this.snapTimeout = null; }
+            window.scrollBy({ top: -dy * 1.5, behavior: 'instant' });
+            this._touchStartY = e.touches[0].clientY; // reset to avoid compounding
           }
         }, { passive: false });
       }
 
-      // Handle deep linking to /work on page load
-      if (window.location.pathname === '/work' || window.location.hash === '#work') {
-        const totalScrollable = this.scrollTrackHeight - this.viewportHeight;
-        window.scrollTo({ top: this.scrollTrackTop + totalScrollable, behavior: 'instant' });
-      }
-
-      // Disable browser native scroll restoration to prevent it from jumping
-      // back to the 0.80 progress point where the pushState originally happened.
-      if ('scrollRestoration' in history) {
-        history.scrollRestoration = 'manual';
-      }
-
-      // Initialize state for the first load so we have a known state
-      if (window.location.pathname === '/') {
-        window.history.replaceState({ section: 'home' }, '', '/');
-      } else if (window.location.pathname === '/work') {
-        window.history.replaceState({ section: 'work' }, '', '/work');
-      }
-
-      // Handle browser back/forward button naturally without locking
+      // Browser back/forward
       window.addEventListener('popstate', (e) => {
-        const state = e.state;
-        const targetPath = window.location.pathname;
-        
-        if ((state && state.section === 'home') || targetPath === '/') {
-          document.body.style.overflow = ''; // Unlock scroll
+        const path = window.location.pathname;
+        if ((e.state && e.state.section === 'home') || path === '/') {
+          document.body.style.overflow = '';
           window.scrollTo({ top: 0, behavior: 'instant' });
-        } else if ((state && state.section === 'work') || targetPath === '/work') {
-          const totalScrollable = this.scrollTrackHeight - this.viewportHeight;
-          window.scrollTo({ top: this.scrollTrackTop + totalScrollable, behavior: 'instant' });
+        } else if ((e.state && e.state.section === 'work') || path === '/work') {
+          const max = this.trackH - this.vh;
+          window.scrollTo({ top: this.trackTop + max, behavior: 'instant' });
         }
       });
 
-      // Header Logo and Menu item smooth-scroll routing
+      // Logo → home
       const logoLink = document.querySelector('.nav-logo-link');
       if (logoLink) {
         logoLink.addEventListener('click', (e) => {
           e.preventDefault();
-          document.body.style.overflow = ''; // Unlock scroll
-          window.scrollTo({
-            top: 0,
-            behavior: 'instant'
-          });
+          document.body.style.overflow = '';
+          window.scrollTo({ top: 0, behavior: 'instant' });
         });
       }
 
+      // Nav item routing
       document.querySelectorAll('.nav-item').forEach(link => {
         link.addEventListener('click', (e) => {
           const text = link.textContent.trim().toLowerCase();
           const href = link.getAttribute('href');
           if (text === 'work' || href === '/work' || href === 'index.html#work') {
-            if (window.location.pathname === '/' || window.location.pathname === '/index.html' || window.location.pathname === '/work') {
+            if (['/','','/index.html','/work'].includes(window.location.pathname)) {
               e.preventDefault();
-              const totalScrollable = this.scrollTrackHeight - this.viewportHeight;
-              window.scrollTo({
-                top: this.scrollTrackTop + totalScrollable,
-                behavior: 'instant'
-              });
+              const max = this.trackH - this.vh;
+              window.scrollTo({ top: this.trackTop + max, behavior: 'instant' });
               this.onScroll();
             }
           } else if (text === 'home') {
             e.preventDefault();
-            document.body.style.overflow = ''; // Unlock scroll
+            document.body.style.overflow = '';
             window.scrollTo({ top: 0, behavior: 'instant' });
             this.onScroll();
           }
@@ -161,279 +147,153 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     onScroll() {
-      const currentScrollY = window.scrollY;
+      const y = window.scrollY;
       if (!this.ticking) {
         window.requestAnimationFrame(() => {
-          this.updateAnimation(currentScrollY);
+          this.updateAnimation(y);
           this.ticking = false;
         });
         this.ticking = true;
       }
     }
 
-    updateAnimation(currentScrollY) {
-
-      const rectTop = this.scrollTrackTop - currentScrollY;
-      const totalScrollable = this.scrollTrackHeight - this.viewportHeight;
-      let progress = -rectTop / totalScrollable;
-      // Fix floating point precision issues (e.g. 0.9999999999999) 
-      // which cause the if-else blocks to incorrectly trigger the curtain active state.
-      progress = Math.round(progress * 100000) / 100000;
+    updateAnimation(scrollY) {
+      const max = this.trackH - this.vh;
+      const rectTop = this.trackTop - scrollY;
+      let progress = Math.round((-rectTop / max) * 100000) / 100000;
       progress = Math.max(0, Math.min(1, progress));
 
-      // Constant calculations
-      const mx_start = 1316.9;
-      const my_start = 488.7;
-      const nx_start = 1316.9;
-      const ny_start = 475.0;
-      const mx_end = 960;
-      const my_end = 540;
-      const eyeLeftCX = 1285.1;
-      const eyeLeftCY = 459.4;
-      const eyeRightCX = 1345.5;
-      const eyeRightCY = 457.0;
+      // Track scroll direction for snap suppression
+      if (progress < this._lastProgress) this.scrollDir = 'reverse';
+      else if (progress > this._lastProgress) this.scrollDir = 'forward';
+      this._lastProgress = progress;
 
-      const svgScale = Math.max(this.viewportWidth / 1920, this.viewportHeight / 1080);
-      const svgWidth = this.viewportWidth / svgScale;
-      const svgHeight = this.viewportHeight / svgScale;
+      // ── SVG anchor points ──
+      const MX = 1316.9, MY = 488.7;
+      const NX = 1316.9, NY = 475.0;
+      const CX = 960,    CY = 540;
+      const ELX = 1285.1, ELY = 459.4;
+      const ERX = 1345.5, ERY = 457.0;
 
-      const s_max = 1.8;
-      const s_giant = Math.max(svgWidth / 10.0, svgHeight / 8.0) * 2.0;
+      const svgScale = Math.max(this.vw / 1920, this.vh / 1080);
+      const S_MAX   = 1.8;
+      const S_GIANT = Math.max((this.vw / svgScale) / 10.0, (this.vh / svgScale) / 8.0) * 2.0;
 
-      let s = 1.0;
-      let tx = 0;
-      let ty = 0;
-
+      // ── Cat zoom transform ──
+      let s = 1.0, tx = 0, ty = 0;
       if (progress < 0.45) {
-        const t_zoom = progress / 0.45;
-        s = 1.0 + (s_max - 1.0) * t_zoom;
-        const nx_target = nx_start + (mx_end - nx_start) * t_zoom;
-        const ny_target = ny_start + (my_end - ny_start) * t_zoom;
-        tx = nx_target - s * nx_start;
-        ty = ny_target - s * ny_start;
-      } else if (progress >= 0.45 && progress < 0.75) {
-        const t_giant = (progress - 0.45) / 0.30;
-        const easeT = t_giant * t_giant * (3 - 2 * t_giant);
-        s = s_max + (s_giant - s_max) * easeT;
-        const cx = nx_start + (mx_start - nx_start) * easeT;
-        const cy = ny_start + (my_start - ny_start) * easeT;
-        tx = mx_end - s * cx;
-        ty = my_end - s * cy;
+        const t = progress / 0.45;
+        s = 1.0 + (S_MAX - 1.0) * t;
+        tx = (NX + (CX - NX) * t) - s * NX;
+        ty = (NY + (CY - NY) * t) - s * NY;
+      } else if (progress < 0.75) {
+        const t = (progress - 0.45) / 0.30;
+        const e = t * t * (3 - 2 * t);
+        s = S_MAX + (S_GIANT - S_MAX) * e;
+        tx = CX - s * (NX + (MX - NX) * e);
+        ty = CY - s * (NY + (MY - NY) * e);
       } else {
-        s = s_giant;
-        tx = mx_end - s * mx_start;
-        ty = my_end - s * my_start;
+        s = S_GIANT;
+        tx = CX - s * MX;
+        ty = CY - s * MY;
       }
+      if (this.catG) this.catG.setAttribute('transform', `translate(${tx},${ty}) scale(${s})`);
 
-      // Eye scale squint
+      // ── Eye squint ──
       const eyeScale = progress < 0.45 ? 1.0 - 0.7 * (progress / 0.45) : 0.3;
+      if (this.eyeLeft)  this.eyeLeft.setAttribute('transform',  `translate(${ELX},${ELY}) scale(1,${eyeScale}) translate(${-ELX},${-ELY})`);
+      if (this.eyeRight) this.eyeRight.setAttribute('transform', `translate(${ERX},${ERY}) scale(1,${eyeScale}) translate(${-ERX},${-ERY})`);
 
-      // Mouth opening scale
-      const t_mouth = Math.min(1.0, progress / 0.45);
-      const mouthScaleX = 1.0 + 1.0 * t_mouth;
-      const mouthScaleY = 1.0 + 2.0 * t_mouth;
+      // ── Mouth yawn ──
+      const tm = Math.min(1.0, progress / 0.45);
+      const mxform = `translate(${MX},${MY}) scale(${1 + tm},${1 + 2*tm}) translate(${-MX},-${MY})`;
+      if (this.mouth)     { this.mouth.setAttribute('transform', mxform); this.mouth.style.opacity = 1; }
+      if (this.toothLeft)  this.toothLeft.setAttribute('transform', mxform);
+      if (this.toothRight) this.toothRight.setAttribute('transform', mxform);
+      if (this.tongue)     this.tongue.setAttribute('transform', mxform);
 
-      // Opacities
-      let teethOpacity = 1.0;
-      let tongueOpacity = 1.0;
-      let noseOpacity = 1.0;
+      // Fade teeth/tongue/nose after yawn peak
+      const fadeOut = progress >= 0.45 ? 1.0 - Math.min(1.0, (progress - 0.45) / 0.15) : 1.0;
+      [this.toothLeft, this.toothRight, this.tongue].forEach(el => {
+        if (el) { el.style.opacity = fadeOut; el.setAttribute('opacity', fadeOut.toString()); }
+      });
+      [this.detail1, this.detail2].forEach(el => {
+        if (el) { el.style.opacity = fadeOut; el.setAttribute('opacity', fadeOut.toString()); }
+      });
 
-      if (progress >= 0.45) {
-        const fadeProgress = Math.min(1.0, (progress - 0.45) / 0.15);
-        teethOpacity = 1.0 - fadeProgress;
-        tongueOpacity = 1.0 - fadeProgress;
-        noseOpacity = 1.0 - fadeProgress;
-      }
+      // ── Hero text fade ──
+      if (this.heroWrapper) this.heroWrapper.style.opacity = Math.max(0, 1 - progress / 0.40);
 
-      // Set transform attributes
-      if (this.catG) this.catG.setAttribute('transform', `translate(${tx}, ${ty}) scale(${s})`);
-
-      const leftEyeTransform = `translate(${eyeLeftCX}, ${eyeLeftCY}) scale(1, ${eyeScale}) translate(${-eyeLeftCX}, ${-eyeLeftCY})`;
-      const rightEyeTransform = `translate(${eyeRightCX}, ${eyeRightCY}) scale(1, ${eyeScale}) translate(${-eyeRightCX}, ${-eyeRightCY})`;
-      if (this.eyeLeft) this.eyeLeft.setAttribute('transform', leftEyeTransform);
-      if (this.eyeRight) this.eyeRight.setAttribute('transform', rightEyeTransform);
-
-      const mouthTransform = `translate(${mx_start}, ${my_start}) scale(${mouthScaleX}, ${mouthScaleY}) translate(${-mx_start}, -${my_start})`;
-      if (this.mouth) {
-        this.mouth.setAttribute('transform', mouthTransform);
-        this.mouth.style.opacity = 1;
-        this.mouth.setAttribute('opacity', '1');
-      }
-
-      if (this.toothLeft) {
-        this.toothLeft.setAttribute('transform', mouthTransform);
-        this.toothLeft.style.opacity = teethOpacity;
-        this.toothLeft.setAttribute('opacity', teethOpacity.toString());
-      }
-      if (this.toothRight) {
-        this.toothRight.setAttribute('transform', mouthTransform);
-        this.toothRight.style.opacity = teethOpacity;
-        this.toothRight.setAttribute('opacity', teethOpacity.toString());
-      }
-      if (this.tongue) {
-        this.tongue.setAttribute('transform', mouthTransform);
-        this.tongue.style.opacity = tongueOpacity;
-        this.tongue.setAttribute('opacity', tongueOpacity.toString());
-      }
-      if (this.detail1) {
-        this.detail1.style.opacity = noseOpacity;
-        this.detail1.setAttribute('opacity', noseOpacity.toString());
-      }
-      if (this.detail2) {
-        this.detail2.style.opacity = noseOpacity;
-        this.detail2.setAttribute('opacity', noseOpacity.toString());
-      }
-
-      // Fade Hero Title text
-      if (this.heroContentWrapper) {
-        this.heroContentWrapper.style.opacity = Math.max(0, 1 - progress / 0.40);
-      }
-
-      // Wipe curtain scale / reveal variables
-      let scaleVal = 0.0;
-      let curtainOpacity = 0.0;
-      let curtainActive = false;
-      let section2Opacity = 0.0;
-      let section2PointerEvents = 'none';
-      let section2ZIndex = '20';
-      let catContainerOpacity = '1';
-      let catContainerVisibility = 'visible';
+      // ── Iris curtain (symmetric: grows 0.50→0.75, holds 0.75→0.80, collapses 0.80→1.0) ──
+      let scaleVal = 0, curtainOn = false, s2opacity = 0, s2events = 'none', catOpacity = '1';
 
       if (progress < 0.50) {
-        scaleVal = 0.0;
-        curtainOpacity = 0.0;
-        curtainActive = false;
-        section2Opacity = 0.0;
-        section2PointerEvents = 'none';
-        section2ZIndex = '20';
-        catContainerOpacity = '1';
-        catContainerVisibility = 'visible';
-      } else if (progress >= 0.50 && progress < 0.75) {
-        const t_wipe = (progress - 0.50) / 0.25;
-        const easeT = t_wipe * t_wipe * (3 - 2 * t_wipe);
-        scaleVal = easeT;
-        curtainOpacity = 1.0;
-        curtainActive = true;
-        section2Opacity = 0.0;
-        section2PointerEvents = 'none';
-        section2ZIndex = '20';
-        catContainerOpacity = '1';
-        catContainerVisibility = 'visible';
-      } else if (progress >= 0.75 && progress < 0.80) {
-        scaleVal = 1.0;
-        curtainOpacity = 1.0;
-        curtainActive = true;
-        section2Opacity = 1.0;
-        section2PointerEvents = 'none';
-        section2ZIndex = '20';
-        catContainerOpacity = '0';
-        catContainerVisibility = 'hidden';
-      } else if (progress >= 0.80 && progress < 1.0) {
-        const t_curtain = (progress - 0.80) / 0.20;
-        const easeT = t_curtain * t_curtain * (3 - 2 * t_curtain);
-        scaleVal = 1.0 - easeT;
-        curtainOpacity = 1.0;
-        curtainActive = true;
-        section2Opacity = 1.0;
-        section2PointerEvents = 'auto';
-        section2ZIndex = '20';
-        catContainerOpacity = '0';
-        catContainerVisibility = 'hidden';
+        scaleVal = 0; curtainOn = false;
+      } else if (progress < 0.75) {
+        const t = (progress - 0.50) / 0.25;
+        const e = t * t * (3 - 2 * t);
+        scaleVal = e; curtainOn = true;
+      } else if (progress < 0.80) {
+        scaleVal = 1.0; curtainOn = true; s2opacity = 1; catOpacity = '0';
+      } else if (progress < 1.0) {
+        const t = (progress - 0.80) / 0.20;
+        const e = t * t * (3 - 2 * t);
+        scaleVal = 1.0 - e; curtainOn = true;
+        s2opacity = 1; s2events = 'auto'; catOpacity = '0';
       } else {
-        scaleVal = 0.0;
-        curtainOpacity = 0.0;
-        curtainActive = false;
-        section2Opacity = 1.0;
-        section2PointerEvents = 'auto';
-        section2ZIndex = '20';
-        catContainerOpacity = '0';
-        catContainerVisibility = 'hidden';
+        scaleVal = 0; curtainOn = false;
+        s2opacity = 1; s2events = 'auto'; catOpacity = '0';
       }
 
-      const catContainer = document.getElementById('cat-svg-container');
-      if (catContainer) {
-        catContainer.style.opacity = catContainerOpacity;
-        catContainer.style.visibility = catContainerVisibility;
+      const catEl = document.getElementById('cat-svg-container');
+      if (catEl) {
+        catEl.style.opacity = catOpacity;
+        catEl.style.visibility = catOpacity === '0' ? 'hidden' : 'visible';
       }
-
-      if (this.transitionCurtain) {
-        if (curtainActive) {
-          this.transitionCurtain.classList.add('active');
-        } else {
-          this.transitionCurtain.classList.remove('active');
-        }
-        this.transitionCurtain.style.opacity = curtainOpacity.toString();
-        this.transitionCurtain.style.zIndex = '30';
-        this.transitionCurtain.style.backgroundColor = 'var(--color-neutral-black)';
+      if (this.curtain) {
+        this.curtain.classList.toggle('active', curtainOn);
+        this.curtain.style.opacity = curtainOn ? '1' : '0';
+        this.curtain.style.zIndex = '30';
+        this.curtain.style.backgroundColor = 'var(--color-neutral-black)';
+        this.curtain.style.transform =
+          `translate(${this.vw/2}px,${this.vh/2}px) translate(-50%,-50%) scale(${scaleVal.toFixed(4)})`;
       }
-
       if (this.section2) {
-        this.section2.style.opacity = section2Opacity.toString();
-        this.section2.style.pointerEvents = section2PointerEvents;
-        this.section2.style.zIndex = section2ZIndex;
+        this.section2.style.opacity = s2opacity.toString();
+        this.section2.style.pointerEvents = s2events;
       }
 
-      // Lock body overflow when fully at /work so internal section-2 scroll works.
-      // Unlocking happens when user scrolls up from top of section-2 (see bindEvents).
+      // ── Body overflow lock ──
+      // Lock at progress=1 so section-2 can scroll internally.
+      // Reverse direction unlocks immediately (handled in wheel listener + here).
       if (progress >= 1.0) {
         document.body.style.overflow = 'hidden';
-      } else if (progress < 0.95) {
-        // Only unlock during the transition (not at the boundary where
-        // the wheel listener handles it).
+      } else if (progress < 0.98 || this.scrollDir === 'reverse') {
         document.body.style.overflow = '';
       }
 
-      // Progress bar: fill tracks the yawn phase (0 → 0.45 → 100%)
-      // Visible from progress > 0 and fades out as work page appears.
-      if (this.progressBar) {
-        const yawnFill = Math.min(1.0, progress / 0.45) * 100;
-        this.progressBar.style.width = yawnFill + '%';
-      }
-      if (this.progressWrapper) {
-        // Show from page load; hide when work page is revealing
-        if (progress < 0.80) {
-          this.progressWrapper.classList.add('visible');
-        } else {
-          this.progressWrapper.classList.remove('visible');
-        }
-      }
+      // ── Progress bar (tied to yawn 0→0.45) ──
+      if (this.progressBar) this.progressBar.style.width = (Math.min(1, progress / 0.45) * 100) + '%';
+      if (this.progressWrapper) this.progressWrapper.classList.toggle('visible', progress < 0.80);
 
-      // Magnetic scroll snap: If scroll pauses inside the transition range (0.20 <= progress < 0.98),
-      // auto-complete the transition after 60ms to work page (or back to hero if < 0.45).
-      if (!this.isSnapping && progress > 0.20 && progress < 0.98) {
+      // ── Magnetic snap ──
+      // Only snap forward; suppress entirely while user is actively reversing.
+      if (!this.isSnapping && this.scrollDir !== 'reverse' && progress > 0.20 && progress < 0.98) {
         if (this.snapTimeout) clearTimeout(this.snapTimeout);
         this.snapTimeout = setTimeout(() => {
+          if (this.scrollDir === 'reverse') return; // guard re-check
           this.isSnapping = true;
-          const targetY = progress >= 0.45 ? (this.scrollTrackTop + totalScrollable) : 0;
-          
-          window.scrollTo({
-            top: targetY,
-            behavior: 'smooth'
-          });
-
-          setTimeout(() => {
-            this.isSnapping = false;
-          }, 450);
+          const target = progress >= 0.45 ? (this.trackTop + max) : 0;
+          window.scrollTo({ top: target, behavior: 'smooth' });
+          setTimeout(() => { this.isSnapping = false; }, 450);
         }, 60);
       }
 
-      let currentCenterX = this.viewportWidth / 2;
-      let currentCenterY = this.viewportHeight / 2;
-
-      if (this.transitionCurtain) {
-        const scaleRounded = scaleVal.toFixed(4);
-        this.transitionCurtain.style.transform = `translate(${currentCenterX}px, ${currentCenterY}px) translate(-50%, -50%) scale(${scaleRounded})`;
-      }
-
-      // Sync address bar route dynamically
+      // ── Address bar sync ──
       if (progress >= 0.80) {
-        if (window.location.pathname !== '/work') {
-          window.history.pushState({ section: 'work' }, '', '/work');
-        }
+        if (window.location.pathname !== '/work') window.history.pushState({ section: 'work' }, '', '/work');
       } else {
-        if (window.location.pathname !== '/') {
-          window.history.pushState({ section: 'home' }, '', '/');
-        }
+        if (window.location.pathname !== '/') window.history.pushState({ section: 'home' }, '', '/');
       }
     }
   }
