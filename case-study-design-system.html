@@ -152,82 +152,88 @@
         </div>
       </section>
 
-<section id="heuristic-analysis" style="margin-bottom: 96px">
-        <div style="border: 1px solid var(--color-neutral-black); background: var(--color-bg);">
+<section id="heuristic-analysis" style="margin-bottom: 64px">
+        <!-- Extended Button Component Trigger -->
+        <div class="extended-btn-wrapper">
           <button 
             type="button" 
-            class="accordion-header" 
-            aria-expanded="false" 
-            aria-controls="heuristic-content"
-            style="width: 100%; padding: 16px 20px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; background: transparent; border: none; font-family: inherit; text-align: left;"
+            class="extended-btn-trigger" 
+            aria-haspopup="dialog" 
+            aria-expanded="false"
+            data-dialog-target="heuristic-dialog"
           >
-            <h3 style="font-size: 15px; font-weight: 500; color: #111111; margin-bottom: 0">
-              <sup style="font-size: 12px">(1)</sup> Heuristic Analysis of the Existing Platform
-            </h3>
-            <span class="chevron-icon" style="transition: transform 0.2s ease; display: inline-block;">&#9662;</span>
-          </button>
-
-          <div id="heuristic-content" class="accordion-content" style="display: none; border-top: 1px solid var(--color-neutral-black);">
-            <div style="padding: 32px 20px">
-              
-              <h3 style="font-size: 18px; font-weight: 500; color: #111111; margin-bottom: 24px; margin-top: 0; background: rgba(250, 227, 103, 0.3); padding: 8px 12px; display: inline-block">
-                Existing Style Guide
-              </h3>
-              <div style="margin-bottom: 32px">
-                <img 
-                  src="assets/adde7536cd5d20f3a28c6cc72547113f59803a05.png" 
-                  alt="Existing Style Guide Analysis" 
-                  style="width: 100%; height: auto"
-                />
+            <div class="extended-btn-left">
+              <div class="extended-btn-icon-badge">
+                <span class="material-symbols-outlined">analytics</span>
               </div>
-
-              
-              <h3 style="font-size: 18px; font-weight: 500; color: #111111; margin-bottom: 24px; margin-top: 32px; background: rgba(250, 227, 103, 0.3); padding: 8px 12px; display: inline-block">
-                Tables
-              </h3>
-              <div style="margin-bottom: 32px">
-                <img 
-                  src="assets/b2269323808fdc5f40e13626e52cbc75daefd397.png" 
-                  alt="Table Interaction Analysis 1" 
-                  style="width: 100%; height: auto; margin-bottom: 32px"
-                />
-                <img 
-                  src="assets/da506d664ea7bb85f58bc83cd367a69e938f74cd.png" 
-                  alt="Table Interaction Analysis 2" 
-                  style="width: 100%; height: auto"
-                />
-              </div>
-
-              
-              <h3 style="font-size: 18px; font-weight: 500; color: #111111; margin-bottom: 24px; margin-top: 32px; background: rgba(250, 227, 103, 0.3); padding: 8px 12px; display: inline-block">
-                Pop Ups
-              </h3>
-              <div style="margin-bottom: 32px">
-                <img 
-                  src="assets/76ca72eaa3fd7a9a8b897fdb13e31860a3f7cc8a.png" 
-                  alt="Pop Up Analysis 1" 
-                  style="width: 100%; height: auto; margin-bottom: 32px"
-                />
-                <img 
-                  src="assets/b36965861b24252250506c483dd0c309d7e3f11e.png" 
-                  alt="Pop Up Analysis 2" 
-                  style="width: 100%; height: auto"
-                />
-              </div>
-
-              
-              <h3 style="font-size: 18px; font-weight: 500; color: #111111; margin-bottom: 24px; margin-top: 32px; background: rgba(250, 227, 103, 0.3); padding: 8px 12px; display: inline-block">
-                Accessibility Check
-              </h3>
-              <div style="margin-bottom: 0">
-                <img 
-                  src="assets/bf2c16183e72ad07df140220a4c327e144f6ae97.png" 
-                  alt="Accessibility Check Analysis" 
-                  style="width: 70%; height: auto"
-                />
+              <div class="extended-btn-text">
+                <span class="extended-btn-tag">Audit & Analysis</span>
+                <span class="extended-btn-title"><sup style="font-size: 11px">(1)</sup> Heuristic Analysis of the Existing Platform</span>
               </div>
             </div>
+            <div class="extended-btn-action">
+              <span class="extended-btn-action-label">View Analysis</span>
+              <span class="material-symbols-outlined extended-btn-action-icon">open_in_full</span>
+            </div>
+          </button>
+        </div>
+
+        <!-- Dialog Box Component (Modal Overlay with Scrollable Window) -->
+        <div id="heuristic-dialog" class="dialog-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="dialog-heuristic-title">
+          <div class="dialog-container">
+            <header class="dialog-header">
+              <div class="dialog-header-info">
+                <span class="dialog-badge">Audit & Analysis</span>
+                <h2 id="dialog-heuristic-title" class="dialog-title">Heuristic Analysis of the Existing Platform</h2>
+              </div>
+              <button type="button" class="dialog-close-btn" aria-label="Close dialog">
+                <span class="material-symbols-outlined">close</span>
+              </button>
+            </header>
+
+            <div class="dialog-body">
+              
+              <div class="dialog-section-block">
+                <div class="dialog-section-header">
+                  <span class="dialog-section-badge">1. Existing Style Guide</span>
+                </div>
+                <div class="dialog-img-wrapper">
+                  <img src="assets/adde7536cd5d20f3a28c6cc72547113f59803a05.png" alt="Existing Style Guide Analysis" loading="lazy">
+                </div>
+              </div>
+
+              <div class="dialog-section-block">
+                <div class="dialog-section-header">
+                  <span class="dialog-section-badge">2. Tables Interaction</span>
+                </div>
+                <div class="dialog-img-wrapper">
+                  <img src="assets/b2269323808fdc5f40e13626e52cbc75daefd397.png" alt="Table Interaction Analysis 1" loading="lazy" style="margin-bottom: 24px;">
+                  <img src="assets/da506d664ea7bb85f58bc83cd367a69e938f74cd.png" alt="Table Interaction Analysis 2" loading="lazy">
+                </div>
+              </div>
+
+              <div class="dialog-section-block">
+                <div class="dialog-section-header">
+                  <span class="dialog-section-badge">3. Pop Ups & Modals</span>
+                </div>
+                <div class="dialog-img-wrapper">
+                  <img src="assets/76ca72eaa3fd7a9a8b897fdb13e31860a3f7cc8a.png" alt="Pop Up Analysis 1" loading="lazy" style="margin-bottom: 24px;">
+                  <img src="assets/b36965861b24252250506c483dd0c309d7e3f11e.png" alt="Pop Up Analysis 2" loading="lazy">
+                </div>
+              </div>
+
+              <div class="dialog-section-block">
+                <div class="dialog-section-header">
+                  <span class="dialog-section-badge">4. Accessibility Check</span>
+                </div>
+                <div class="dialog-img-wrapper">
+                  <img src="assets/bf2c16183e72ad07df140220a4c327e144f6ae97.png" alt="Accessibility Check Analysis" loading="lazy">
+                </div>
+              </div>
+
+            </div>
           </div>
+        </div>
       </section>
 
 <section id="old-vs-new" style="margin-bottom: 96px">

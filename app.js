@@ -519,3 +519,73 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('scroll', updateActiveSideNav, { passive: true });
   updateActiveSideNav();
 });
+
+/* ==========================================================================
+   DIALOG COMPONENT CONTROLLER (Extended Button Trigger & Modal Window)
+   ========================================================================== */
+class DialogController {
+  constructor() {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => this.init());
+    } else {
+      this.init();
+    }
+  }
+
+  init() {
+    this.triggers = document.querySelectorAll('[data-dialog-target]');
+    this.initEvents();
+  }
+
+  initEvents() {
+    this.triggers.forEach(trigger => {
+      const targetId = trigger.getAttribute('data-dialog-target');
+      const dialog = document.getElementById(targetId);
+      if (!dialog) return;
+
+      trigger.addEventListener('click', () => this.openDialog(dialog, trigger));
+
+      const closeBtn = dialog.querySelector('.dialog-close-btn');
+      if (closeBtn) {
+        closeBtn.addEventListener('click', () => this.closeDialog(dialog, trigger));
+      }
+
+      dialog.addEventListener('click', (e) => {
+        if (e.target === dialog) {
+          this.closeDialog(dialog, trigger);
+        }
+      });
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const activeDialog = document.querySelector('.dialog-overlay.active');
+        if (activeDialog) {
+          const targetId = activeDialog.getAttribute('id');
+          const trigger = document.querySelector(`[data-dialog-target="${targetId}"]`);
+          this.closeDialog(activeDialog, trigger);
+        }
+      }
+    });
+  }
+
+  openDialog(dialog, trigger) {
+    dialog.classList.add('active');
+    dialog.setAttribute('aria-hidden', 'false');
+    if (trigger) trigger.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+
+  closeDialog(dialog, trigger) {
+    dialog.classList.remove('active');
+    dialog.setAttribute('aria-hidden', 'true');
+    if (trigger) trigger.setAttribute('aria-expanded', 'false');
+    const otherActive = document.querySelector('.dialog-overlay.active');
+    if (!otherActive && window.location.pathname !== '/work') {
+      document.body.style.overflow = '';
+    }
+  }
+}
+
+new DialogController();
+
