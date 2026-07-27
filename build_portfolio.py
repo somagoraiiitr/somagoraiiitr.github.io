@@ -89,6 +89,10 @@ def prepare_svg(filename):
     svg_str = re.sub(r'style="fill: var\(--color-bg\);"\s*', '', svg_str)
     svg_str = re.sub(r'<rect([^>]*)\bfill=["\'][^"\'\>]+["\']', r'<rect\1fill="#F6F0ED" style="fill: var(--color-bg);"', svg_str, count=1)
 
+    # Inject background hero waves directly inside SVG after background rect (behind cat & text)
+    waves_svg = '''<g id="hero-waves" aria-hidden="true"><path class="hero-wave-path hero-wave-back" fill="var(--color-accent)" fill-opacity="0.08" d="M -1920 540 C -1440 420 -960 680 -480 540 C 0 420 480 680 960 540 C 1440 420 1920 680 2400 540 C 2880 420 3360 680 3840 540 L 3840 1080 L -1920 1080 Z" /><path class="hero-wave-path hero-wave-front" fill="var(--color-accent)" fill-opacity="0.12" d="M -1920 680 C -1440 780 -960 560 -480 680 C 0 780 480 560 960 680 C 1440 780 1920 560 2400 680 C 2880 780 3360 560 3840 680 L 3840 1080 L -1920 1080 Z" /></g>'''
+    svg_str = re.sub(r'(<rect[^>]*>)', r'\1' + waves_svg, svg_str, count=1)
+
     # Replace hex codes with CSS variables
     replacements = {
         '#B64F2A': 'var(--color-primary)',      # Rust - Primary
