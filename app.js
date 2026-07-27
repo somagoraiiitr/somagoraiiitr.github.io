@@ -40,6 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
       this.scrollDir   = null;
       this._lastProgress = 0;
       this._touchStartY = 0;
+      this._upScrollAccumulator = 0;
+      this._touchAccumulator = 0;
 
       if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
@@ -71,37 +73,74 @@ document.addEventListener('DOMContentLoaded', () => {
       window.addEventListener('scroll', () => this.onScroll(), { passive: true });
       window.addEventListener('resize', () => { this.updateLayout(); this.onScroll(); }, { passive: true });
 
-      // ── Reverse iris: translate wheel deltaY into body scroll when at top of section-2 ──
-      // This mirrors the forward scroll 1:1 — no fixed 5px kick, proportional feel.
+      // ── Reverse iris: translate wheel deltaY into body scroll when at top of section-2 with friction ──
       if (this.section2) {
         this.section2.addEventListener('wheel', (e) => {
           if (e.deltaY < 0 && this.section2.scrollTop <= 0) {
-            e.preventDefault();
-            this.scrollDir = 'reverse';
-            document.body.style.overflow = '';
-            // Cancel any pending forward snap immediately
-            if (this.snapTimeout) { clearTimeout(this.snapTimeout); this.snapTimeout = null; }
-            // Translate the same deltaY proportionally onto the body scroll
-            window.scrollBy({ top: e.deltaY, behavior: 'instant' });
+            this._upScrollAccumulator += Math.abs(e.deltaY);
+            // Require 100px of accumulated upward scroll effort (friction gate) before triggering return
+            if (this._upScrollAccumulator >= 100) {
+              e.preventDefault();
+              this.scrollDir = 'reverse';
+              document.body.style.overflow = '';
+              if (this.snapTimeout) { clearTimeout(this.snapTimeout); this.snapTimeout = null; }
+              window.scrollBy({ top: e.deltaY, behavior: 'instant' });
+            }
+          } else {
+            this._upScrollAccumulator = 0;
           }
         }, { passive: false });
 
         this.section2.addEventListener('touchstart', (e) => {
           this._touchStartY = e.touches[0].clientY;
+          this._touchAccumulator = 0;
         }, { passive: true });
 
         this.section2.addEventListener('touchmove', (e) => {
           const dy = e.touches[0].clientY - this._touchStartY;
           if (dy > 0 && this.section2.scrollTop <= 0) {
-            e.preventDefault();
-            this.scrollDir = 'reverse';
-            document.body.style.overflow = '';
-            if (this.snapTimeout) { clearTimeout(this.snapTimeout); this.snapTimeout = null; }
-            window.scrollBy({ top: -dy * 1.5, behavior: 'instant' });
-            this._touchStartY = e.touches[0].clientY; // reset to avoid compounding
+            this._touchAccumulator += dy;
+            if (this._touchAccumulator >= 80) {
+              e.preventDefault();
+              this.scrollDir = 'reverse';
+              document.body.style.overflow = '';
+              if (this.snapTimeout) { clearTimeout(this.snapTimeout); this.snapTimeout = null; }
+              window.scrollBy({ top: -dy * 1.5, behavior: 'instant' });
+              this._touchStartY = e.touches[0].clientY;
+            }
+          } else {
+            this._touchAccumulator = 0;
           }
         }, { passive: false });
       }
+
+      // Synchronous navigation to Work to avoid home page glance
+      const navigateToWorkSync = () => {
+        const max = this.trackH - this.vh;
+        this.scrollDir = 'forward';
+        document.body.style.overflow = 'hidden';
+        if (this.section2) {
+          this.section2.scrollTop = 0;
+          this.section2.style.opacity = '1';
+          this.section2.style.pointerEvents = 'auto';
+        }
+        if (this.curtain) {
+          this.curtain.style.opacity = '0';
+          this.curtain.style.display = 'none';
+          this.curtain.classList.remove('active');
+        }
+        if (this.heroWrapper) {
+          this.heroWrapper.style.opacity = '0';
+        }
+        const catEl = document.getElementById('cat-svg-container');
+        if (catEl) {
+          catEl.style.opacity = '0';
+          catEl.style.visibility = 'hidden';
+        }
+        window.scrollTo({ top: this.trackTop + max, behavior: 'instant' });
+        this.updateAnimation(this.trackTop + max);
+        window.history.replaceState({ section: 'work' }, '', '/work');
+      };
 
       // Browser back/forward
       window.addEventListener('popstate', (e) => {
@@ -111,9 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (this.section2) this.section2.scrollTop = 0;
           window.scrollTo({ top: 0, behavior: 'instant' });
         } else if ((e.state && e.state.section === 'work') || path === '/work') {
-          const max = this.trackH - this.vh;
-          if (this.section2) this.section2.scrollTop = 0;
-          window.scrollTo({ top: this.trackTop + max, behavior: 'instant' });
+          navigateToWorkSync();
         }
       });
 
@@ -136,10 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
           if (text === 'work' || href === '/work' || href === 'index.html#work') {
             if (['/','','/index.html','/work'].includes(window.location.pathname)) {
               e.preventDefault();
-              const max = this.trackH - this.vh;
-              if (this.section2) this.section2.scrollTop = 0;
-              window.scrollTo({ top: this.trackTop + max, behavior: 'instant' });
-              this.onScroll();
+              navigateToWorkSync();
             }
           } else if (text === 'home') {
             e.preventDefault();
@@ -230,7 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // ── Hero text fade ──
       if (this.heroWrapper) this.heroWrapper.style.opacity = Math.max(0, 1 - progress / 0.40);
 
-      // ── Iris curtain (symmetric: grows 0.50→0.75, holds 0.75→0.80, collapses 0.80→1.0) ──
+      // ── Iris curtain ──
       let scaleVal = 0, curtainOn = false, s2opacity = 0, s2events = 'none', catOpacity = '1';
 
       if (progress < 0.50) {
@@ -240,12 +274,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const e = t * t * (3 - 2 * t);
         scaleVal = e; curtainOn = true;
       } else if (progress < 0.80) {
-        scaleVal = 1.0; curtainOn = true; s2opacity = 1; catOpacity = '0';
-      } else if (progress < 1.0) {
-        const t = (progress - 0.80) / 0.20;
-        const e = t * t * (3 - 2 * t);
-        scaleVal = 1.0 - e; curtainOn = true;
-        s2opacity = 1; s2events = 'auto'; catOpacity = '0';
+        const t = (progress - 0.75) / 0.05;
+        scaleVal = 1.0; curtainOn = true; s2opacity = t; catOpacity = '0';
       } else {
         scaleVal = 0; curtainOn = false;
         s2opacity = 1; s2events = 'auto'; catOpacity = '0';
@@ -259,6 +289,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (this.curtain) {
         this.curtain.classList.toggle('active', curtainOn);
         this.curtain.style.opacity = curtainOn ? '1' : '0';
+        this.curtain.style.display = curtainOn ? 'block' : 'none';
         this.curtain.style.zIndex = '30';
         this.curtain.style.backgroundColor = 'var(--color-neutral-black)';
         this.curtain.style.transform =
