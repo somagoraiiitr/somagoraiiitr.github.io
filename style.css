@@ -31,6 +31,15 @@
 html {
   scroll-padding-top: 110px;
   scroll-behavior: smooth;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;             /* Chrome, Safari, Opera */
+  width: 0;
+  height: 0;
 }
 
 html, body, .case-study-body {
@@ -1906,9 +1915,10 @@ span.material-symbols-outlined.icon-filled {
 }
 
 .scroll-progress-container {
+  position: relative;
   width: 64px;
   height: 4px;
-  background-color: rgba(25, 89, 89, 0.12); /* accent teal track */
+  background-color: rgba(182, 79, 42, 0.15); /* Translucent token rust track */
   border-radius: 4px;
   overflow: hidden;
 }
@@ -1919,9 +1929,9 @@ span.material-symbols-outlined.icon-filled {
   left: 0;
   width: 0%;
   height: 100%;
-  background-color: var(--color-accent); /* Token: accent teal */
+  background-color: var(--color-primary); /* Token rust (#B64F2A) */
   border-radius: 4px;
-  transform-origin: left;
+  transition: width 0.15s ease-out;
 }
 
 .cs-meta {
