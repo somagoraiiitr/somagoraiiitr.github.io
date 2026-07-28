@@ -347,7 +347,25 @@ def generate_about_page():
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About Me - Soma Gorai</title>
+  <title>About Me — Soma Gorai - Design Portfolio</title>
+  <meta name="description" content="Portfolio showcasing projects across B2B UX Design, Design System and AI in Design">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/Fav-Icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/Logo-Small.png">
+  <link rel="apple-touch-icon" href="assets/Logo-Small.png">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="About Me — Soma Gorai - Design Portfolio">
+  <meta property="og:description" content="Portfolio showcasing projects across B2B UX Design, Design System and AI in Design">
+  <meta property="og:image" content="assets/Preview.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="About Me — Soma Gorai - Design Portfolio">
+  <meta name="twitter:description" content="Portfolio showcasing projects across B2B UX Design, Design System and AI in Design">
+  <meta name="twitter:image" content="assets/Preview.png">
   
   <!-- Inter & Poppins Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
